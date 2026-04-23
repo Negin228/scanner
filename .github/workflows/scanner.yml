@@ -2,11 +2,12 @@ name: 5-Minute Spread Scanner
 
 on:
   schedule:
-    # This triggers every 5 minutes, every day
     - cron: '*/5 * * * *'
-  workflow_dispatch: # Manual trigger button
+  workflow_dispatch:
 
-# This prevents multiple versions of the script from running at the same time
+permissions:
+  contents: write  # Crucial for allowing the bot to push the JSON update
+
 concurrency:
   group: scanner-group
   cancel-in-progress: true
@@ -36,6 +37,5 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add scan.json
-          # Only commit if the file actually changed
           git commit -m "Market Data Update: $(date)" || echo "No changes to commit"
           git push
