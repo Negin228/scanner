@@ -314,32 +314,25 @@ def run_scan():
 # ─────────────────────────────────────────────
 
 if __name__ == "__main__":
+    # Get key from GitHub Secrets (Production) or use your hardcoded one (Local)
     TRADIER_API_KEY = os.getenv("TRADIER_API_KEY")
+    
+    # Update global headers with the key
+    HEADERS["Authorization"] = f"Bearer {TRADIER_API_KEY}"
 
-    try:
-        run_scan()
-    except Exception as e:
-        print(f"[ERROR] Scan failed: {e}")
-
-    print("=" * 55)
-    print("  PUT CREDIT SPREAD SCANNER — Live Service")
-    print(f"  Scanning every {SCAN_INTERVAL_SECS // 60} minutes")
-    print(f"  Output: {OUTPUT_FILE}")
-    print("  Open dashboard.html in your browser")
-    print("=" * 55)
-
-    while True:
+    # If running in GitHub Actions, run ONCE. If local, loop.
+    if os.getenv("GITHUB_ACTIONS"):
         try:
             run_scan()
         except Exception as e:
             print(f"[ERROR] Scan failed: {e}")
-            error_output = {
-                "last_updated":   datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "next_scan_secs": SCAN_INTERVAL_SECS,
-                "error": str(e),
-                "tickers": {},
-                "signals": [],
-                "top10":   []
+    else:
+        while True:
+            try:
+                run_scan()
+            except Exception as e:
+                print(f"[ERROR] Scan failed: {e}")
+            time.sleep(SCAN_INTERVAL_SECS)
             }
             with open(OUTPUT_FILE, "w") as f:
                 json.dump(error_output, f)
