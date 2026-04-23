@@ -344,7 +344,7 @@
 
   // ── Fetch ──
   async function fetchData() {
-    const REMOTE_URL = 'https://raw.githubusercontent.com/negin228/scanner/main/scan.json';
+    const REMOTE_URL = 'https://raw.githubusercontent.com/negin228/scanner/main/scan.json'; 
     try {
       const res = await fetch(REMOTE_URL + '?t=' + Date.now()); 
       if (!res.ok) throw new Error('HTTP ' + res.status);
