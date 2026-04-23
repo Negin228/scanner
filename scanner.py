@@ -15,7 +15,7 @@ import os
 # ─────────────────────────────────────────────
 # CONFIGURATION
 # ─────────────────────────────────────────────
-TRADIER_API_KEY = "XlMdDbGCvwilR0xHG0ai5MAUJGRx"
+TRADIER_API_KEY = os.getenv("TRADIER_API_KEY")
 BASE_URL = "https://api.tradier.com/v1"
 # Sandbox: "https://sandbox.tradier.com/v1"
 
