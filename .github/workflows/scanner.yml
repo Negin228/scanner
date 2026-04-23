@@ -35,7 +35,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add signals.json
+          git add scan.json
           # Only commit if the file actually changed
           git commit -m "Market Data Update: $(date)" || echo "No changes to commit"
           git push
