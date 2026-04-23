@@ -1,17 +1,21 @@
-name: Spread Scanner Service
+name: 5-Minute Spread Scanner
 
 on:
   schedule:
-    # Runs every 30 minutes during market hours (approx. 13:00 - 21:00 UTC)
-    - cron: '*/30 13-21 * * 1-5'
-  workflow_dispatch: # Allows you to run it manually for testing
+    # This triggers every 5 minutes, every day
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # Manual trigger button
+
+# This prevents multiple versions of the script from running at the same time
+concurrency:
+  group: scanner-group
+  cancel-in-progress: true
 
 jobs:
-  build:
+  scan-and-update:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -20,20 +24,18 @@ jobs:
           python-version: '3.10'
 
       - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests
+        run: pip install requests
 
       - name: Run Scanner
         env:
-          # This pulls your Tradier key from GitHub Secrets
           TRADIER_API_KEY: ${{ secrets.TRADIER_API_KEY }}
         run: python scanner.py
 
-      - name: Commit and Push signals.json
+      - name: Update Data File
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add signals.json
-          git commit -m "Automated update: $(date)" || echo "No changes to commit"
+          # Only commit if the file actually changed
+          git commit -m "Market Data Update: $(date)" || echo "No changes to commit"
           git push
