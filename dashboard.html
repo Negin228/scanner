@@ -344,8 +344,9 @@
 
   // ── Fetch ──
   async function fetchData() {
+    const REMOTE_URL = 'https://your-username.github.io/scanner/signals.json'; // Replace with your actual GitHub Pages URL
     try {
-      const res = await fetch('signals.json?t=' + Date.now());
+      const res = await fetch(REMOTE_URL + '?t=' + Date.now()); 
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
       processData(data);
