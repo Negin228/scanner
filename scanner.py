@@ -313,15 +313,12 @@ def run_scan():
 # ─────────────────────────────────────────────
 
 if __name__ == "__main__":
-    if TRADIER_API_KEY == "YOUR_TRADIER_API_KEY_HERE":
-        print("\n⚠  Set your TRADIER_API_KEY at the top of this file first.\n")
-        exit(1)
+    TRADIER_API_KEY = os.getenv("TRADIER_API_KEY")
 
     try:
-        import requests  # noqa
-    except ImportError:
-        print("Run: pip install requests")
-        exit(1)
+        run_scan()
+    except Exception as e:
+        print(f"[ERROR] Scan failed: {e}")
 
     print("=" * 55)
     print("  PUT CREDIT SPREAD SCANNER — Live Service")
