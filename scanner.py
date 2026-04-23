@@ -41,7 +41,8 @@ TOP10_MAX_DTE        = 21     # 7-21 DTE sweet spot for fast theta decay
 TOP10_MAX_DELTA      = 0.10   # short put delta <= 0.10 (far OTM, safer)
 TOP10_MAX_BA_SPREAD  = 0.10   # tight bid/ask so you can close quickly
 
-OUTPUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "scan.json")
+#OUTPUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "scan.json")
+OUTPUT_FILE = "scan.json"
 
 HEADERS = {
     "Authorization": f"Bearer {TRADIER_API_KEY}",
