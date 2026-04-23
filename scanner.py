@@ -333,9 +333,4 @@ if __name__ == "__main__":
             except Exception as e:
                 print(f"[ERROR] Scan failed: {e}")
             time.sleep(SCAN_INTERVAL_SECS)
-            }
-            with open(OUTPUT_FILE, "w") as f:
-                json.dump(error_output, f)
-
-        print(f"  Next scan in {SCAN_INTERVAL_SECS // 60} minutes... (Ctrl+C to stop)\n")
-        time.sleep(SCAN_INTERVAL_SECS)
+        
