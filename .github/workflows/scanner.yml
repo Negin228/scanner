@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write  # Crucial for allowing the bot to push the JSON update
+  contents: write 
 
 concurrency:
   group: scanner-group
