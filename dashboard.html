@@ -285,7 +285,7 @@
           </tr>
         </thead>
         <tbody id="signals-body">
-          <tr class="no-row"><td colspan="18">Loading data from signals.json…</td></tr>
+          <tr class="no-row"><td colspan="18">Loading data from scan.json…</td></tr>
         </tbody>
       </table>
     </div>
@@ -344,18 +344,18 @@
 
   // ── Fetch ──
   async function fetchData() {
-    const REMOTE_URL = 'https://your-username.github.io/scanner/signals.json'; // Replace with your actual GitHub Pages URL
+    const REMOTE_URL = 'https://negin228.github.io/scanner/scan.json'; // Replace with your actual GitHub Pages URL
     try {
       const res = await fetch(REMOTE_URL + '?t=' + Date.now()); 
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
       processData(data);
     } catch(e) {
-      setStatus('error', 'Cannot read signals.json');
+      setStatus('error', 'Cannot read scan.json');
       document.getElementById('signals-body').innerHTML =
-        '<tr class="no-row"><td colspan="18">⚠ Could not load signals.json — make sure scanner.py is running and use python -m http.server 8000</td></tr>';
+        '<tr class="no-row"><td colspan="18">⚠ Could not load scan.json — make sure scanner.py is running and use python -m http.server 8000</td></tr>';
       document.getElementById('top10-grid').innerHTML =
-        '<div style="text-align:center;padding:40px;color:var(--text3);font-family:var(--mono);font-size:12px;">⚠ Cannot load signals.json</div>';
+        '<div style="text-align:center;padding:40px;color:var(--text3);font-family:var(--mono);font-size:12px;">⚠ Cannot load scan.json</div>';
     }
   }
 
