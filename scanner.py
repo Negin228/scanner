@@ -1,8 +1,3 @@
-# ─────────────────────────────────────────────
-# DO NOT CHANGE
-# ─────────────────────────────────────────────
-
-
 
 """
 Put Credit Spread Scanner — Background Service
@@ -15,7 +10,8 @@ import datetime
 import json
 import time
 import os
-from datetime import datetime, timedelta, timezone
+import datetime
+from datetime import timedelta, timezone
 
 # ─────────────────────────────────────────────
 # CONFIGURATION
@@ -101,6 +97,7 @@ def get_puts(symbol, expiration):
 
 
 def days_to_expiry(exp_str):
+    # Use datetime.datetime because we imported the module
     exp = datetime.datetime.strptime(exp_str, "%Y-%m-%d").date()
     return (exp - datetime.date.today()).days
 
@@ -245,7 +242,7 @@ def run_scan():
     # For a robust solution without external libs, you can offset UTC:
     # Note: 2026-04 is PDT (UTC-7)
     pt_timezone = timezone(timedelta(hours=-7)) 
-    now_pt = datetime.now(pt_timezone)
+    now_pt = datetime.datetime.now(pt_timezone)
     
     timestamp_str = now_pt.strftime("%Y-%m-%d %H:%M:%S %Z")
     
