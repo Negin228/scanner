@@ -2,7 +2,7 @@
 
 """
 Put Credit Spread Scanner — Background Service
-Polls Tradier API every 5 minutes and writes results to scan.json
+Polls Tradier API every 5 minutes and writes results to signals.json
 Open dashboard.html in your browser to view live results.
 """
 
@@ -15,11 +15,11 @@ import os
 # ─────────────────────────────────────────────
 # CONFIGURATION
 # ─────────────────────────────────────────────
-TRADIER_API_KEY = os.getenv("TRADIER_API_KEY")
+TRADIER_API_KEY = "XlMdDbGCvwilR0xHG0ai5MAUJGRx"
 BASE_URL = "https://api.tradier.com/v1"
 # Sandbox: "https://sandbox.tradier.com/v1"
 
-SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "PLTR", "TSLA", "TQQQ", "SPY", "SQQQ", "SOXL"]
+SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "PLTR", "TSLA", "SPY", "TQQQ", "SQQQ", "SOXL", "AMD", "ORCL"]
 SPREAD_WIDTH       = 5
 MIN_DISCOUNT_PCT   = 0.20
 QUANTITY           = 10
@@ -41,8 +41,7 @@ TOP10_MAX_DTE        = 21     # 7-21 DTE sweet spot for fast theta decay
 TOP10_MAX_DELTA      = 0.10   # short put delta <= 0.10 (far OTM, safer)
 TOP10_MAX_BA_SPREAD  = 0.10   # tight bid/ask so you can close quickly
 
-#OUTPUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "scan.json")
-OUTPUT_FILE = "scan.json"
+OUTPUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "signals.json")
 
 HEADERS = {
     "Authorization": f"Bearer {TRADIER_API_KEY}",
@@ -306,7 +305,7 @@ def run_scan():
     with open(OUTPUT_FILE, "w") as f:
         json.dump(output, f, indent=2)
 
-    print(f"  Done. {len(all_signals)} total, {len(top10)} in Top 10. Written to scan.json")
+    print(f"  Done. {len(all_signals)} total, {len(top10)} in Top 10. Written to signals.json")
 
 
 # ─────────────────────────────────────────────
@@ -314,23 +313,38 @@ def run_scan():
 # ─────────────────────────────────────────────
 
 if __name__ == "__main__":
-    # Get key from GitHub Secrets (Production) or use your hardcoded one (Local)
-    TRADIER_API_KEY = os.getenv("TRADIER_API_KEY")
-    
-    # Update global headers with the key
-    HEADERS["Authorization"] = f"Bearer {TRADIER_API_KEY}"
+    if TRADIER_API_KEY == "YOUR_TRADIER_API_KEY_HERE":
+        print("\n⚠  Set your TRADIER_API_KEY at the top of this file first.\n")
+        exit(1)
 
-    # If running in GitHub Actions, run ONCE. If local, loop.
-    if os.getenv("GITHUB_ACTIONS"):
+    try:
+        import requests  # noqa
+    except ImportError:
+        print("Run: pip install requests")
+        exit(1)
+
+    print("=" * 55)
+    print("  PUT CREDIT SPREAD SCANNER — Live Service")
+    print(f"  Scanning every {SCAN_INTERVAL_SECS // 60} minutes")
+    print(f"  Output: {OUTPUT_FILE}")
+    print("  Open dashboard.html in your browser")
+    print("=" * 55)
+
+    while True:
         try:
             run_scan()
         except Exception as e:
             print(f"[ERROR] Scan failed: {e}")
-    else:
-        while True:
-            try:
-                run_scan()
-            except Exception as e:
-                print(f"[ERROR] Scan failed: {e}")
-            time.sleep(SCAN_INTERVAL_SECS)
-        
+            error_output = {
+                "last_updated":   datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "next_scan_secs": SCAN_INTERVAL_SECS,
+                "error": str(e),
+                "tickers": {},
+                "signals": [],
+                "top10":   []
+            }
+            with open(OUTPUT_FILE, "w") as f:
+                json.dump(error_output, f)
+
+        print(f"  Next scan in {SCAN_INTERVAL_SECS // 60} minutes... (Ctrl+C to stop)\n")
+        time.sleep(SCAN_INTERVAL_SECS)
