@@ -341,22 +341,37 @@
     document.getElementById('panel-' + tab).classList.add('active');
     document.getElementById('tab-' + tab).classList.add('active');
   }
-
   async function fetchData() {
     const statusText = document.getElementById('status-text');
-    
-    // 1. Get token from your browser's private memory
+  
+    // ── 1. Always fetch latest signals.json from GitHub Pages / raw ──
+    try {
+      statusText.textContent = "Fetching signals…";
+      const cacheBust = `?t=${Date.now()}`;
+      const res = await fetch(`signals.json${cacheBust}`);
+      if (res.ok) {
+        const data = await res.json();
+        processData(data);
+      } else {
+        setStatus('stale', 'signals.json not found');
+      }
+    } catch (e) {
+      setStatus('error', 'Load error: ' + e.message);
+    }
+  }
+  
+  async function triggerScan() {
+    const statusText = document.getElementById('status-text');
+  
     let token = localStorage.getItem('gh_token');
     if (!token) {
-      token = prompt("Enter GitHub Personal Access Token to authorize scan:");
+      token = prompt("Enter GitHub Personal Access Token:");
       if (token) localStorage.setItem('gh_token', token);
     }
     if (!token) return;
   
     try {
-      statusText.textContent = "Triggering GitHub Action...";
-  
-      // 2. Call the GitHub API to start the scanner
+      statusText.textContent = "Triggering scan…";
       const res = await fetch('https://api.github.com/repos/negin228/scanner/dispatches', {
         method: 'POST',
         headers: {
@@ -369,19 +384,27 @@
   
       if (res.status === 401) {
         localStorage.removeItem('gh_token');
-        alert("Invalid Token. Please refresh and try again.");
+        alert("Invalid token — please try again.");
         return;
       }
   
       if (res.ok) {
-        statusText.textContent = "Action started! Data will update in ~45s.";
-        // Wait for the GitHub Action to finish, then reload the page
-        setTimeout(() => location.reload(), 45000);
+        statusText.textContent = "Scan triggered! Polling for results…";
+        // Poll every 10s for up to 90s
+        let attempts = 0;
+        const poll = setInterval(async () => {
+          attempts++;
+          await fetchData();
+          if (attempts >= 9) {
+            clearInterval(poll);
+            statusText.textContent = "Done polling.";
+          }
+        }, 10000);
       }
     } catch (e) {
-      statusText.textContent = "Error: " + e.message;
+      setStatus('error', 'Trigger error: ' + e.message);
     }
-}
+  }
   function processData(data) {
     allSignals = data.signals || [];
     top10 = data.top10 || [];
