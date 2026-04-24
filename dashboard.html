@@ -344,42 +344,36 @@
 
   async function fetchData() {
     const statusText = document.getElementById('status-text');
-    
+    const GITHUB_TOKEN = "YOUR_GITHUB_FINE_GRAINED_TOKEN"; // See security warning below
+    const REPO_OWNER = "negin228";
+    const REPO_NAME = "scanner";
+  
     try {
-      statusText.textContent = "Running Scanner...";
-      
-      // 1. Tell the Flask server to run the python script
-      const scanRes = await fetch('http://127.0.0.1:5000/run-scan', { 
-        method: 'POST' 
+      statusText.textContent = "Triggering GitHub Action...";
+  
+      // 1. Trigger the GitHub Action via Repository Dispatch
+      const triggerRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/dispatches`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${GITHUB_TOKEN}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ event_type: 'manual_refresh' })
       });
+  
+      if (!triggerRes.ok) throw new Error('Failed to trigger GitHub Action');
+  
+      statusText.textContent = "Action started! Data will update in ~1 min.";
       
-      if (!scanRes.ok) throw new Error('Scanner script failed');
-
-      // 2. Fetch the newly updated signals.json
-      const res = await fetch('signals.json?t=' + Date.now());
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const data = await res.json();
-      
-      processData(data);
-      
+      // Optional: Auto-refresh the page data after 60 seconds
+      setTimeout(() => location.reload(), 60000);
+  
     } catch(e) {
-      setStatus('error', 'Scan failed');
+      setStatus('error', 'Trigger failed');
       console.error(e);
-      document.getElementById('signals-body').innerHTML = 
-        `<tr class="no-row"><td colspan="18">⚠ Error: ${e.message}. Ensure app.py is running.</td></tr>`;
     }
   }
-    try {
-      const res = await fetch('signals.json?t=' + Date.now());
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const data = await res.json();
-      processData(data);
-    } catch(e) {
-      setStatus('error', 'Cannot read signals.json');
-      document.getElementById('signals-body').innerHTML = '<tr class="no-row"><td colspan="18">⚠ Error loading data</td></tr>';
-    }
-  }
-
   function processData(data) {
     allSignals = data.signals || [];
     top10 = data.top10 || [];
