@@ -19,7 +19,7 @@ TRADIER_API_KEY = os.getenv("TRADIER_API_KEY")
 BASE_URL = "https://api.tradier.com/v1"
 # Sandbox: "https://sandbox.tradier.com/v1"
 
-SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "PLTR", "TSLA"]
+SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "PLTR", "TSLA", "TQQQ", "SPY", "SQQQ", "SOXL"]
 SPREAD_WIDTH       = 5
 MIN_DISCOUNT_PCT   = 0.20
 QUANTITY           = 10
