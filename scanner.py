@@ -325,31 +325,8 @@ def run_scan():
 # ─────────────────────────────────────────────
 
 if __name__ == "__main__":
-    # Ensure the API key is present
-    if not TRADIER_API_KEY:
-        print("\n⚠  Set your TRADIER_API_KEY as an Environment Variable in GitHub Secrets.")
-        exit(1)
-
-    print("=" * 55)
-    print("  PUT CREDIT SPREAD SCANNER — GitHub Action Run")
-    print(f"  Output: {OUTPUT_FILE}")
-    print("=" * 55)
-
-    # Run the scan exactly once then exit
+    # Just run it once and exit
     try:
         run_scan()
     except Exception as e:
-        print(f"[ERROR] Scan failed: {e}")
-        # Write error to JSON so the dashboard shows the failure
-        error_output = {
-            "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "error": str(e),
-            "tickers": {},
-            "signals": [],
-            "top10": []
-        }
-        with open(OUTPUT_FILE, "w") as f:
-            json.dump(error_output, f)
-        exit(1) # Exit with error code for GitHub Actions
-        
-
+        print(f"Error: {e}")
