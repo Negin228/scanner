@@ -1,7 +1,7 @@
 # ─────────────────────────────────────────────
 # DO NOT CHANGE
 # ─────────────────────────────────────────────
-TRADIER_API_KEY = os.getenv("TRADIER_API_KEY")
+
 
 
 """
@@ -22,6 +22,7 @@ from datetime import datetime, timedelta, timezone
 # ─────────────────────────────────────────────
 BASE_URL = "https://api.tradier.com/v1"
 # Sandbox: "https://sandbox.tradier.com/v1"
+TRADIER_API_KEY = os.getenv("TRADIER_API_KEY")
 
 SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "PLTR", "TSLA", "SPY", "TQQQ", "SQQQ", "AMD", "ORCL"]
 SPREAD_WIDTH       = 5
