@@ -1,3 +1,7 @@
+# ─────────────────────────────────────────────
+# DO NOT CHANGE
+# ─────────────────────────────────────────────
+TRADIER_API_KEY = os.getenv("TRADIER_API_KEY")
 
 
 """
@@ -11,11 +15,11 @@ import datetime
 import json
 import time
 import os
+from datetime import datetime, timedelta, timezone
 
 # ─────────────────────────────────────────────
 # CONFIGURATION
 # ─────────────────────────────────────────────
-TRADIER_API_KEY = os.getenv("TRADIER_API_KEY")
 BASE_URL = "https://api.tradier.com/v1"
 # Sandbox: "https://sandbox.tradier.com/v1"
 
@@ -236,7 +240,15 @@ def find_spreads(symbol, price, puts, expiration):
 # ─────────────────────────────────────────────
 
 def run_scan():
-    print(f"\n[{datetime.datetime.now().strftime('%H:%M:%S')}] Starting scan...")
+    # Define Pacific Time (UTC-7 or UTC-8 depending on DST)
+    # For a robust solution without external libs, you can offset UTC:
+    # Note: 2026-04 is PDT (UTC-7)
+    pt_timezone = timezone(timedelta(hours=-7)) 
+    now_pt = datetime.now(pt_timezone)
+    
+    timestamp_str = now_pt.strftime("%Y-%m-%d %H:%M:%S %Z")
+    
+    print(f"\n[{now_pt.strftime('%H:%M:%S')}] Starting scan (PT)... shadow")
     ticker_data = {}
     all_signals = []
 
@@ -279,7 +291,7 @@ def run_scan():
     )[:10]
 
     output = {
-        "last_updated":   datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "last_updated":   timestamp_str,
         "next_scan_secs": SCAN_INTERVAL_SECS,
         "tickers":        ticker_data,
         "signals":        all_signals,
