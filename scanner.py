@@ -360,3 +360,4 @@ if __name__ == "__main__":
 
         print(f"  Next scan in {SCAN_INTERVAL_SECS // 60} minutes... (Ctrl+C to stop)\n")
         time.sleep(SCAN_INTERVAL_SECS)
+
