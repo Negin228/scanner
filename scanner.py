@@ -23,7 +23,7 @@ from datetime import datetime, timedelta, timezone
 BASE_URL = "https://api.tradier.com/v1"
 # Sandbox: "https://sandbox.tradier.com/v1"
 
-SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "PLTR", "TSLA", "SPY", "TQQQ", "SQQQ", "SOXL", "AMD", "ORCL"]
+SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "PLTR", "TSLA", "SPY", "TQQQ", "SQQQ", "AMD", "ORCL"]
 SPREAD_WIDTH       = 5
 MIN_DISCOUNT_PCT   = 0.20
 QUANTITY           = 10
