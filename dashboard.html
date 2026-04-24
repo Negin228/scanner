@@ -341,14 +341,13 @@
     document.getElementById('panel-' + tab).classList.add('active');
     document.getElementById('tab-' + tab).classList.add('active');
   }
+
+  // ── Reads signals.json from the same folder (works on GitHub Pages or local server) ──
   async function fetchData() {
     const statusText = document.getElementById('status-text');
-  
-    // ── 1. Always fetch latest signals.json from GitHub Pages / raw ──
     try {
       statusText.textContent = "Fetching signals…";
-      const cacheBust = `?t=${Date.now()}`;
-      const res = await fetch(`signals.json${cacheBust}`);
+      const res = await fetch('signals.json?t=' + Date.now());
       if (res.ok) {
         const data = await res.json();
         processData(data);
@@ -359,17 +358,18 @@
       setStatus('error', 'Load error: ' + e.message);
     }
   }
-  
+
+  // ── Triggers the GitHub Action, then polls for updated data ──
   async function triggerScan() {
     const statusText = document.getElementById('status-text');
-  
+
     let token = localStorage.getItem('gh_token');
     if (!token) {
       token = prompt("Enter GitHub Personal Access Token:");
       if (token) localStorage.setItem('gh_token', token);
     }
     if (!token) return;
-  
+
     try {
       statusText.textContent = "Triggering scan…";
       const res = await fetch('https://api.github.com/repos/negin228/scanner/dispatches', {
@@ -381,23 +381,22 @@
         },
         body: JSON.stringify({ event_type: 'manual_refresh' })
       });
-  
+
       if (res.status === 401) {
         localStorage.removeItem('gh_token');
         alert("Invalid token — please try again.");
         return;
       }
-  
+
       if (res.ok) {
-        statusText.textContent = "Scan triggered! Polling for results…";
-        // Poll every 10s for up to 90s
+        statusText.textContent = "Scan triggered! Polling for new data…";
         let attempts = 0;
         const poll = setInterval(async () => {
           attempts++;
           await fetchData();
           if (attempts >= 9) {
             clearInterval(poll);
-            statusText.textContent = "Done polling.";
+            statusText.textContent = "Polling complete.";
           }
         }, 10000);
       }
@@ -405,6 +404,7 @@
       setStatus('error', 'Trigger error: ' + e.message);
     }
   }
+
   function processData(data) {
     allSignals = data.signals || [];
     top10 = data.top10 || [];
@@ -466,20 +466,18 @@
   }
 
   function setSort(field, btn) {
-    if (activeSort === field) { sortDir *= -1; } 
+    if (activeSort === field) { sortDir *= -1; }
     else { activeSort = field; sortDir = -1; }
-
     document.querySelectorAll('thead th, .fbtn').forEach(el => el.classList.remove('active', 'sorted'));
     if (btn) btn.classList.add('sorted');
     const toolbarBtn = document.getElementById('sb-' + field);
     if (toolbarBtn) toolbarBtn.classList.add('active');
-
     renderSignals();
   }
 
   function renderSignals() {
     let sigs = activeFilter==='ALL' ? [...allSignals] : allSignals.filter(s=>s.symbol===activeFilter);
-    
+
     sigs.sort((a,b) => {
       let vA = a[activeSort], vB = b[activeSort];
       if (vA == null) return 1; if (vB == null) return -1;
@@ -537,7 +535,7 @@
     const profit = (closeAt * qty * 100).toFixed(0);
     document.getElementById('calc-result').textContent = `$${profit} profit`;
     document.getElementById('calc-detail').textContent = `${qty} contracts × 100 shares × $${closeAt.toFixed(2)} = $${profit}`;
-    
+
     document.getElementById('top10-grid').innerHTML = top10.map((s,i) => `
       <div class="signal-card ${i<3?`rank-${i+1}`:''}">
         <div class="card-rank">#${i+1}</div>
@@ -575,7 +573,8 @@
     document.getElementById('top10-intro').innerHTML = [['Liquidity','OI ≥ '+cfg.top10_min_oi+', Vol ≥ '+cfg.top10_min_vol,'Fast exit'],['Premium','≥ '+cfg.top10_min_credit_pct+'% width','Good return'],['Delta','≤ '+cfg.top10_max_delta,'Safer OTM']].map(([t,v,s])=>`<div class="intro-card"><div class="cfg-label">${t}</div><div class="intro-val">${v}</div><div class="intro-sub">${s}</div></div>`).join('');
   }
 
-  setInterval(fetchData, 10000);
+  // Auto-refresh data every 30s (reads file only, no action trigger)
+  setInterval(fetchData, 30000);
   fetchData();
 </script>
 </body>
