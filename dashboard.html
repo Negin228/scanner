@@ -185,7 +185,8 @@
     cursor:pointer; user-select:none; transition:color 0.15s;
   }
   thead th:hover { color:var(--text2); }
-  thead th.sorted { color:var(--cyan); }
+  thead th.sorted { color: var(--cyan) !important; border-bottom: 2px solid var(--cyan); }
+
   tbody tr { border-bottom:1px solid var(--border); transition:background 0.1s; }
   tbody tr:last-child { border-bottom:none; }
   tbody tr:hover { background:var(--bg3); }
@@ -224,7 +225,6 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-left">
     <div class="logo">PCS</div>
@@ -243,10 +243,8 @@
   </div>
 </div>
 
-<!-- TICKER BAR -->
 <div class="ticker-bar" id="ticker-bar"></div>
 
-<!-- TABS -->
 <div class="tab-bar">
   <div class="tab active" id="tab-all" onclick="switchTab('all')">
     All Signals <span class="tab-badge" id="badge-all">0</span>
@@ -256,7 +254,6 @@
   </div>
 </div>
 
-<!-- ══ ALL SIGNALS TAB ══ -->
 <div class="tab-panel active" id="panel-all">
   <div class="main">
     <div class="section-hdr">
@@ -268,24 +265,37 @@
       <button class="fbtn active" onclick="setFilter('ALL',this)">All</button>
       <span id="sym-filters"></span>
       <span style="margin-left:8px;" class="filter-label">Sort:</span>
-      <button class="fbtn active" id="sb-score"  onclick="setSort('score',this)">Score ↓</button>
-      <button class="fbtn"         id="sb-credit" onclick="setSort('net_credit',this)">Credit ↓</button>
-      <button class="fbtn"         id="sb-dte"    onclick="setSort('dte',this)">DTE ↑</button>
-      <button class="fbtn"         id="sb-iv"     onclick="setSort('iv_pct',this)">IV ↓</button>
+      <button class="fbtn active" id="sb-score" onclick="setSort('score',this)">Score</button>
+      <button class="fbtn" id="sb-net_credit" onclick="setSort('net_credit',this)">Credit</button>
+      <button class="fbtn" id="sb-dte" onclick="setSort('dte',this)">DTE</button>
+      <button class="fbtn" id="sb-iv_pct" onclick="setSort('iv_pct',this)">IV</button>
     </div>
     <div class="table-wrap">
       <table id="signals-table">
         <thead>
           <tr>
-            <th>Symbol</th><th>Expiry</th><th>DTE</th><th>Short / Long</th>
-            <th>Price</th><th>OTM%</th><th>Net Credit</th><th>Credit%</th>
-            <th>Breakeven</th><th>IV%</th><th>Delta</th><th>Theta</th>
-            <th>B/A Spread</th><th>Short OI</th><th>Short Vol</th>
-            <th>Total Credit ×10</th><th>Max Risk ×10</th><th>Score</th>
+            <th onclick="setSort('symbol', this)">Symbol</th>
+            <th onclick="setSort('expiration', this)">Expiry</th>
+            <th onclick="setSort('dte', this)">DTE</th>
+            <th>Short / Long</th>
+            <th onclick="setSort('current_price', this)">Price</th>
+            <th onclick="setSort('otm_pct', this)">OTM%</th>
+            <th onclick="setSort('net_credit', this)">Net Credit</th>
+            <th onclick="setSort('credit_pct', this)">Credit%</th>
+            <th onclick="setSort('breakeven', this)">Breakeven</th>
+            <th onclick="setSort('iv_pct', this)">IV%</th>
+            <th onclick="setSort('delta', this)">Delta</th>
+            <th onclick="setSort('theta', this)">Theta</th>
+            <th onclick="setSort('short_ba', this)">B/A Spread</th>
+            <th onclick="setSort('short_oi', this)">Short OI</th>
+            <th onclick="setSort('short_vol', this)">Short Vol</th>
+            <th onclick="setSort('total_credit', this)">Total Credit</th>
+            <th onclick="setSort('total_risk', this)">Max Risk</th>
+            <th onclick="setSort('score', this)">Score</th>
           </tr>
         </thead>
         <tbody id="signals-body">
-          <tr class="no-row"><td colspan="18">Loading data from scan.json…</td></tr>
+          <tr class="no-row"><td colspan="18">Loading data from signals.json…</td></tr>
         </tbody>
       </table>
     </div>
@@ -293,14 +303,9 @@
   </div>
 </div>
 
-<!-- ══ TOP 10 TAB ══ -->
 <div class="tab-panel" id="panel-top10">
   <div class="main">
-
-    <!-- Criteria cards -->
     <div class="top10-intro" id="top10-intro"></div>
-
-    <!-- Profit calculator -->
     <div class="calc-box" style="margin-bottom:18px;">
       <div class="calc-title">Profit Calculator — per spread</div>
       <div class="calc-row">
@@ -313,17 +318,13 @@
       </div>
       <div style="font-size:10px;color:var(--text3);font-family:var(--mono);margin-top:6px;" id="calc-detail"></div>
     </div>
-
     <div class="section-hdr">
       <div class="section-title">Top 10 Signals</div>
       <div class="sig-badge" id="top10-badge" style="display:none;color:var(--gold);background:var(--gold-bg);border-color:var(--gold);"></div>
     </div>
-
     <div class="top10-grid" id="top10-grid">
       <div style="text-align:center;padding:40px;color:var(--text3);font-family:var(--mono);font-size:12px;">Loading…</div>
     </div>
-
-    <!-- Top 10 config -->
     <div class="config-bar" id="top10-config-bar" style="display:none;margin-top:18px;border-color:rgba(255,209,102,0.2);"></div>
   </div>
 </div>
@@ -334,7 +335,6 @@
   let maxScore = 1;
   let countdownVal = 300, countdownTimer = null;
 
-  // ── Tab switching ──
   function switchTab(tab) {
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -342,39 +342,31 @@
     document.getElementById('tab-' + tab).classList.add('active');
   }
 
-  // ── Fetch ──
   async function fetchData() {
-    const REMOTE_URL = 'https://raw.githubusercontent.com/negin228/scanner/main/scan.json'; 
     try {
-      const res = await fetch(REMOTE_URL + '?t=' + Date.now()); 
+      const res = await fetch('signals.json?t=' + Date.now());
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
       processData(data);
     } catch(e) {
-      setStatus('error', 'Cannot read scan.json');
-      document.getElementById('signals-body').innerHTML =
-        '<tr class="no-row"><td colspan="18">⚠ Could not load scan.json — make sure scanner.py is running and use python -m http.server 8000</td></tr>';
-      document.getElementById('top10-grid').innerHTML =
-        '<div style="text-align:center;padding:40px;color:var(--text3);font-family:var(--mono);font-size:12px;">⚠ Cannot load scan.json</div>';
+      setStatus('error', 'Cannot read signals.json');
+      document.getElementById('signals-body').innerHTML = '<tr class="no-row"><td colspan="18">⚠ Error loading data</td></tr>';
     }
   }
 
   function processData(data) {
     allSignals = data.signals || [];
-    top10      = data.top10   || [];
-    maxScore   = Math.max(...allSignals.map(s => s.score), 1);
-
+    top10 = data.top10 || [];
+    maxScore = Math.max(...allSignals.map(s => s.score), 1);
     setStatus(data.error ? 'error' : 'live', 'Updated ' + (data.last_updated || '—'));
     countdownVal = data.next_scan_secs || 300;
     startCountdown();
-
     renderTickers(data.tickers || {});
     renderSymFilters(allSignals);
     renderSignals();
     renderTop10();
     if (data.config) { renderConfig(data.config); renderTop10Config(data.config); }
-
-    document.getElementById('badge-all').textContent   = allSignals.length;
+    document.getElementById('badge-all').textContent = allSignals.length;
     document.getElementById('badge-top10').textContent = top10.length;
   }
 
@@ -383,7 +375,6 @@
     document.getElementById('status-text').textContent = msg;
   }
 
-  // ── Countdown ──
   function startCountdown() {
     if (countdownTimer) clearInterval(countdownTimer);
     countdownTimer = setInterval(() => {
@@ -394,24 +385,21 @@
     }, 1000);
   }
 
-  // ── Tickers ──
   function renderTickers(tickers) {
     const syms = ['NVDA','AMZN','MSFT','META','GOOG','NFLX','PLTR','TSLA'];
     document.getElementById('ticker-bar').innerHTML = syms.map(sym => {
       const t = tickers[sym];
-      if (!t) return `<div class="tc"><div class="tc-sym">${sym}</div><div style="font-family:var(--mono);font-size:12px;color:var(--text3);animation:blink 1s infinite;">···</div></div>`;
-      if (t.status==='error') return `<div class="tc err"><div class="tc-sym">${sym}</div><div class="tc-price" style="color:var(--red)">ERR</div></div>`;
-      const hasTop10  = t.top10_count  > 0;
-      const hasSig    = t.signal_count > 0;
+      if (!t) return `<div class="tc"><div class="tc-sym">${sym}</div><div>···</div></div>`;
+      const hasTop10 = t.top10_count > 0;
+      const hasSig = t.signal_count > 0;
       return `<div class="tc ${hasTop10?'has-top10':hasSig?'has-signal':''}">
         <div class="tc-sym">${sym}</div>
         <div class="tc-price">$${t.price.toFixed(2)}</div>
-        <div class="tc-count ${hasTop10?'top':hasSig?'active':''}">${hasTop10?'★ '+t.top10_count+' top10':hasSig?t.signal_count+' signal'+(t.signal_count>1?'s':''):'no signals'}</div>
+        <div class="tc-count ${hasTop10?'top':hasSig?'active':''}">${hasTop10?'★ '+t.top10_count:hasSig?t.signal_count+' sigs':'no sigs'}</div>
       </div>`;
     }).join('');
   }
 
-  // ── Symbol filters ──
   function renderSymFilters(signals) {
     const syms = [...new Set(signals.map(s=>s.symbol))].sort();
     document.getElementById('sym-filters').innerHTML = syms.map(sym =>
@@ -427,40 +415,44 @@
   }
 
   function setSort(field, btn) {
-    if (activeSort===field) sortDir*=-1; else { activeSort=field; sortDir=-1; }
-    ['score','credit','dte','iv'].forEach(k => {
-      const el = document.getElementById('sb-'+k);
-      if (el) el.classList.remove('active');
-    });
-    btn.classList.add('active');
+    if (activeSort === field) { sortDir *= -1; } 
+    else { activeSort = field; sortDir = -1; }
+
+    document.querySelectorAll('thead th, .fbtn').forEach(el => el.classList.remove('active', 'sorted'));
+    if (btn) btn.classList.add('sorted');
+    const toolbarBtn = document.getElementById('sb-' + field);
+    if (toolbarBtn) toolbarBtn.classList.add('active');
+
     renderSignals();
   }
 
-  // ── All signals table ──
   function renderSignals() {
     let sigs = activeFilter==='ALL' ? [...allSignals] : allSignals.filter(s=>s.symbol===activeFilter);
-    sigs.sort((a,b) => (a[activeSort]-b[activeSort])*(activeSort==='dte'?1:sortDir));
+    
+    sigs.sort((a,b) => {
+      let vA = a[activeSort], vB = b[activeSort];
+      if (vA == null) return 1; if (vB == null) return -1;
+      if (typeof vA === 'string') return sortDir === -1 ? vB.localeCompare(vA) : vA.localeCompare(vB);
+      const factor = activeSort === 'dte' ? -sortDir : sortDir;
+      return (vA - vB) * factor;
+    });
 
     const badge = document.getElementById('sig-badge');
     badge.style.display = sigs.length ? 'inline-block' : 'none';
-    badge.textContent = sigs.length + ' signal' + (sigs.length!==1?'s':'');
+    badge.textContent = `${sigs.length} signal${sigs.length!==1?'s':''}`;
 
     if (!sigs.length) {
-      document.getElementById('signals-body').innerHTML = '<tr class="no-row"><td colspan="18">No signals match current filters.</td></tr>';
+      document.getElementById('signals-body').innerHTML = '<tr class="no-row"><td colspan="18">No signals found</td></tr>';
       return;
     }
 
     document.getElementById('signals-body').innerHTML = sigs.map((s,i) => {
       const isTop = i===0 && activeFilter==='ALL';
-      const dteCls = (s.dte>=14&&s.dte<=30)?'sweet':'';
       const pct = Math.min((s.score/maxScore)*100,100).toFixed(0);
-      const delta = s.delta !== null && s.delta !== undefined ? s.delta.toFixed(3) : '—';
-      const theta = s.theta !== null && s.theta !== undefined ? s.theta.toFixed(3) : '—';
-      const ba    = s.short_ba !== undefined ? '$'+s.short_ba.toFixed(3) : '—';
       return `<tr class="${isTop?'top-row':''}">
         <td><span class="sym">${s.symbol}</span></td>
         <td><span class="exp">${s.expiration}</span></td>
-        <td><span class="dte-b ${dteCls}">${s.dte}d</span></td>
+        <td><span class="dte-b ${s.dte<=30?'sweet':''}">${s.dte}d</span></td>
         <td>$${s.short_strike} / $${s.long_strike}</td>
         <td>$${s.current_price.toFixed(2)}</td>
         <td class="otm-v">${s.otm_pct}%</td>
@@ -468,9 +460,9 @@
         <td class="credit-p">${s.credit_pct.toFixed(1)}%</td>
         <td class="beven">$${s.breakeven.toFixed(2)}</td>
         <td class="iv-v">${s.iv_pct.toFixed(1)}%</td>
-        <td class="delta-v">${delta}</td>
-        <td class="theta-v">${theta}</td>
-        <td>${ba}</td>
+        <td class="delta-v">${s.delta ? s.delta.toFixed(3) : '—'}</td>
+        <td class="theta-v">${s.theta ? s.theta.toFixed(3) : '—'}</td>
+        <td>${s.short_ba ? '$'+s.short_ba.toFixed(3) : '—'}</td>
         <td>${s.short_oi.toLocaleString()}</td>
         <td>${s.short_vol.toLocaleString()}</td>
         <td class="total-c">$${s.total_credit.toLocaleString()}</td>
@@ -480,130 +472,58 @@
     }).join('');
   }
 
-  // ── Top 10 cards ──
   function renderTop10() {
-    const badge = document.getElementById('top10-badge');
-    badge.style.display = top10.length ? 'inline-block' : 'none';
-    badge.textContent = top10.length + ' signal' + (top10.length!==1?'s':'');
-
-    updateCalc();
-
     if (!top10.length) {
-      document.getElementById('top10-grid').innerHTML =
-        '<div style="text-align:center;padding:40px;color:var(--text3);font-family:var(--mono);font-size:12px;">No Top 10 signals right now — criteria may be too strict or market is closed.</div>';
+      document.getElementById('top10-grid').innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3);">No Top 10 signals</div>';
       return;
     }
+    updateCalc();
+  }
 
-    const maxT = Math.max(...top10.map(s=>s.top10_score),1);
-
-    document.getElementById('top10-grid').innerHTML = top10.map((s,i) => {
-      const rank = i+1;
-      const rankCls = rank<=3 ? `rank-${rank}` : '';
-      const delta = s.delta !== null && s.delta !== undefined ? s.delta.toFixed(3) : '—';
-      const theta = s.theta !== null && s.theta !== undefined ? s.theta.toFixed(3) : '—';
-      const ba    = s.short_ba !== undefined ? '$'+s.short_ba.toFixed(3) : '—';
-      const qty   = parseInt(document.getElementById('calc-qty')?.value || 30);
-      const closeAt = parseFloat(document.getElementById('calc-close')?.value || 0.01);
-      const profit = (closeAt * qty * 100).toFixed(0);
-      return `<div class="signal-card ${rankCls}">
-        <div class="card-rank">#${rank}</div>
+  function updateCalc() {
+    const qty = parseInt(document.getElementById('calc-qty')?.value || 30);
+    const closeAt = parseFloat(document.getElementById('calc-close')?.value || 0.01);
+    const profit = (closeAt * qty * 100).toFixed(0);
+    document.getElementById('calc-result').textContent = `$${profit} profit`;
+    document.getElementById('calc-detail').textContent = `${qty} contracts × 100 shares × $${closeAt.toFixed(2)} = $${profit}`;
+    
+    document.getElementById('top10-grid').innerHTML = top10.map((s,i) => `
+      <div class="signal-card ${i<3?`rank-${i+1}`:''}">
+        <div class="card-rank">#${i+1}</div>
         <div class="card-top">
-          <div>
-            <div class="card-sym">${s.symbol}</div>
-            <div class="card-exp">${s.expiration} · ${s.dte} DTE</div>
-          </div>
-          <div class="card-credit">
-            <div class="card-credit-val">$${s.net_credit.toFixed(2)}</div>
-            <div class="card-credit-sub">net credit · ${s.credit_pct.toFixed(1)}% of width</div>
-          </div>
+          <div><div class="card-sym">${s.symbol}</div><div class="card-exp">${s.expiration} · ${s.dte} DTE</div></div>
+          <div class="card-credit"><div class="card-credit-val">$${s.net_credit.toFixed(2)}</div><div class="card-credit-sub">${s.credit_pct.toFixed(1)}% width</div></div>
         </div>
         <hr class="card-divider">
         <div class="card-meta">
-          <div class="card-stat"><div class="card-stat-label">Strikes</div><div class="card-stat-val">$${s.short_strike} / $${s.long_strike}</div></div>
+          <div class="card-stat"><div class="card-stat-label">Strikes</div><div class="card-stat-val">$${s.short_strike}/${s.long_strike}</div></div>
           <div class="card-stat"><div class="card-stat-label">Breakeven</div><div class="card-stat-val">$${s.breakeven.toFixed(2)}</div></div>
           <div class="card-stat"><div class="card-stat-label">IV%</div><div class="card-stat-val" style="color:var(--blue)">${s.iv_pct.toFixed(1)}%</div></div>
-          <div class="card-stat"><div class="card-stat-label">Short OI</div><div class="card-stat-val">${s.short_oi.toLocaleString()}</div></div>
-          <div class="card-stat"><div class="card-stat-label">Short Vol</div><div class="card-stat-val">${s.short_vol.toLocaleString()}</div></div>
-        </div>
-        <hr class="card-divider">
-        <div class="card-legs">
-          SELL ${qty}× ${s.symbol} ${s.expiration} $${s.short_strike} Put <span>@ $${s.short_bid.toFixed(2)}</span>
-          &nbsp;·&nbsp;
-          BUY ${qty}× ${s.symbol} ${s.expiration} $${s.long_strike} Put <span>@ $${s.long_ask.toFixed(2)}</span>
+          <div class="card-stat"><div class="card-stat-label">OI</div><div class="card-stat-val">${s.short_oi.toLocaleString()}</div></div>
+          <div class="card-stat"><div class="card-stat-label">Vol</div><div class="card-stat-val">${s.short_vol.toLocaleString()}</div></div>
         </div>
         <div class="card-profit-row">
-          <span class="profit-pill">$0.01 drop → $${profit} profit</span>
+          <span class="profit-pill">$${closeAt.toFixed(2)} drop → $${profit} profit</span>
           <span class="dte-pill">${s.dte} DTE</span>
-          ${delta !== '—' ? `<span class="delta-pill">Δ ${delta}</span>` : ''}
-          ${theta !== '—' ? `<span class="ba-pill">Θ ${theta}/day</span>` : ''}
-          <span class="ba-pill">B/A ${ba}</span>
+          <span class="delta-pill">Δ ${s.delta?s.delta.toFixed(3):'—'}</span>
         </div>
-      </div>`;
-    }).join('');
+      </div>`).join('');
   }
 
-  // ── Profit calculator ──
-  function updateCalc() {
-    const qty     = parseInt(document.getElementById('calc-qty')?.value || 30);
-    const closeAt = parseFloat(document.getElementById('calc-close')?.value || 0.01);
-    if (!isNaN(qty) && !isNaN(closeAt)) {
-      const profit = (closeAt * qty * 100).toFixed(0);
-      document.getElementById('calc-result').textContent = `$${profit} profit`;
-      document.getElementById('calc-detail').textContent =
-        `${qty} contracts × 100 shares × $${closeAt.toFixed(2)}/share = $${profit}`;
-      // Re-render cards to update profit pills
-      if (top10.length) renderTop10Cards(qty, closeAt);
-    }
-  }
-
-  function renderTop10Cards(qty, closeAt) {
-    // just update profit pills without full re-render
-    document.querySelectorAll('.profit-pill').forEach((pill, i) => {
-      const profit = (closeAt * qty * 100).toFixed(0);
-      pill.textContent = `$${closeAt.toFixed(2)} drop/contract → $${profit} profit`;
-    });
-    document.querySelectorAll('.card-legs').forEach((el, i) => {
-      if (!top10[i]) return;
-      const s = top10[i];
-      el.innerHTML = `SELL ${qty}× ${s.symbol} ${s.expiration} $${s.short_strike} Put <span>@ $${s.short_bid.toFixed(2)}</span>
-        &nbsp;·&nbsp;
-        BUY ${qty}× ${s.symbol} ${s.expiration} $${s.long_strike} Put <span>@ $${s.long_ask.toFixed(2)}</span>`;
-    });
-  }
-
-  // ── Config ──
   function renderConfig(cfg) {
     const bar = document.getElementById('config-bar');
     bar.style.display = 'flex';
-    bar.innerHTML = [
-      ['Width','$'+cfg.spread_width],['Min OTM',cfg.min_otm_pct+'%'],
-      ['Qty',cfg.quantity],['Min OI',cfg.min_oi],
-      ['Min Vol',cfg.min_volume],['Min Credit','$'+cfg.min_credit],
-      ['Min IV',cfg.min_iv_pct+'%'],['DTE',cfg.dte_range[0]+'–'+cfg.dte_range[1]+'d'],
-    ].map(([l,v])=>`<div class="cfg-item"><span class="cfg-label">${l}</span><span class="cfg-val">${v}</span></div>`).join('');
+    bar.innerHTML = [['Width','$'+cfg.spread_width],['OTM',cfg.min_otm_pct+'%'],['Qty',cfg.quantity],['Min OI',cfg.min_oi],['Min Vol',cfg.min_volume],['DTE',cfg.dte_range[0]+'–'+cfg.dte_range[1]+'d']].map(([l,v])=>`<div class="cfg-item"><span class="cfg-label">${l}</span><span class="cfg-val">${v}</span></div>`).join('');
   }
 
   function renderTop10Config(cfg) {
     const bar = document.getElementById('top10-config-bar');
     if (!cfg.top10_min_oi) return;
     bar.style.display = 'flex';
-    bar.innerHTML = [
-      ['Min OI',cfg.top10_min_oi],['Min Vol',cfg.top10_min_vol],
-      ['Min Credit%',cfg.top10_min_credit_pct+'%'],['Max DTE',cfg.top10_max_dte+'d'],
-      ['Max Delta',cfg.top10_max_delta],['Max B/A','$'+cfg.top10_max_ba],
-    ].map(([l,v])=>`<div class="cfg-item"><span class="cfg-label">${l}</span><span class="cfg-val" style="color:var(--gold)">${v}</span></div>`).join('');
-
-    // intro cards
-    document.getElementById('top10-intro').innerHTML = [
-      ['Liquidity filter','Short OI ≥ '+cfg.top10_min_oi+', Vol ≥ '+cfg.top10_min_vol,'Ensures you can close fast'],
-      ['Credit threshold','≥ '+cfg.top10_min_credit_pct+'% of spread width','Worthwhile premium'],
-      ['DTE sweet spot','7 – '+cfg.top10_max_dte+' days','Fast theta decay'],
-      ['Delta filter','Short Δ ≤ '+cfg.top10_max_delta,'Far OTM, safer position'],
-      ['Tight B/A','≤ $'+cfg.top10_max_ba+' per leg','Exit at $0.01 below credit'],
-    ].map(([t,v,s])=>`<div class="intro-card"><div class="cfg-label">${t}</div><div class="intro-val">${v}</div><div class="intro-sub">${s}</div></div>`).join('');
+    bar.innerHTML = [['Min OI',cfg.top10_min_oi],['Min Vol',cfg.top10_min_vol],['Credit%',cfg.top10_min_credit_pct+'%'],['Max Delta',cfg.top10_max_delta]].map(([l,v])=>`<div class="cfg-item"><span class="cfg-label">${l}</span><span class="cfg-val" style="color:var(--gold)">${v}</span></div>`).join('');
+    document.getElementById('top10-intro').innerHTML = [['Liquidity','OI ≥ '+cfg.top10_min_oi+', Vol ≥ '+cfg.top10_min_vol,'Fast exit'],['Premium','≥ '+cfg.top10_min_credit_pct+'% width','Good return'],['Delta','≤ '+cfg.top10_max_delta,'Safer OTM']].map(([t,v,s])=>`<div class="intro-card"><div class="cfg-label">${t}</div><div class="intro-val">${v}</div><div class="intro-sub">${s}</div></div>`).join('');
   }
 
-  // ── Poll every 10s ──
   setInterval(fetchData, 10000);
   fetchData();
 </script>
