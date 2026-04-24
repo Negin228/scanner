@@ -325,39 +325,31 @@ def run_scan():
 # ─────────────────────────────────────────────
 
 if __name__ == "__main__":
-    if TRADIER_API_KEY == "YOUR_TRADIER_API_KEY_HERE":
-        print("\n⚠  Set your TRADIER_API_KEY at the top of this file first.\n")
-        exit(1)
-
-    try:
-        import requests  # noqa
-    except ImportError:
-        print("Run: pip install requests")
+    # Ensure the API key is present
+    if not TRADIER_API_KEY:
+        print("\n⚠  Set your TRADIER_API_KEY as an Environment Variable in GitHub Secrets.")
         exit(1)
 
     print("=" * 55)
-    print("  PUT CREDIT SPREAD SCANNER — Live Service")
-    print(f"  Scanning every {SCAN_INTERVAL_SECS // 60} minutes")
+    print("  PUT CREDIT SPREAD SCANNER — GitHub Action Run")
     print(f"  Output: {OUTPUT_FILE}")
-    print("  Open dashboard.html in your browser")
     print("=" * 55)
 
-    while True:
-        try:
-            run_scan()
-        except Exception as e:
-            print(f"[ERROR] Scan failed: {e}")
-            error_output = {
-                "last_updated":   datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "next_scan_secs": SCAN_INTERVAL_SECS,
-                "error": str(e),
-                "tickers": {},
-                "signals": [],
-                "top10":   []
-            }
-            with open(OUTPUT_FILE, "w") as f:
-                json.dump(error_output, f)
-
-        print(f"  Next scan in {SCAN_INTERVAL_SECS // 60} minutes... (Ctrl+C to stop)\n")
-        time.sleep(SCAN_INTERVAL_SECS)
+    # Run the scan exactly once then exit
+    try:
+        run_scan()
+    except Exception as e:
+        print(f"[ERROR] Scan failed: {e}")
+        # Write error to JSON so the dashboard shows the failure
+        error_output = {
+            "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "error": str(e),
+            "tickers": {},
+            "signals": [],
+            "top10": []
+        }
+        with open(OUTPUT_FILE, "w") as f:
+            json.dump(error_output, f)
+        exit(1) # Exit with error code for GitHub Actions
+        
 
