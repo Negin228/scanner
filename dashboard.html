@@ -343,37 +343,48 @@
   }
 
   async function fetchData() {
-    const statusText = document.getElementById('status-text');
-    const GITHUB_TOKEN = "YOUR_GITHUB_FINE_GRAINED_TOKEN"; // See security warning below
-    const REPO_OWNER = "negin228";
-    const REPO_NAME = "scanner";
+  const statusText = document.getElementById('status-text');
   
+  // 1. Check if we want to TRIGGER a new scan or just FETCH existing data
+  const userWantsNewScan = confirm("Trigger a new live scan? (Takes ~1 minute)");
+
+  if (userWantsNewScan) {
+    const token = prompt("Enter GitHub PAT to authorize scan:");
+    if (!token) return;
+
+    statusText.textContent = "Triggering GitHub Action...";
+    
     try {
-      statusText.textContent = "Triggering GitHub Action...";
-  
-      // 1. Trigger the GitHub Action via Repository Dispatch
-      const triggerRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/dispatches`, {
+      const res = await fetch('https://api.github.com/repos/negin228/scanner/dispatches', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${GITHUB_TOKEN}`,
+          'Authorization': `Bearer ${token}`,
           'Accept': 'application/vnd.github.v3+json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ event_type: 'manual_refresh' })
       });
-  
-      if (!triggerRes.ok) throw new Error('Failed to trigger GitHub Action');
-  
-      statusText.textContent = "Action started! Data will update in ~1 min.";
-      
-      // Optional: Auto-refresh the page data after 60 seconds
-      setTimeout(() => location.reload(), 60000);
-  
-    } catch(e) {
-      setStatus('error', 'Trigger failed');
-      console.error(e);
+
+      if (res.ok) {
+        statusText.textContent = "Action started! Refreshing data in 60s...";
+        setTimeout(() => location.reload(), 60000);
+      } else {
+        throw new Error("GitHub rejected the request.");
+      }
+    } catch (e) {
+      alert("Error triggering scan: " + e.message);
     }
+  } else {
+    // Just fetch the current signals.json without running a new scan
+    loadLocalData();
   }
+}
+
+async function loadLocalData() {
+  const res = await fetch('signals.json?t=' + Date.now());
+  const data = await res.json();
+  processData(data);
+}
   function processData(data) {
     allSignals = data.signals || [];
     top10 = data.top10 || [];
