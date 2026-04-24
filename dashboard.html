@@ -343,6 +343,32 @@
   }
 
   async function fetchData() {
+    const statusText = document.getElementById('status-text');
+    
+    try {
+      statusText.textContent = "Running Scanner...";
+      
+      // 1. Tell the Flask server to run the python script
+      const scanRes = await fetch('http://127.0.0.1:5000/run-scan', { 
+        method: 'POST' 
+      });
+      
+      if (!scanRes.ok) throw new Error('Scanner script failed');
+
+      // 2. Fetch the newly updated signals.json
+      const res = await fetch('signals.json?t=' + Date.now());
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      
+      processData(data);
+      
+    } catch(e) {
+      setStatus('error', 'Scan failed');
+      console.error(e);
+      document.getElementById('signals-body').innerHTML = 
+        `<tr class="no-row"><td colspan="18">⚠ Error: ${e.message}. Ensure app.py is running.</td></tr>`;
+    }
+  }
     try {
       const res = await fetch('signals.json?t=' + Date.now());
       if (!res.ok) throw new Error('HTTP ' + res.status);
