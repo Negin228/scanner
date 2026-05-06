@@ -1,87 +1,120 @@
 {
-  "last_updated": "2026-05-06 06:40:11 UTC-07:00",
+  "last_updated": "2026-05-06 06:44:27 UTC-07:00",
   "next_scan_secs": 300,
   "tickers": {
     "NVDA": {
-      "price": 200.45,
+      "price": 201.19,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "AMZN": {
-      "price": 274.11,
+      "price": 274.79,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "MSFT": {
-      "price": 407.15,
+      "price": 406.8,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "META": {
-      "price": 599.71,
+      "price": 599.84,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "GOOG": {
-      "price": 391.88,
+      "price": 391.57,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "NFLX": {
-      "price": 87.59,
+      "price": 87.64,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "PLTR": {
-      "price": 133.49,
+      "price": 133.8,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "TSLA": {
-      "price": 388.66,
+      "price": 389.1,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "SPY": {
-      "price": 729.04,
+      "price": 729.1,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "TQQQ": {
-      "price": 69.6,
-      "signal_count": 0,
+      "price": 69.86,
+      "signal_count": 1,
       "top10_count": 0,
       "status": "ok"
     },
     "SQQQ": {
-      "price": 46.98,
+      "price": 46.83,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "AMD": {
-      "price": 422.98,
+      "price": 428.44,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "ORCL": {
-      "price": 185.13,
+      "price": 185.86,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     }
   },
-  "signals": [],
+  "signals": [
+    {
+      "symbol": "TQQQ",
+      "expiration": "2026-06-12",
+      "dte": 37,
+      "short_strike": 55.0,
+      "long_strike": 50.0,
+      "current_price": 69.86,
+      "otm_pct": 21.3,
+      "short_bid": 1.29,
+      "short_ask": 1.36,
+      "long_bid": 0.68,
+      "long_ask": 0.86,
+      "short_ba": 0.07,
+      "net_credit": 0.43,
+      "max_loss": 4.57,
+      "credit_pct": 8.6,
+      "breakeven": 54.57,
+      "iv_pct": 73.3,
+      "delta": -0.1614,
+      "gamma": 0.0153,
+      "theta": -0.0547,
+      "short_oi": 221,
+      "short_vol": 73,
+      "long_oi": 765,
+      "long_vol": 90,
+      "qty": 10,
+      "total_credit": 430.0,
+      "total_risk": 4570.0,
+      "score": 55.61,
+      "top10_score": 20.85,
+      "top10_eligible": false
+    }
+  ],
   "top10": [],
   "config": {
     "spread_width": 5,
