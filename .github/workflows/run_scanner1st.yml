@@ -14,7 +14,7 @@ jobs:
           python-version: '3.10'
       - name: Install dependencies
         run: pip install requests
-      - name: Run Scanner
+      - name: Run Scanner1st
         env:
           TRADIER_API_KEY: ${{ secrets.TRADIER_API_KEY }}
         run: python scanner1st.py
