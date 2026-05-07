@@ -1,4 +1,4 @@
-name: Manual Scanner Update
+name: Manual ScannerKelly Update
 on:
   repository_dispatch:
     types: [manual_refresh]
