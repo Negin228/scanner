@@ -27,7 +27,6 @@
     font-family: 'IBM Plex Sans', sans-serif; margin: 0; padding: 20px; 
   }
 
-  /* Header & Update Status */
   .header { 
     display: flex; justify-content: space-between; align-items: center; 
     margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 15px;
@@ -35,11 +34,12 @@
   
   .update-status {
     display: flex; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 13px;
+    background: var(--bg2); padding: 8px 15px; border-radius: 20px; border: 1px solid var(--border);
   }
 
   #status-dot {
     height: 8px; width: 8px; border-radius: 50%; margin-right: 10px;
-    background-color: var(--text3); transition: all 0.3s ease;
+    background-color: var(--text3);
   }
 
   .scanning-active #status-dot {
@@ -51,103 +51,62 @@
   @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
   #status-label { font-weight: 600; margin-right: 5px; }
-  #last-updated { color: var(--text2); }
+  #last-updated { color: var(--text); }
 
-  /* Tabs */
   .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
   .tab { 
     padding: 10px 20px; cursor: pointer; background: var(--bg2);
     border: 1px solid var(--border); color: var(--text2); 
-    font-weight: 500; border-radius: 6px; transition: all 0.2s;
+    font-weight: 500; border-radius: 6px;
   }
   .tab.active { background: var(--bg4); border-color: var(--text2); color: var(--text); }
-  .tab-badge { 
-    background: var(--bg); padding: 2px 6px; border-radius: 10px; 
-    font-size: 10px; margin-left: 8px; border: 1px solid var(--border);
-  }
-
-  /* Dashboard Panels */
-  .regime-banner { 
-    padding: 12px; background: var(--bg3); border: 1px solid var(--border);
-    border-radius: 6px; margin-bottom: 15px; font-family: 'IBM Plex Mono'; font-size: 12px;
-  }
 
   .table-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
   table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
   th { background: var(--bg3); padding: 12px; color: var(--text2); font-weight: 500; border-bottom: 1px solid var(--border); }
   td { padding: 12px; border-bottom: 1px solid var(--border); }
-  tr:hover { background: rgba(255,255,255,0.02); }
-
+  
   .bold { font-weight: 600; }
-  .mono { font-family: 'IBM Plex Mono', monospace; }
   .text-green { color: var(--green); }
-  .text-red { color: var(--red); }
   .text-gold { color: var(--gold); }
+
+  button#refresh-btn {
+    background: var(--bg4); border: 1px solid var(--border); color: var(--text);
+    padding: 5px 12px; border-radius: 4px; cursor: pointer; font-family: inherit; font-size: 12px;
+  }
+  button#refresh-btn:hover { background: var(--border); }
 </style>
 </head>
 <body>
 
 <div class="header">
   <h2 style="margin:0">Options Scanner</h2>
-  <div class="update-status" id="update-container">
-    <div id="status-dot"></div>
-    <span id="status-label">Last Update:</span>
-    <span id="last-updated">--</span>
+  <div style="display: flex; gap: 15px; align-items: center;">
+    <button id="refresh-btn" onclick="fetchData()">Manual Refresh</button>
+    <div class="update-status" id="update-container">
+      <div id="status-dot"></div>
+      <span id="status-label">Last Update:</span>
+      <span id="last-updated">--</span>
+    </div>
   </div>
 </div>
 
 <div class="tabs">
-  <div class="tab active" onclick="switchTab('all')" id="tab-all">All Signals <span class="tab-badge" id="badge-all">0</span></div>
-  <div class="tab" onclick="switchTab('top10')" id="tab-top10">Top 10 <span class="tab-badge" id="badge-top10">0</span></div>
-  <div class="tab" onclick="switchTab('advanced')" id="tab-advanced">Advanced <span class="tab-badge" id="badge-advanced">0</span></div>
+  <div class="tab active" onclick="switchTab('all')" id="tab-all">All Signals</div>
+  <div class="tab" onclick="switchTab('top10')" id="tab-top10">Top 10</div>
+  <div class="tab" onclick="switchTab('advanced')" id="tab-advanced">Advanced</div>
 </div>
 
-<div id="regime-bar" class="regime-banner" style="display:none"></div>
-
-<div id="panel-all" class="tab-panel">
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr><th>Symbol</th><th>Exp</th><th>DTE</th><th>Strike</th><th>Price</th><th>Credit</th><th>Score</th></tr>
-      </thead>
-      <tbody id="all-body"></tbody>
-    </table>
-  </div>
-</div>
-
-<div id="panel-top10" class="tab-panel" style="display:none">
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr><th>Symbol</th><th>Exp</th><th>DTE</th><th>Strike</th><th>Net Credit</th><th>B/A</th><th>Delta</th><th>Score</th></tr>
-      </thead>
-      <tbody id="top10-body"></tbody>
-    </table>
-  </div>
-</div>
-
-<div id="panel-advanced" class="tab-panel" style="display:none">
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr><th>Symbol</th><th>Exp (DTE)</th><th>Prob. Touch</th><th>IV Rank</th><th>RSI</th><th>Qty</th><th>Score</th></tr>
-      </thead>
-      <tbody id="advanced-body"></tbody>
-    </table>
-  </div>
-</div>
+<div id="panel-all" class="tab-panel"><div class="table-wrap"><table><thead><tr><th>Symbol</th><th>Exp</th><th>DTE</th><th>Strike</th><th>Credit</th><th>Score</th></tr></thead><tbody id="all-body"></tbody></table></div></div>
+<div id="panel-top10" class="tab-panel" style="display:none"><div class="table-wrap"><table><thead><tr><th>Symbol</th><th>Exp</th><th>DTE</th><th>Strike</th><th>Credit</th><th>Score</th></tr></thead><tbody id="top10-body"></tbody></table></div></div>
+<div id="panel-advanced" class="tab-panel" style="display:none"><div class="table-wrap"><table><thead><tr><th>Symbol</th><th>Exp</th><th>Prob. Touch</th><th>RSI</th><th>Qty</th><th>Score</th></tr></thead><tbody id="advanced-body"></tbody></table></div></div>
 
 <script>
-  let currentTab = 'all';
-
   function switchTab(tabId) {
-    currentTab = tabId;
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
-    
     document.getElementById('tab-' + tabId).classList.add('active');
     document.getElementById('panel-' + tabId).style.display = 'block';
-    document.getElementById('regime-bar').style.display = (tabId === 'advanced') ? 'block' : 'none';
   }
 
   async function fetchData() {
@@ -155,82 +114,62 @@
     const statusLabel = document.getElementById('status-label');
     const lastUpdatedElem = document.getElementById('last-updated');
     
-    // 1. Enter "Updating" State
+    // 1. CLEAR THE UI IMMEDIATELY
     container.classList.add('scanning-active');
     statusLabel.innerText = "Updating...";
-    lastUpdatedElem.style.opacity = "0"; // Smoothly hide the old timestamp
+    lastUpdatedElem.innerText = "Checking server..."; // Remove old timestamp so you don't see it
+    lastUpdatedElem.style.color = "var(--blue)";
 
     try {
-      // Fetch with cache-buster to ensure fresh data
-      const response = await fetch(`signals.json?t=${Date.now()}`);
+      // 2. THE CACHE BUSTER (?t=...)
+      // This forces the browser to bypass any saved versions of the file.
+      const response = await fetch(`signals.json?t=${new Date().getTime()}`);
+      
+      if (!response.ok) throw new Error('Network response was not ok');
+      
       const data = await response.json();
 
-      // 2. Render Data
-      renderAll(data.signals);
-      renderTop10(data.top10);
-      renderAdvanced(data, data.advanced);
+      // 3. RENDER DATA
+      renderTable('all-body', data.signals);
+      renderTable('top10-body', data.top10);
+      renderAdvanced(data.advanced);
 
-      // 3. Exit "Updating" State
-      statusLabel.innerText = "Updated";
+      // 4. RESTORE SUCCESS STATE
+      statusLabel.innerText = "Updated:";
       lastUpdatedElem.innerText = data.last_updated;
-      lastUpdatedElem.style.opacity = "1";
+      lastUpdatedElem.style.color = "var(--text)";
       container.classList.remove('scanning-active');
 
     } catch (e) {
       console.error("Fetch failed", e);
-      statusLabel.innerText = "Connection Error";
-      statusLabel.style.color = "var(--red)";
+      statusLabel.innerText = "Error:";
+      lastUpdatedElem.innerText = "Retry in 10s";
+      lastUpdatedElem.style.color = "var(--red)";
       container.classList.remove('scanning-active');
     }
   }
 
-  function renderAll(signals) {
+  function renderTable(id, signals) {
     if (!signals) return;
-    document.getElementById('badge-all').innerText = signals.length;
-    document.getElementById('all-body').innerHTML = signals.map(s => `
+    document.getElementById(id).innerHTML = signals.map(s => `
       <tr>
         <td class="bold">${s.symbol}</td>
         <td>${s.expiration}</td>
         <td>${s.dte}d</td>
         <td class="mono">${s.short_strike}/${s.long_strike}</td>
-        <td>$${s.current_price}</td>
         <td class="text-green">$${s.net_credit}</td>
         <td class="bold">${s.score}</td>
       </tr>
     `).join('');
   }
 
-  function renderTop10(signals) {
+  function renderAdvanced(signals) {
     if (!signals) return;
-    document.getElementById('badge-top10').innerText = signals.length;
-    document.getElementById('top10-body').innerHTML = signals.map(s => `
-      <tr>
-        <td class="bold">${s.symbol}</td>
-        <td>${s.expiration}</td>
-        <td>${s.dte}d</td>
-        <td class="mono">${s.short_strike}/${s.long_strike}</td>
-        <td class="text-green bold">$${s.net_credit}</td>
-        <td>${s.short_ba}</td>
-        <td class="text-gold">${s.delta || '--'}</td>
-        <td class="bold">${s.top10_score}</td>
-      </tr>
-    `).join('');
-  }
-
-  function renderAdvanced(data, signals) {
-    if (!signals) return;
-    document.getElementById('badge-advanced').innerText = signals.length;
-    document.getElementById('regime-bar').innerHTML = `
-      MARKET REGIME: <span class="bold text-gold">${data.market_regime.toUpperCase()}</span> | 
-      VIX: <span class="bold">${data.vix}</span>
-    `;
-    
     document.getElementById('advanced-body').innerHTML = signals.map(s => `
       <tr>
         <td class="bold">${s.symbol}</td>
-        <td>${s.expiration} (${s.dte}d)</td>
+        <td>${s.expiration}</td>
         <td class="${s.pot > 25 ? 'text-red' : ''}">${s.pot}%</td>
-        <td>${s.iv_rank}</td>
         <td>${s.rsi}</td>
         <td class="text-green bold">${s.qty}</td>
         <td class="bold text-gold">${s.score}</td>
@@ -238,8 +177,8 @@
     `).join('');
   }
 
-  // Poll for updates every 10 seconds
-  setInterval(fetchData, 10000);
+  // Automatic Refresh every 30 seconds
+  setInterval(fetchData, 30000);
   fetchData();
 </script>
 
