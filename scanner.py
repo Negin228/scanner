@@ -306,14 +306,16 @@ def adv_calculate_iv_rank(current_iv, iv_history):
 
 
 def adv_kelly_size(win_rate, credit, max_loss):
+    # Standard Kelly goes deeply negative for credit spreads (high win rate,
+    # low reward-to-risk ratio), so we use fixed-fractional sizing instead:
+    # risk a base 2% of account per signal, scaled by win-rate confidence.
     if max_loss <= 0:
         return 1
-    rr = credit / max_loss
-    if rr <= 0:
-        return 1
-    kelly = max(win_rate - ((1 - win_rate) / rr), 0)
-    risk_capital = ADV_ACCOUNT_SIZE * kelly * ADV_KELLY_FRACTION
-    contracts = int(risk_capital / (max_loss * 100))
+    risk_per_contract = max_loss * 100
+    base_risk_pct     = 0.02
+    win_rate_scalar   = win_rate / ADV_TARGET_WIN_RATE
+    risk_capital      = ADV_ACCOUNT_SIZE * base_risk_pct * win_rate_scalar
+    contracts         = int(risk_capital / risk_per_contract)
     return max(1, contracts)
 
 
