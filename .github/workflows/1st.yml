@@ -1,7 +1,7 @@
 name: Manual Scanner1st Update
 on:
   repository_dispatch:
-    types: [manual_refresh]
+    types: [manual_refresh_1st]
 
 jobs:
   run-scanner:
