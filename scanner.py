@@ -1,3 +1,4 @@
+#ChatGPT fixing Kelly adv = 1 for all, but very tight filters 
 """
 Put Credit Spread Scanner — Debug-Clean Version
 - Finds put credit spreads via Tradier
