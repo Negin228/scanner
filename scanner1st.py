@@ -1,4 +1,3 @@
-
 """
 Put Credit Spread Scanner — Background Service
 Polls Tradier API every 5 minutes and writes results to signals1st.json
