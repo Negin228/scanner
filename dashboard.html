@@ -429,11 +429,28 @@
     document.getElementById('tab-' + tab).classList.add('active');
   }
 
+  let lastUpdatedStamp = null;
+  let isScanRunning = false;
+
+  function setRefreshBtn(scanning) {
+    const btn = document.querySelector('.btn');
+    if (!btn) return;
+    btn.disabled = scanning;
+    btn.textContent = scanning ? '⏳ Running…' : '↺ Refresh';
+    btn.style.opacity = scanning ? '0.5' : '';
+    btn.style.cursor  = scanning ? 'not-allowed' : '';
+  }
+
+  function setScanningStatus(msg) {
+    document.getElementById('dot').className = 'dot stale';
+    document.getElementById('status-text').textContent =
+      msg + (lastUpdatedStamp ? ' · Last: ' + lastUpdatedStamp : '');
+  }
+
   // ── Reads signals.json from the same folder (works on GitHub Pages or local server) ──
   async function fetchData() {
-    const statusText = document.getElementById('status-text');
+    if (!isScanRunning) setScanningStatus('Fetching…');
     try {
-      statusText.textContent = "Fetching signals…";
       const res = await fetch('signals.json?t=' + Date.now());
       if (res.ok) {
         const data = await res.json();
@@ -448,7 +465,7 @@
 
   // ── Triggers the GitHub Action, then polls for updated data ──
   async function triggerScan() {
-    const statusText = document.getElementById('status-text');
+    if (isScanRunning) return;
 
     let token = localStorage.getItem('gh_token');
     if (!token) {
@@ -458,7 +475,10 @@
     if (!token) return;
 
     try {
-      statusText.textContent = "Triggering scan…";
+      isScanRunning = true;
+      setRefreshBtn(true);
+      setScanningStatus('Triggering scan…');
+
       const res = await fetch('https://api.github.com/repos/negin228/scanner/dispatches', {
         method: 'POST',
         headers: {
@@ -472,22 +492,31 @@
       if (res.status === 401) {
         localStorage.removeItem('gh_token');
         alert("Invalid token — please try again.");
+        isScanRunning = false;
+        setRefreshBtn(false);
         return;
       }
 
       if (res.ok) {
-        statusText.textContent = "Scan triggered! Polling for new data…";
         let attempts = 0;
         const poll = setInterval(async () => {
           attempts++;
+          setScanningStatus('Scanning… (' + attempts + '/9)');
           await fetchData();
           if (attempts >= 9) {
             clearInterval(poll);
-            statusText.textContent = "Polling complete.";
+            isScanRunning = false;
+            setRefreshBtn(false);
           }
         }, 10000);
+      } else {
+        isScanRunning = false;
+        setRefreshBtn(false);
+        setStatus('error', 'Trigger failed: ' + res.status);
       }
     } catch (e) {
+      isScanRunning = false;
+      setRefreshBtn(false);
       setStatus('error', 'Trigger error: ' + e.message);
     }
   }
@@ -498,7 +527,8 @@
     advSignals = data.advanced_signals || [];
     advMaxScore = Math.max(...advSignals.map(s => s.score), 1);
     maxScore = Math.max(...allSignals.map(s => s.score), 1);
-    setStatus(data.error ? 'error' : 'live', 'Updated ' + (data.last_updated || '—'));
+    lastUpdatedStamp = data.last_updated || '—';
+    setStatus(data.error ? 'error' : 'live', 'Updated ' + lastUpdatedStamp);
     countdownVal = data.next_scan_secs || 300;
     startCountdown();
     renderTickers(data.tickers || {});
