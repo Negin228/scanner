@@ -572,6 +572,22 @@
     bar.innerHTML = [['Min OI',cfg.top10_min_oi],['Min Vol',cfg.top10_min_vol],['Credit%',cfg.top10_min_credit_pct+'%'],['Max Delta',cfg.top10_max_delta]].map(([l,v])=>`<div class="cfg-item"><span class="cfg-label">${l}</span><span class="cfg-val" style="color:var(--gold)">${v}</span></div>`).join('');
     document.getElementById('top10-intro').innerHTML = [['Liquidity','OI ≥ '+cfg.top10_min_oi+', Vol ≥ '+cfg.top10_min_vol,'Fast exit'],['Premium','≥ '+cfg.top10_min_credit_pct+'% width','Good return'],['Delta','≤ '+cfg.top10_max_delta,'Safer OTM']].map(([t,v,s])=>`<div class="intro-card"><div class="cfg-label">${t}</div><div class="intro-val">${v}</div><div class="intro-sub">${s}</div></div>`).join('');
   }
+  // Add this to your render sequence in dashboard.html
+    function renderAdvancedTab(data) {
+      const container = document.getElementById('advanced-body');
+      // Maps the new JSON fields (rsi, iv_rank, qty, probability_touch) 
+      // that don't exist in your standard signals.
+      container.innerHTML = data.advanced.map(sig => `
+          <tr>
+              <td>${sig.symbol}</td>
+              <td>${sig.market_regime}</td>
+              <td>${sig.probability_touch}%</td>
+              <td>${sig.iv_rank}</td>
+              <td class="kelly-qty">${sig.qty}</td>
+              <td>${sig.score}</td>
+          </tr>
+      `).join('');
+  }
 
   // Auto-refresh data every 30s (reads file only, no action trigger)
   setInterval(fetchData, 30000);
