@@ -175,12 +175,16 @@ def run_combined_scan():
     with open(OUTPUT_FILE, "w") as f:
         json.dump(output, f, indent=2)
 
+# ─────────────────────────────────────────────
+# EXECUTION
+# ─────────────────────────────────────────────
+
 if __name__ == "__main__":
-    while True:
-        try:
-            run_combined_scan()
-            print(f"Scan complete at {datetime.datetime.now()}")
-            time.sleep(SCAN_INTERVAL_SECS)
-        except Exception as e:
-            print(f"Fatal Error: {e}")
-            time.sleep(60)
+    try:
+        # We remove the while True loop. 
+        # This function now runs ONCE and finishes.
+        run_combined_scan()
+        print("Success: JSON updated.")
+    except Exception as e:
+        print(f"Error: {e}")
+        exit(1) # Tell GitHub the run failed
