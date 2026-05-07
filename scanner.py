@@ -14,7 +14,7 @@ TRADIER_API_KEY = os.getenv("TRADIER_API_KEY")
 
 SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "PLTR", "TSLA", "SPY", "TQQQ", "SQQQ", "AMD", "ORCL"]
 
-# Original Logic Settings (DO NOT CHANGE - Powers All Signals Tab)
+# Original Logic Settings (Powers "All Signals")
 SPREAD_WIDTH = 5
 MIN_DISCOUNT_PCT = 0.20
 QUANTITY = 10
@@ -33,7 +33,7 @@ TOP10_MAX_DTE = 21
 TOP10_MAX_DELTA = 0.10
 TOP10_MAX_BA_SPREAD = 0.10
 
-# Advanced Tab Settings (Institutional Logic)
+# Advanced Tab Settings
 ACCOUNT_SIZE = 100000
 KELLY_FRACTION = 0.25
 TARGET_WIN_RATE = 0.85
@@ -78,11 +78,19 @@ def get_puts(symbol, expiration):
     except: return []
 
 def extract_greeks(option):
-    g = option.get("greeks", {})
+    """Safely extract greeks even if the API returns null/None."""
+    g = option.get("greeks")
+    if not g or not isinstance(g, dict):
+        return None, None, 0.0
+    
+    delta = g.get("delta")
+    theta = g.get("theta")
+    iv = g.get("mid_iv") or g.get("ask_iv") or g.get("bid_iv") or 0.0
+    
     return (
-        float(g.get("delta")) if g.get("delta") is not None else None,
-        float(g.get("theta")) if g.get("theta") is not None else None,
-        float(g.get("mid_iv")) if g.get("mid_iv") is not None else 0.0
+        float(delta) if delta is not None else None,
+        float(theta) if theta is not None else None,
+        float(iv)
     )
 
 # ─────────────────────────────────────────────
@@ -91,7 +99,7 @@ def extract_greeks(option):
 
 def find_spreads(symbol, price, puts, expiration):
     max_short = price * (1 - MIN_DISCOUNT_PCT)
-    by_strike = {float(p["strike"]): p for p in puts}
+    by_strike = {float(p["strike"]): p for p in puts if p.get("strike") is not None}
     signals = []
 
     for strike, short in by_strike.items():
@@ -103,20 +111,26 @@ def find_spreads(symbol, price, puts, expiration):
         if short_oi < MIN_OPEN_INTEREST: continue
 
         delta, theta, iv = extract_greeks(short)
-        net_credit = float(short.get("bid") or 0) - float(long.get("ask") or 0)
+        
+        short_bid = float(short.get("bid") or 0)
+        long_ask = float(long.get("ask") or 0)
+        net_credit = short_bid - long_ask
+        
         if net_credit < MIN_NET_CREDIT: continue
 
         dte = (datetime.datetime.strptime(expiration, "%Y-%m-%d").date() - datetime.date.today()).days
         credit_pct = (net_credit / SPREAD_WIDTH) * 100
 
-        # Original Scoring
+        # Original Scoring Logic
         score = (credit_pct * 2) + (iv * 50) + min(short_oi / 1000, 5)
         
         # Top 10 Eligibility
+        short_ba = float(short.get("ask") or 0) - short_bid
         top10_eligible = (
             short_oi >= TOP10_MIN_OI and 
             credit_pct >= TOP10_MIN_CREDIT_PCT and 
             dte <= TOP10_MAX_DTE and 
+            short_ba <= TOP10_MAX_BA_SPREAD and
             (delta is None or abs(delta) <= TOP10_MAX_DELTA)
         )
 
@@ -125,7 +139,8 @@ def find_spreads(symbol, price, puts, expiration):
             "short_strike": strike, "long_strike": strike - SPREAD_WIDTH,
             "current_price": round(price, 2), "net_credit": round(net_credit, 2),
             "score": round(score, 2), "top10_score": round(score * 1.2, 2),
-            "top10_eligible": top10_eligible, "delta": delta, "short_ba": 0.05
+            "top10_eligible": top10_eligible, "delta": round(delta, 4) if delta else None,
+            "short_ba": round(short_ba, 3)
         })
     return signals
 
@@ -157,6 +172,7 @@ def find_advanced_spreads(symbol, price, puts, expiration, regime, trend):
     for strike, short in by_strike.items():
         long = by_strike.get(strike - SPREAD_WIDTH)
         if not long: continue
+        
         delta, theta, iv = extract_greeks(short)
         if delta is None or abs(delta) > 0.15: continue
 
@@ -164,13 +180,13 @@ def find_advanced_spreads(symbol, price, puts, expiration, regime, trend):
                      ((float(long['bid']) + float(long['ask']))/2) - REAL_FILL_SLIPPAGE
         if net_credit < 0.15: continue
 
-        pot = round(abs(delta) * 200, 1) # Probability of Touch
+        pot = round(abs(delta) * 200, 1) 
         score = (net_credit / (SPREAD_WIDTH - net_credit) * 40) + (max(0, 25 - pot/4) * 2)
 
         adv_signals.append({
             "symbol": symbol, "expiration": expiration, "dte": dte,
             "short_strike": strike, "net_credit": round(net_credit, 2),
-            "qty": max(1, int(ACCOUNT_SIZE * 0.02 / (SPREAD_WIDTH * 100))),
+            "qty": max(1, int(ACCOUNT_SIZE * 0.01 / (SPREAD_WIDTH * 100))),
             "score": round(score, 2), "pot": pot, "rsi": trend['rsi'], "iv_rank": 35
         })
     return adv_signals
@@ -180,7 +196,7 @@ def find_advanced_spreads(symbol, price, puts, expiration, regime, trend):
 # ─────────────────────────────────────────────
 
 def run_combined_scan():
-    print("Initializing Scan...")
+    print("Starting combined scan...")
     vix = get_quote("VIX") or 18.0
     spy_price = get_quote("SPY")
     spy_trend = trend_analysis("SPY", spy_price) if spy_price else None
@@ -204,10 +220,10 @@ def run_combined_scan():
             puts = get_puts(symbol, exp)
             if not puts: continue
 
-            # 1. ORIGINAL LOGIC (All Signals)
+            # Populate All Signals Tab
             all_signals.extend(find_spreads(symbol, price, puts, exp))
 
-            # 2. ADVANCED LOGIC
+            # Populate Advanced Tab
             if trend and trend["bullish"] and regime != "crisis":
                 advanced_signals.extend(find_advanced_spreads(symbol, price, puts, exp, regime, trend))
 
@@ -224,7 +240,7 @@ def run_combined_scan():
 
     with open(OUTPUT_FILE, "w") as f:
         json.dump(output, f, indent=2)
-    print(f"Done. Found {len(all_signals)} total signals.")
+    print(f"Scan complete. {len(all_signals)} signals saved.")
 
 if __name__ == "__main__":
     run_combined_scan()
