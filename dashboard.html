@@ -7,87 +7,46 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0e14;
-    --bg2: #0f1520;
-    --bg3: #141c2b;
-    --bg4: #192234;
-    --border: #1e2d45;
-    --text: #c8d8ef;
-    --text2: #7a9bbf;
-    --text3: #3d5a7a;
-    --green: #00e5a0;
-    --red: #ff4d6a;
-    --gold: #f5a623;
-    --blue: #007bff;
+    --bg: #0a0e14; --bg2: #0f1520; --bg3: #141c2b; --bg4: #192234;
+    --border: #1e2d45; --text: #c8d8ef; --text2: #7a9bbf;
+    --green: #00e5a0; --red: #ff4d6a; --gold: #f5a623; --blue: #007bff;
   }
-
-  * { box-sizing: border-box; }
-  body { 
-    background: var(--bg); color: var(--text); 
-    font-family: 'IBM Plex Sans', sans-serif; margin: 0; padding: 20px; 
-  }
-
-  .header { 
-    display: flex; justify-content: space-between; align-items: center; 
-    margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 15px;
-  }
+  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; margin: 0; padding: 20px; }
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
   
   .update-status {
     display: flex; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 13px;
     background: var(--bg2); padding: 8px 15px; border-radius: 20px; border: 1px solid var(--border);
   }
-
-  #status-dot {
-    height: 8px; width: 8px; border-radius: 50%; margin-right: 10px;
-    background-color: var(--text3);
-  }
-
-  .scanning-active #status-dot {
-    background-color: var(--blue);
-    box-shadow: 0 0 8px var(--blue);
-    animation: pulse 1.5s infinite;
-  }
-
+  #status-dot { height: 8px; width: 8px; border-radius: 50%; margin-right: 10px; background-color: #3d5a7a; }
+  
+  /* State Styles */
+  .state-scanning #status-dot { background-color: var(--blue); box-shadow: 0 0 8px var(--blue); animation: pulse 1.5s infinite; }
+  .state-waiting #status-dot { background-color: var(--gold); box-shadow: 0 0 8px var(--gold); animation: pulse 1s infinite; }
+  
   @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-
   #status-label { font-weight: 600; margin-right: 5px; }
   #last-updated { color: var(--text); }
 
   .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-  .tab { 
-    padding: 10px 20px; cursor: pointer; background: var(--bg2);
-    border: 1px solid var(--border); color: var(--text2); 
-    font-weight: 500; border-radius: 6px;
-  }
+  .tab { padding: 10px 20px; cursor: pointer; background: var(--bg2); border: 1px solid var(--border); color: var(--text2); border-radius: 6px; }
   .tab.active { background: var(--bg4); border-color: var(--text2); color: var(--text); }
 
   .table-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
   table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
-  th { background: var(--bg3); padding: 12px; color: var(--text2); font-weight: 500; border-bottom: 1px solid var(--border); }
+  th { background: var(--bg3); padding: 12px; color: var(--text2); border-bottom: 1px solid var(--border); }
   td { padding: 12px; border-bottom: 1px solid var(--border); }
-  
-  .bold { font-weight: 600; }
-  .text-green { color: var(--green); }
-  .text-gold { color: var(--gold); }
-
-  button#refresh-btn {
-    background: var(--bg4); border: 1px solid var(--border); color: var(--text);
-    padding: 5px 12px; border-radius: 4px; cursor: pointer; font-family: inherit; font-size: 12px;
-  }
-  button#refresh-btn:hover { background: var(--border); }
+  .bold { font-weight: 600; } .text-green { color: var(--green); } .text-gold { color: var(--gold); }
 </style>
 </head>
 <body>
 
 <div class="header">
   <h2 style="margin:0">Options Scanner</h2>
-  <div style="display: flex; gap: 15px; align-items: center;">
-    <button id="refresh-btn" onclick="fetchData()">Manual Refresh</button>
-    <div class="update-status" id="update-container">
-      <div id="status-dot"></div>
-      <span id="status-label">Last Update:</span>
-      <span id="last-updated">--</span>
-    </div>
+  <div class="update-status" id="update-container">
+    <div id="status-dot"></div>
+    <span id="status-label">Status:</span>
+    <span id="last-updated">Initializing...</span>
   </div>
 </div>
 
@@ -102,6 +61,9 @@
 <div id="panel-advanced" class="tab-panel" style="display:none"><div class="table-wrap"><table><thead><tr><th>Symbol</th><th>Exp</th><th>Prob. Touch</th><th>RSI</th><th>Qty</th><th>Score</th></tr></thead><tbody id="advanced-body"></tbody></table></div></div>
 
 <script>
+  let lastKnownTimestamp = null;
+  let isRetrying = false;
+
   function switchTab(tabId) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
@@ -112,40 +74,49 @@
   async function fetchData() {
     const container = document.getElementById('update-container');
     const statusLabel = document.getElementById('status-label');
-    const lastUpdatedElem = document.getElementById('last-updated');
-    
-    // 1. CLEAR THE UI IMMEDIATELY
-    container.classList.add('scanning-active');
-    statusLabel.innerText = "Updating...";
-    lastUpdatedElem.innerText = "Checking server..."; // Remove old timestamp so you don't see it
-    lastUpdatedElem.style.color = "var(--blue)";
+    const timeDisplay = document.getElementById('last-updated');
+
+    // 1. UI Feedback: Entering Scanning Phase
+    container.className = "update-status state-scanning";
+    statusLabel.innerText = "Scanning:";
+    if (!isRetrying) timeDisplay.innerText = "Fetching file...";
 
     try {
-      // 2. THE CACHE BUSTER (?t=...)
-      // This forces the browser to bypass any saved versions of the file.
       const response = await fetch(`signals.json?t=${new Date().getTime()}`);
-      
-      if (!response.ok) throw new Error('Network response was not ok');
-      
       const data = await response.json();
 
-      // 3. RENDER DATA
+      // 2. CHECK: Is this actually new data?
+      if (lastKnownTimestamp && data.last_updated === lastKnownTimestamp) {
+        // Data is the same as before. Server hasn't synced yet.
+        isRetrying = true;
+        container.className = "update-status state-waiting";
+        statusLabel.innerText = "Syncing:";
+        timeDisplay.innerText = "Waiting for GitHub to push new file...";
+        timeDisplay.style.color = "var(--gold)";
+        
+        // Try again in 5 seconds
+        setTimeout(fetchData, 5000);
+        return; 
+      }
+
+      // 3. SUCCESS: Data is newer!
+      isRetrying = false;
+      lastKnownTimestamp = data.last_updated;
+      
       renderTable('all-body', data.signals);
       renderTable('top10-body', data.top10);
       renderAdvanced(data.advanced);
 
-      // 4. RESTORE SUCCESS STATE
       statusLabel.innerText = "Updated:";
-      lastUpdatedElem.innerText = data.last_updated;
-      lastUpdatedElem.style.color = "var(--text)";
-      container.classList.remove('scanning-active');
+      timeDisplay.innerText = data.last_updated;
+      timeDisplay.style.color = "var(--text)";
+      container.className = "update-status";
 
     } catch (e) {
       console.error("Fetch failed", e);
       statusLabel.innerText = "Error:";
-      lastUpdatedElem.innerText = "Retry in 10s";
-      lastUpdatedElem.style.color = "var(--red)";
-      container.classList.remove('scanning-active');
+      timeDisplay.innerText = "Connection lost";
+      container.className = "update-status";
     }
   }
 
@@ -165,7 +136,7 @@
 
   function renderAdvanced(signals) {
     if (!signals) return;
-    document.getElementById('advanced-body').innerHTML = signals.map(s => `
+    document.getElementById('advanced-body').innerHTML = (signals || []).map(s => `
       <tr>
         <td class="bold">${s.symbol}</td>
         <td>${s.expiration}</td>
@@ -177,7 +148,7 @@
     `).join('');
   }
 
-  // Automatic Refresh every 30 seconds
+  // Poll every 30 seconds
   setInterval(fetchData, 30000);
   fetchData();
 </script>
