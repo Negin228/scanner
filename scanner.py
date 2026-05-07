@@ -1,17 +1,15 @@
 """
-Put Credit Spread Scanner — Clean Version
-- Scans options via Tradier API
-- Finds credit spreads
-- Includes basic + advanced scoring
-- Writes results to signals.json
+Put Credit Spread Scanner — Debug-Clean Version
+- Finds put credit spreads via Tradier
+- Tracks rejection bottlenecks
+- Outputs signals.json for dashboard use
 """
 
 import os
 import json
-import math
 import datetime
 import requests
-from datetime import timedelta, timezone
+from datetime import timedelta
 from zoneinfo import ZoneInfo
 
 # ─────────────────────────────────────────────
@@ -30,6 +28,7 @@ SESSION.headers.update({
 })
 
 SPREAD_WIDTH = 5
+
 MIN_DTE = 7
 MAX_DTE = 45
 
@@ -40,14 +39,26 @@ MIN_IV = 0.20
 
 OUTPUT_FILE = "signals.json"
 
-# Advanced filters
-ADV_MAX_DELTA = 0.10
-ADV_MIN_IVR = 30
-ADV_MAX_BA = 0.10
+# ─────────────────────────────────────────────
+# DEBUG TRACKING
+# ─────────────────────────────────────────────
+
+REJECT_REASONS = {
+    "no_puts": 0,
+    "no_long_leg": 0,
+    "low_oi": 0,
+    "low_vol": 0,
+    "low_iv": 0,
+    "low_credit": 0
+}
+
+def reject(reason):
+    if reason in REJECT_REASONS:
+        REJECT_REASONS[reason] += 1
 
 
 # ─────────────────────────────────────────────
-# HELPERS
+# API HELPERS
 # ─────────────────────────────────────────────
 
 def get(url, params=None):
@@ -59,13 +70,11 @@ def get(url, params=None):
         print("API error:", e)
         return {}
 
-
 def get_quote(symbol):
     data = get(f"{BASE_URL}/markets/quotes", {"symbols": symbol})
     q = data.get("quotes", {}).get("quote", {})
     price = q.get("last") or q.get("bid")
     return float(price) if price else None
-
 
 def get_expirations(symbol):
     data = get(f"{BASE_URL}/markets/options/expirations", {
@@ -74,7 +83,6 @@ def get_expirations(symbol):
     })
     exp = data.get("expirations", {}).get("date", [])
     return exp if isinstance(exp, list) else [exp]
-
 
 def get_chain(symbol, expiration):
     data = get(f"{BASE_URL}/markets/options/chains", {
@@ -104,43 +112,60 @@ def extract(option):
 
 
 # ─────────────────────────────────────────────
-# SPREAD LOGIC
+# SPREAD ENGINE
 # ─────────────────────────────────────────────
 
 def find_spreads(symbol, price, puts, exp):
-    strikes = {float(p["strike"]): p for p in puts if p.get("strike")}
+
+    strikes = {
+        float(p["strike"]): p
+        for p in puts if p.get("strike")
+    }
+
     results = []
 
     for short_strike, short in strikes.items():
 
+        # ── find long leg ──
         long_strike = short_strike - SPREAD_WIDTH
         long = strikes.get(long_strike)
 
         if not long:
+            reject("no_long_leg")
             continue
 
+        # ── liquidity filters ──
         oi = int(short.get("open_interest") or 0)
         vol = int(short.get("volume") or 0)
 
-        if oi < MIN_OI or vol < MIN_VOL:
+        if oi < MIN_OI:
+            reject("low_oi")
             continue
 
+        if vol < MIN_VOL:
+            reject("low_vol")
+            continue
+
+        # ── greeks ──
         delta, gamma, theta, iv = extract(short)
 
         if iv < MIN_IV:
+            reject("low_iv")
             continue
 
+        # ── pricing ──
         bid_s = float(short.get("bid") or 0)
         ask_s = float(short.get("ask") or 0)
         bid_l = float(long.get("bid") or 0)
         ask_l = float(long.get("ask") or 0)
 
-        credit = (bid_s - ask_l)
+        credit = bid_s - ask_l
+
         if credit < MIN_CREDIT:
+            reject("low_credit")
             continue
 
         dte = days_to_expiry(exp)
-
         credit_pct = (credit / SPREAD_WIDTH) * 100
 
         score = (
@@ -154,8 +179,8 @@ def find_spreads(symbol, price, puts, exp):
             "symbol": symbol,
             "expiration": exp,
             "dte": dte,
-            "short": short_strike,
-            "long": long_strike,
+            "short_strike": short_strike,
+            "long_strike": long_strike,
             "price": price,
             "credit": round(credit, 2),
             "credit_pct": round(credit_pct, 1),
@@ -171,21 +196,11 @@ def find_spreads(symbol, price, puts, exp):
 
 
 # ─────────────────────────────────────────────
-# ADVANCED FILTER
-# ─────────────────────────────────────────────
-
-def advanced_filter(signal):
-    return (
-        abs(signal["delta"]) <= ADV_MAX_DELTA
-        and signal["iv"] >= ADV_MIN_IVR
-    )
-
-
-# ─────────────────────────────────────────────
 # ENGINE
 # ─────────────────────────────────────────────
 
 def run_scan():
+
     tz = ZoneInfo("America/Los_Angeles")
     now = datetime.datetime.now(tz)
 
@@ -194,6 +209,7 @@ def run_scan():
     print(f"\nScan started: {now}")
 
     for symbol in SYMBOLS:
+
         price = get_quote(symbol)
         if not price:
             continue
@@ -201,35 +217,42 @@ def run_scan():
         exps = get_expirations(symbol)
 
         for exp in exps:
+
             dte = days_to_expiry(exp)
+
             if dte < MIN_DTE or dte > MAX_DTE:
                 continue
 
             puts = get_chain(symbol, exp)
-            spreads = find_spreads(symbol, price, puts, exp)
 
+            # ── FIXED DEBUG LOGIC ──
+            if not puts:
+                reject("no_puts")
+                continue
+
+            spreads = find_spreads(symbol, price, puts, exp)
             all_signals.extend(spreads)
 
         print(f"{symbol}: {price}")
 
-    # sort
+    # sort results
     all_signals.sort(key=lambda x: x["score"], reverse=True)
-
-    # advanced subset
-    advanced = [s for s in all_signals if advanced_filter(s)]
 
     output = {
         "timestamp": now.isoformat(),
         "total_signals": len(all_signals),
-        "advanced_signals": len(advanced),
-        "signals": all_signals[:200],
-        "top_advanced": advanced[:20]
+        "signals": all_signals[:200]
     }
 
     with open(OUTPUT_FILE, "w") as f:
         json.dump(output, f, indent=2)
 
-    print(f"\nDone → {len(all_signals)} signals | {len(advanced)} advanced")
+    print(f"\nDone → {len(all_signals)} signals")
+
+    # ── DEBUG OUTPUT ──
+    print("\n──────── REJECTION BREAKDOWN ────────")
+    for k, v in REJECT_REASONS.items():
+        print(f"{k:15}: {v}")
 
 
 # ─────────────────────────────────────────────
