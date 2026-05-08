@@ -154,18 +154,23 @@ async function fetchData() {
 // PROCESS DATA (UPDATED)
 // ─────────────────────────────
 function processData(data) {
-
   allSignals = data.signals || [];
   top10 = data.top10 || [];
   advSignals = data.advanced_signals || [];
-  newSignals = data.new_signals || [];   // ✅ IMPORTANT
+  newSignals = data.new_signals || [];
 
-  document.getElementById('badge-all').textContent = allSignals.length;
-  document.getElementById('badge-top10').textContent = top10.length;
-  document.getElementById('badge-advanced').textContent = advSignals.length;
-  document.getElementById('badge-new').textContent = newSignals.length;  // ✅ NEW
+  // Use a helper to update badges safely
+  const updateBadge = (id, count) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = count;
+  };
 
-  renderNew();   // ✅ NEW
+  updateBadge('badge-all', allSignals.length);
+  updateBadge('badge-top10', top10.length);
+  updateBadge('badge-advanced', advSignals.length);
+  updateBadge('badge-new', newSignals.length);
+
+  renderNew(); 
 }
 
 // ─────────────────────────────
