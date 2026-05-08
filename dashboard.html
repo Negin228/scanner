@@ -32,16 +32,15 @@ body {
   background: var(--bg2); 
   border-bottom: 1px solid var(--border); 
   padding: 15px;
-  font-weight: 600;
   font-family: var(--mono);
+  font-weight: 600;
 }
 
 .tab-bar { 
   background: var(--bg2); 
   border-bottom: 1px solid var(--border); 
-  display: flex;          /* Fixes vertical stacking */
-  align-items: center;    /* Centers tabs vertically */
-  flex-wrap: nowrap;
+  display: flex;          /* CRITICAL: Fixes the vertical stacking */
+  align-items: center;    /* Aligns tabs vertically in the center */
 }
 
 .tab {
@@ -50,12 +49,11 @@ body {
   color: var(--text3);
   font-family: var(--mono);
   border-bottom: 2px solid transparent;
-  transition: all 0.2s;
 }
 
 .tab:hover {
-  color: var(--text2);
   background: var(--bg3);
+  color: var(--text2);
 }
 
 .tab.active { 
@@ -72,30 +70,30 @@ body {
   color: var(--text2);
   background: var(--bg3);
   padding: 2px 6px;
-  border-radius: 10px;
+  border-radius: 4px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
 }
 
 th {
   text-align: left;
-  padding: 10px;
+  padding: 12px 8px;
   border-bottom: 1px solid var(--border);
   color: var(--text2);
 }
 
 td {
-  padding: 10px;
+  padding: 10px 8px;
   border-bottom: 1px solid var(--border);
 }
 
-tr:hover {
-  background: var(--bg2);
-}
+tr:hover { background: var(--bg2); }
+
 </style>
 </head>
 
@@ -126,14 +124,29 @@ tr:hover {
 <div class="tab-panel active" id="panel-all">
   <div class="main">
     <h3 style="color:var(--green); font-family:var(--mono);">All Signals</h3>
-    <p>All active scan results based on standard criteria.</p>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Expiry</th>
+          <th>DTE</th>
+          <th>Strikes</th>
+          <th>Delta</th>
+          <th>Credit</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody id="all-body">
+        <tr><td colspan="7">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <div class="tab-panel" id="panel-new">
   <div class="main">
     <h3 style="color:var(--cyan); font-family:var(--mono);">New Signals (|Δ| ≤ 0.15)</h3>
-    <table style="font-family:var(--mono); font-size:12px;">
+    <table>
       <thead>
         <tr>
           <th>Symbol</th>
@@ -154,15 +167,15 @@ tr:hover {
 
 <div class="tab-panel" id="panel-top10">
   <div class="main">
-    <h3 style="color:var(--gold); font-family:var(--mono);">Top 10</h3>
-    <p>Filtered for high liquidity and safety.</p>
+    <h3 style="color:var(--gold); font-family:var(--mono);">Top 10 High Liquidity</h3>
+    <p>Filtered for fast $0.01 decay exit strategy.</p>
   </div>
 </div>
 
 <div class="tab-panel" id="panel-advanced">
   <div class="main">
-    <h3 style="color:var(--purple); font-family:var(--mono);">Advanced</h3>
-    <p>Risk-adjusted signals using Kelly Criterion and Trend Analysis.</p>
+    <h3 style="color:var(--purple); font-family:var(--mono);">Advanced (Kelly Sizing)</h3>
+    <p>Trend-aligned signals with risk management.</p>
   </div>
 </div>
 
@@ -176,13 +189,8 @@ function switchTab(tab) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
 
-  const targetPanel = document.getElementById('panel-' + tab);
-  const targetTab = document.getElementById('tab-' + tab);
-  
-  if (targetPanel && targetTab) {
-    targetPanel.classList.add('active');
-    targetTab.classList.add('active');
-  }
+  document.getElementById('panel-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
 }
 
 async function fetchData() {
@@ -190,8 +198,8 @@ async function fetchData() {
     const res = await fetch('signalskelly.json?t=' + Date.now());
     const data = await res.json();
     processData(data);
-  } catch (e) {
-    console.error("Error fetching data:", e);
+  } catch (err) {
+    console.error("Fetch error:", err);
   }
 }
 
@@ -201,33 +209,35 @@ function processData(data) {
   advSignals = data.advanced_signals || [];
   newSignals = data.new_signals || [];
 
-  const update = (id, count) => {
+  // Safely update badges
+  const updateBadge = (id, count) => {
     const el = document.getElementById(id);
     if (el) el.textContent = count;
   };
 
-  update('badge-all', allSignals.length);
-  update('badge-top10', top10.length);
-  update('badge-advanced', advSignals.length);
-  update('badge-new', newSignals.length);
+  updateBadge('badge-all', allSignals.length);
+  updateBadge('badge-top10', top10.length);
+  updateBadge('badge-advanced', advSignals.length);
+  updateBadge('badge-new', newSignals.length);
 
-  renderNew();
+  renderTable('all-body', allSignals);
+  renderTable('new-body', newSignals);
 }
 
-function renderNew() {
-  const tbody = document.getElementById('new-body');
+function renderTable(elementId, signals) {
+  const tbody = document.getElementById(elementId);
   if (!tbody) return;
 
-  if (!newSignals.length) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;">No new signals</td></tr>`;
+  if (!signals.length) {
+    tbody.innerHTML = `<tr><td colspan="7">No signals found</td></tr>`;
     return;
   }
 
-  tbody.innerHTML = newSignals.map(s => `
+  tbody.innerHTML = signals.map(s => `
     <tr>
       <td style="color:var(--cyan)">${s.symbol}</td>
       <td>${s.expiration}</td>
-      <td>${s.dte}</td>
+      <td>${s.dte}d</td>
       <td>$${s.short_strike} / $${s.long_strike}</td>
       <td style="color:var(--blue)">${s.delta?.toFixed(3) ?? '—'}</td>
       <td style="color:var(--green)">$${s.net_credit.toFixed(2)}</td>
@@ -236,9 +246,9 @@ function renderNew() {
   `).join('');
 }
 
-// Start
+// Initialization
 fetchData();
-setInterval(fetchData, 30000);
+setInterval(fetchData, 30000); // Refresh every 30 seconds
 </script>
 
 </body>
