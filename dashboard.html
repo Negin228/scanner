@@ -28,7 +28,9 @@
     --cyan: #00cfff;
     --gold: #ffd166;
     --gold-bg: rgba(255,209,102,0.08);
-    --mono: 'IBM Plex Mono', monospace;
+    --purple: #b48eff;
+    --purple-bg: rgba(180,142,255,0.08);
+    --purple-dim: #8b5cf6;
     --sans: 'IBM Plex Sans', sans-serif;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -218,7 +220,33 @@
   .cfg-label { font-size:10px; color:var(--text3); font-family:var(--mono); letter-spacing:0.1em; text-transform:uppercase; }
   .cfg-val { font-family:var(--mono); font-size:12px; color:var(--cyan); }
 
-  .section-hdr { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:12px; }
+  .tab.adv-tab.active { color:var(--purple); border-bottom-color:var(--purple); }
+  .tab.adv-tab.active .tab-badge { background:var(--purple-bg); border-color:var(--purple-dim); color:var(--purple); }
+
+  /* ── Advanced meta bar ── */
+  .adv-meta-bar {
+    display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+    margin-bottom:14px; padding:10px 14px;
+    background:var(--bg2); border:1px solid var(--purple-dim);
+    border-radius:5px; font-family:var(--mono); font-size:11px;
+  }
+  .adv-meta-item { display:flex; flex-direction:column; gap:1px; }
+  .adv-meta-label { font-size:10px; color:var(--text3); letter-spacing:0.1em; text-transform:uppercase; }
+  .adv-meta-val { color:var(--purple); font-size:12px; font-weight:500; }
+  .regime-pill {
+    padding:2px 10px; border-radius:3px; font-size:11px; font-family:var(--mono);
+    border:1px solid var(--purple-dim); background:var(--purple-bg); color:var(--purple);
+  }
+  .regime-bull    { border-color:var(--green-dim); background:var(--green-bg); color:var(--green); }
+  .regime-bear    { border-color:var(--red); background:var(--red-bg); color:var(--red); }
+  .regime-crisis  { border-color:var(--red); background:var(--red-bg); color:var(--red); }
+  .regime-neutral { border-color:var(--amber); background:var(--amber-bg); color:var(--amber); }
+  .regime-high_volatility { border-color:var(--amber); background:var(--amber-bg); color:var(--amber); }
+  .ror-v { color:var(--purple); font-weight:500; }
+  .ivr-v { color:var(--cyan); }
+  .pt-v  { color:var(--amber); }
+
+
   .section-title { font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text3); letter-spacing:0.15em; text-transform:uppercase; }
   .sig-badge { font-family:var(--mono); font-size:11px; color:var(--green); background:var(--green-bg); border:1px solid var(--green-dim); padding:2px 8px; border-radius:3px; display:none; }
 </style>
@@ -251,6 +279,9 @@
   </div>
   <div class="tab top10-tab" id="tab-top10" onclick="switchTab('top10')">
     ⭐ Top 10 <span class="tab-badge" id="badge-top10">0</span>
+  </div>
+  <div class="tab adv-tab" id="tab-advanced" onclick="switchTab('advanced')">
+    ⚡ Advanced <span class="tab-badge" id="badge-advanced">0</span>
   </div>
 </div>
 
@@ -295,7 +326,7 @@
           </tr>
         </thead>
         <tbody id="signals-body">
-          <tr class="no-row"><td colspan="18">Loading data from signals.json…</td></tr>
+          <tr class="no-row"><td colspan="18">Loading data from signalskelly.json…</td></tr>
         </tbody>
       </table>
     </div>
@@ -329,10 +360,66 @@
   </div>
 </div>
 
+<div class="tab-panel" id="panel-advanced">
+  <div class="main">
+    <div class="section-hdr" style="margin-bottom:10px;">
+      <div class="section-title">Advanced Signals</div>
+      <div class="sig-badge" id="adv-badge"></div>
+    </div>
+    <!-- Regime / VIX summary bar -->
+    <div class="adv-meta-bar" id="adv-meta-bar" style="display:none;"></div>
+    <!-- Filters + Sort toolbar -->
+    <div class="toolbar">
+      <span class="filter-label">Filter:</span>
+      <button class="fbtn active" onclick="advSetFilter('ALL',this)">All</button>
+      <span id="adv-sym-filters"></span>
+      <span style="margin-left:8px;" class="filter-label">Sort:</span>
+      <button class="fbtn active" id="adv-sb-score"          onclick="advSetSort('score',this)">Score</button>
+      <button class="fbtn"        id="adv-sb-return_on_risk" onclick="advSetSort('return_on_risk',this)">RoR</button>
+      <button class="fbtn"        id="adv-sb-net_credit"     onclick="advSetSort('net_credit',this)">Credit</button>
+      <button class="fbtn"        id="adv-sb-dte"            onclick="advSetSort('dte',this)">DTE</button>
+      <button class="fbtn"        id="adv-sb-iv_rank"        onclick="advSetSort('iv_rank',this)">IVR</button>
+      <button class="fbtn"        id="adv-sb-probability_touch" onclick="advSetSort('probability_touch',this)">P-Touch</button>
+    </div>
+    <div class="table-wrap">
+      <table id="adv-table">
+        <thead>
+          <tr>
+            <th onclick="advSetSort('symbol',this)">Symbol</th>
+            <th onclick="advSetSort('expiration',this)">Expiry</th>
+            <th onclick="advSetSort('dte',this)">DTE</th>
+            <th>Short / Long</th>
+            <th onclick="advSetSort('current_price',this)">Price</th>
+            <th onclick="advSetSort('expected_move',this)">Exp Move</th>
+            <th onclick="advSetSort('net_credit',this)">Net Credit</th>
+            <th onclick="advSetSort('return_on_risk',this)">RoR%</th>
+            <th onclick="advSetSort('iv',this)">IV%</th>
+            <th onclick="advSetSort('iv_rank',this)">IVR</th>
+            <th onclick="advSetSort('delta',this)">Delta</th>
+            <th onclick="advSetSort('theta',this)">Theta</th>
+            <th onclick="advSetSort('probability_touch',this)">P-Touch%</th>
+            <th onclick="advSetSort('rsi',this)">RSI</th>
+            <th onclick="advSetSort('open_interest',this)">OI</th>
+            <th onclick="advSetSort('volume',this)">Vol</th>
+            <th onclick="advSetSort('short_ba',this)">B/A</th>
+            <th onclick="advSetSort('qty',this)">Kelly Qty</th>
+            <th onclick="advSetSort('total_credit',this)">Total Credit</th>
+            <th onclick="advSetSort('score',this)">Score</th>
+          </tr>
+        </thead>
+        <tbody id="adv-body">
+          <tr class="no-row"><td colspan="20">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <script>
-  let allSignals = [], top10 = [];
+  let allSignals = [], top10 = [], advSignals = [];
   let activeFilter = 'ALL', activeSort = 'score', sortDir = -1;
-  let maxScore = 1;
+  let advFilter = 'ALL', advSort = 'score', advSortDir = -1;
+  let maxScore = 1, advMaxScore = 1;
   let countdownVal = 300, countdownTimer = null;
 
   function switchTab(tab) {
@@ -342,17 +429,34 @@
     document.getElementById('tab-' + tab).classList.add('active');
   }
 
-  // ── Reads signals.json from the same folder (works on GitHub Pages or local server) ──
+  let lastUpdatedStamp = null;
+  let isScanRunning = false;
+
+  function setRefreshBtn(scanning) {
+    const btn = document.querySelector('.btn');
+    if (!btn) return;
+    btn.disabled = scanning;
+    btn.textContent = scanning ? '⏳ Running…' : '↺ Refresh';
+    btn.style.opacity = scanning ? '0.5' : '';
+    btn.style.cursor  = scanning ? 'not-allowed' : '';
+  }
+
+  function setScanningStatus(msg) {
+    document.getElementById('dot').className = 'dot stale';
+    document.getElementById('status-text').textContent =
+      msg + (lastUpdatedStamp ? ' · Last: ' + lastUpdatedStamp : '');
+  }
+
+  // ── Reads signalskelly.json from the same folder (works on GitHub Pages or local server) ──
   async function fetchData() {
-    const statusText = document.getElementById('status-text');
+    if (!isScanRunning) setScanningStatus('Fetching…');
     try {
-      statusText.textContent = "Fetching signals…";
-      const res = await fetch('signals.json?t=' + Date.now());
+      const res = await fetch('signalskelly.json?t=' + Date.now());
       if (res.ok) {
         const data = await res.json();
         processData(data);
       } else {
-        setStatus('stale', 'signals.json not found');
+        setStatus('stale', 'signalskelly.json not found');
       }
     } catch (e) {
       setStatus('error', 'Load error: ' + e.message);
@@ -361,7 +465,7 @@
 
   // ── Triggers the GitHub Action, then polls for updated data ──
   async function triggerScan() {
-    const statusText = document.getElementById('status-text');
+    if (isScanRunning) return;
 
     let token = localStorage.getItem('gh_token');
     if (!token) {
@@ -371,7 +475,10 @@
     if (!token) return;
 
     try {
-      statusText.textContent = "Triggering scan…";
+      isScanRunning = true;
+      setRefreshBtn(true);
+      setScanningStatus('Triggering scan…');
+
       const res = await fetch('https://api.github.com/repos/negin228/scanner/dispatches', {
         method: 'POST',
         headers: {
@@ -385,22 +492,32 @@
       if (res.status === 401) {
         localStorage.removeItem('gh_token');
         alert("Invalid token — please try again.");
+        isScanRunning = false;
+        setRefreshBtn(false);
         return;
       }
 
       if (res.ok) {
-        statusText.textContent = "Scan triggered! Polling for new data…";
         let attempts = 0;
         const poll = setInterval(async () => {
           attempts++;
+          setScanningStatus('Scanning… (' + attempts + '/9)');
           await fetchData();
           if (attempts >= 9) {
             clearInterval(poll);
-            statusText.textContent = "Polling complete.";
+            isScanRunning = false;
+            setRefreshBtn(false);
+            setStatus('live', 'Updated ' + lastUpdatedStamp);
           }
         }, 10000);
+      } else {
+        isScanRunning = false;
+        setRefreshBtn(false);
+        setStatus('error', 'Trigger failed: ' + res.status);
       }
     } catch (e) {
+      isScanRunning = false;
+      setRefreshBtn(false);
       setStatus('error', 'Trigger error: ' + e.message);
     }
   }
@@ -408,17 +525,22 @@
   function processData(data) {
     allSignals = data.signals || [];
     top10 = data.top10 || [];
+    advSignals = data.advanced_signals || [];
+    advMaxScore = Math.max(...advSignals.map(s => s.score), 1);
     maxScore = Math.max(...allSignals.map(s => s.score), 1);
-    setStatus(data.error ? 'error' : 'live', 'Updated ' + (data.last_updated || '—'));
+    lastUpdatedStamp = data.last_updated || '—';
+    if (!isScanRunning) setStatus(data.error ? 'error' : 'live', 'Updated ' + lastUpdatedStamp);
     countdownVal = data.next_scan_secs || 300;
     startCountdown();
     renderTickers(data.tickers || {});
     renderSymFilters(allSignals);
     renderSignals();
     renderTop10();
+    renderAdvanced(data);
     if (data.config) { renderConfig(data.config); renderTop10Config(data.config); }
     document.getElementById('badge-all').textContent = allSignals.length;
     document.getElementById('badge-top10').textContent = top10.length;
+    document.getElementById('badge-advanced').textContent = advSignals.length;
   }
 
   function setStatus(state, msg) {
@@ -571,6 +693,92 @@
     bar.style.display = 'flex';
     bar.innerHTML = [['Min OI',cfg.top10_min_oi],['Min Vol',cfg.top10_min_vol],['Credit%',cfg.top10_min_credit_pct+'%'],['Max Delta',cfg.top10_max_delta]].map(([l,v])=>`<div class="cfg-item"><span class="cfg-label">${l}</span><span class="cfg-val" style="color:var(--gold)">${v}</span></div>`).join('');
     document.getElementById('top10-intro').innerHTML = [['Liquidity','OI ≥ '+cfg.top10_min_oi+', Vol ≥ '+cfg.top10_min_vol,'Fast exit'],['Premium','≥ '+cfg.top10_min_credit_pct+'% width','Good return'],['Delta','≤ '+cfg.top10_max_delta,'Safer OTM']].map(([t,v,s])=>`<div class="intro-card"><div class="cfg-label">${t}</div><div class="intro-val">${v}</div><div class="intro-sub">${s}</div></div>`).join('');
+  }
+
+  function renderAdvanced(data) {
+    // Meta bar
+    const metaBar = document.getElementById('adv-meta-bar');
+    if (data.advanced_vix != null) {
+      const regime = data.advanced_regime || 'unknown';
+      metaBar.style.display = 'flex';
+      metaBar.innerHTML = `
+        <div class="adv-meta-item"><div class="adv-meta-label">VIX</div><div class="adv-meta-val">${data.advanced_vix.toFixed(2)}</div></div>
+        <div class="adv-meta-item"><div class="adv-meta-label">Regime</div><div><span class="regime-pill regime-${regime}">${regime.replace('_',' ').toUpperCase()}</span></div></div>
+        <div class="adv-meta-item"><div class="adv-meta-label">Signals</div><div class="adv-meta-val">${advSignals.length}</div></div>
+        <div class="adv-meta-item"><div class="adv-meta-label">Trend Filter</div><div class="adv-meta-val">MA20 > MA50 · RSI 40–75</div></div>
+        <div class="adv-meta-item"><div class="adv-meta-label">Kelly Sizing</div><div class="adv-meta-val">25% fraction · $100k account</div></div>
+      `;
+    }
+    // Sym filters
+    const syms = [...new Set(advSignals.map(s => s.symbol))].sort();
+    document.getElementById('adv-sym-filters').innerHTML = syms.map(sym =>
+      `<button class="fbtn ${advFilter===sym?'active':''}" onclick="advSetFilter('${sym}',this)">${sym}</button>`
+    ).join('');
+    renderAdvSignals();
+  }
+
+  function advSetFilter(sym, btn) {
+    advFilter = sym;
+    document.querySelectorAll('#adv-sym-filters .fbtn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderAdvSignals();
+  }
+
+  function advSetSort(field, btn) {
+    if (advSort === field) { advSortDir *= -1; }
+    else { advSort = field; advSortDir = -1; }
+    document.querySelectorAll('#adv-table thead th').forEach(el => el.classList.remove('sorted'));
+    if (btn) btn.classList.add('sorted');
+    const toolbarBtn = document.getElementById('adv-sb-' + field);
+    if (toolbarBtn) { document.querySelectorAll('#panel-advanced .fbtn').forEach(b=>b.classList.remove('active')); toolbarBtn.classList.add('active'); }
+    renderAdvSignals();
+  }
+
+  function renderAdvSignals() {
+    let sigs = advFilter === 'ALL' ? [...advSignals] : advSignals.filter(s => s.symbol === advFilter);
+    sigs.sort((a, b) => {
+      let vA = a[advSort], vB = b[advSort];
+      if (vA == null) return 1; if (vB == null) return -1;
+      if (typeof vA === 'string') return advSortDir === -1 ? vB.localeCompare(vA) : vA.localeCompare(vB);
+      const factor = advSort === 'dte' ? -advSortDir : advSortDir;
+      return (vA - vB) * factor;
+    });
+
+    const badge = document.getElementById('adv-badge');
+    badge.style.display = sigs.length ? 'inline-block' : 'none';
+    badge.textContent = `${sigs.length} signal${sigs.length !== 1 ? 's' : ''}`;
+
+    if (!sigs.length) {
+      document.getElementById('adv-body').innerHTML = '<tr class="no-row"><td colspan="20">No advanced signals found</td></tr>';
+      return;
+    }
+
+    document.getElementById('adv-body').innerHTML = sigs.map((s, i) => {
+      const pct = Math.min((s.score / advMaxScore) * 100, 100).toFixed(0);
+      const regimeCls = s.market_regime ? `regime-${s.market_regime}` : '';
+      return `<tr>
+        <td><span class="sym">${s.symbol}</span></td>
+        <td><span class="exp">${s.expiration}</span></td>
+        <td><span class="dte-b ${s.dte <= 21 ? 'sweet' : ''}">${s.dte}d</span></td>
+        <td>$${s.short_strike} / $${s.long_strike}</td>
+        <td>$${s.current_price.toFixed(2)}</td>
+        <td class="text-muted">±$${s.expected_move != null ? s.expected_move.toFixed(2) : '—'}</td>
+        <td class="credit-v">$${s.net_credit.toFixed(2)}</td>
+        <td class="ror-v">${(s.return_on_risk * 100).toFixed(1)}%</td>
+        <td class="iv-v">${s.iv != null ? s.iv.toFixed(1) : '—'}%</td>
+        <td class="ivr-v">${s.iv_rank != null ? s.iv_rank.toFixed(0) : '—'}</td>
+        <td class="delta-v">${s.delta != null ? s.delta.toFixed(3) : '—'}</td>
+        <td class="theta-v">${s.theta != null ? s.theta.toFixed(3) : '—'}</td>
+        <td class="pt-v">${s.probability_touch != null ? s.probability_touch.toFixed(1) + '%' : '—'}</td>
+        <td>${s.rsi != null ? s.rsi.toFixed(1) : '—'}</td>
+        <td>${s.open_interest != null ? s.open_interest.toLocaleString() : '—'}</td>
+        <td>${s.volume != null ? s.volume.toLocaleString() : '—'}</td>
+        <td>${s.short_ba != null ? '$' + s.short_ba.toFixed(3) : '—'}</td>
+        <td style="color:var(--text2)">${s.qty}</td>
+        <td class="total-c">$${s.total_credit != null ? s.total_credit.toFixed(0) : '—'}</td>
+        <td><div class="score-bar"><span class="score-n">${s.score.toFixed(1)}</span><div class="score-t"><div class="score-f" style="width:${pct}%;background:var(--purple)"></div></div></div></td>
+      </tr>`;
+    }).join('');
   }
 
   // Auto-refresh data every 30s (reads file only, no action trigger)
