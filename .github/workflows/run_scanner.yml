@@ -2,6 +2,9 @@ name: Manual Scanner Update
 on:
   repository_dispatch:
     types: [manual_refresh]
+  
+  workflow_dispatch:
+
 
 jobs:
   run-scanner:
