@@ -4,251 +4,233 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Put Credit Spread Scanner</title>
-
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
 <style>
-:root {
-  --bg:#0a0e14; --bg2:#0f1520; --bg3:#141c2b;
-  --border:#1e2d45; --text:#c8d8ef;
-  --text2:#7a9bbf; --text3:#3d5a7a;
-  --green:#00e5a0; --cyan:#00cfff;
-  --gold:#ffd166;
-  --blue:#4d9fff;
-  --purple:#b48eff;
-  --mono:'IBM Plex Mono', monospace;
-  --sans:'IBM Plex Sans', sans-serif;
-}
+  :root {
+    --bg: #0a0e14;
+    --bg2: #0f1520;
+    --bg3: #141c2b;
+    --border: #1e2d45;
+    --border2: #243650;
+    --text: #c8d8ef;
+    --text2: #7a9bbf;
+    --text3: #3d5a7a;
+    --green: #00e5a0;
+    --green-dim: #00b87d;
+    --green-bg: rgba(0,229,160,0.07);
+    --amber: #f5a623;
+    --red: #ff4d6a;
+    --blue: #4d9fff;
+    --cyan: #00cfff;
+    --cyan-bg: rgba(0,207,255,0.08);
+    --gold: #ffd166;
+    --gold-bg: rgba(255,209,102,0.08);
+    --purple: #b48eff;
+    --purple-bg: rgba(180,142,255,0.08);
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
 
-body { 
-  background: var(--bg); 
-  color: var(--text); 
-  font-family: var(--sans); 
-  font-size: 13px; 
-  margin: 0;
-}
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:var(--sans); font-size:13px; min-height:100vh; }
 
-.header { 
-  background: var(--bg2); 
-  border-bottom: 1px solid var(--border); 
-  padding: 15px;
-  font-family: var(--mono);
-  font-weight: 600;
-}
+  /* ── Header ── */
+  .header {
+    background:var(--bg2); border-bottom:1px solid var(--border);
+    padding:14px 24px; display:flex; align-items:center; justify-content:space-between;
+    position:sticky; top:0; z-index:100;
+  }
+  .logo { font-family:var(--mono); font-size:11px; font-weight:600; color:var(--green); letter-spacing:0.12em; border:1px solid var(--green-dim); padding:4px 10px; border-radius:3px; }
+  .status-text { font-family:var(--mono); font-size:11px; color:var(--text2); }
 
-.tab-bar { 
-  background: var(--bg2); 
-  border-bottom: 1px solid var(--border); 
-  display: flex;          /* CRITICAL: Fixes the vertical stacking */
-  align-items: center;    /* Aligns tabs vertically in the center */
-}
+  /* ── Ticker Bar ── */
+  .ticker-bar { background:var(--bg2); border-bottom:1px solid var(--border); padding:12px 24px; display:flex; gap:8px; overflow-x: auto; }
+  .tc { background:var(--bg3); border:1px solid var(--border); border-radius:4px; padding:7px 12px; min-width:105px; }
+  .tc-sym { font-family:var(--mono); font-size:12px; font-weight:600; color:var(--cyan); }
 
-.tab {
-  padding: 12px 18px;
-  cursor: pointer;
-  color: var(--text3);
-  font-family: var(--mono);
-  border-bottom: 2px solid transparent;
-}
+  /* ── Tab bar ── */
+  .tab-bar { 
+    display:flex; 
+    align-items:center; 
+    border-bottom:1px solid var(--border); 
+    padding:0 24px; 
+    background:var(--bg2); 
+    overflow-x: auto;
+  }
+  .tab {
+    font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
+    padding:16px 20px; cursor:pointer; color:var(--text3); border-bottom:2px solid transparent;
+    transition:all 0.15s; display:flex; align-items:center; gap:7px; white-space: nowrap;
+  }
+  .tab:hover { color:var(--text2); }
+  .tab.active { color:var(--text); border-bottom-color:var(--green); }
+  .tab.active[id="tab-new"] { border-bottom-color:var(--cyan); color:var(--cyan); }
+  
+  .tab-badge {
+    font-size:10px; padding:1px 6px; border-radius:3px;
+    background:var(--bg3); border:1px solid var(--border2); color:var(--text3);
+  }
+  .tab.active .tab-badge { background:var(--green-bg); border-color:var(--green-dim); color:var(--green); }
+  .tab.active[id="tab-new"] .tab-badge { background:var(--cyan-bg); border-color:var(--cyan); color:var(--cyan); }
 
-.tab:hover {
-  background: var(--bg3);
-  color: var(--text2);
-}
+  /* ── Main ── */
+  .main { padding:24px; }
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
 
-.tab.active { 
-  color: var(--text); 
-  border-bottom: 2px solid var(--green); 
-}
-
-.tab-panel { display: none; padding: 20px; }
-.tab-panel.active { display: block; }
-
-.tab-badge {
-  margin-left: 6px;
-  font-size: 10px;
-  color: var(--text2);
-  background: var(--bg3);
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--mono);
-  font-size: 12px;
-}
-
-th {
-  text-align: left;
-  padding: 12px 8px;
-  border-bottom: 1px solid var(--border);
-  color: var(--text2);
-}
-
-td {
-  padding: 10px 8px;
-  border-bottom: 1px solid var(--border);
-}
-
-tr:hover { background: var(--bg2); }
-
+  /* ── Table Styling ── */
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; font-family: var(--mono); }
+  th { text-align: left; padding: 12px 10px; color: var(--text3); border-bottom: 1px solid var(--border); font-size: 11px; text-transform: uppercase; }
+  td { padding: 14px 10px; border-bottom: 1px solid var(--border); font-size: 12px; }
+  tr:hover { background: var(--bg2); }
+  .sym-col { color: var(--cyan); font-weight: 600; }
+  .pos { color: var(--green); }
+  .neg { color: var(--red); }
 </style>
 </head>
 
 <body>
 
 <div class="header">
-  Put Credit Spread Scanner
+  <div class="header-left">
+    <div class="logo">PUT·SCAN</div>
+    <div class="title">Put Credit Spread Scanner</div>
+  </div>
+  <div class="header-right">
+    <span class="status-text" id="last-update">Syncing...</span>
+  </div>
 </div>
+
+<div class="ticker-bar" id="ticker-bar">
+  </div>
 
 <div class="tab-bar">
   <div class="tab active" id="tab-all" onclick="switchTab('all')">
-    All <span class="tab-badge" id="badge-all">0</span>
+    All Signals <span class="tab-badge" id="badge-all">0</span>
   </div>
-
   <div class="tab" id="tab-top10" onclick="switchTab('top10')">
     Top 10 <span class="tab-badge" id="badge-top10">0</span>
   </div>
-
   <div class="tab" id="tab-advanced" onclick="switchTab('advanced')">
     Advanced <span class="tab-badge" id="badge-advanced">0</span>
   </div>
-
   <div class="tab" id="tab-new" onclick="switchTab('new')">
-    New <span class="tab-badge" id="badge-new">0</span>
+    New (Δ ≤ 0.15) <span class="tab-badge" id="badge-new">0</span>
   </div>
 </div>
 
-<div class="tab-panel active" id="panel-all">
-  <div class="main">
-    <h3 style="color:var(--green); font-family:var(--mono);">All Signals</h3>
+<div class="main">
+  <div class="tab-panel active" id="panel-all">
     <table>
       <thead>
-        <tr>
-          <th>Symbol</th>
-          <th>Expiry</th>
-          <th>DTE</th>
-          <th>Strikes</th>
-          <th>Delta</th>
-          <th>Credit</th>
-          <th>Score</th>
-        </tr>
+        <tr><th>Symbol</th><th>Expiry</th><th>DTE</th><th>Strikes</th><th>Delta</th><th>Credit</th><th>Score</th></tr>
       </thead>
-      <tbody id="all-body">
-        <tr><td colspan="7">Loading...</td></tr>
-      </tbody>
+      <tbody id="all-body"></tbody>
     </table>
   </div>
-</div>
 
-<div class="tab-panel" id="panel-new">
-  <div class="main">
-    <h3 style="color:var(--cyan); font-family:var(--mono);">New Signals (|Δ| ≤ 0.15)</h3>
+  <div class="tab-panel" id="panel-top10">
+    <h3 style="color:var(--gold); margin-bottom:15px; font-family:var(--mono);">Top 10 High Liquidity</h3>
     <table>
       <thead>
-        <tr>
-          <th>Symbol</th>
-          <th>Expiry</th>
-          <th>DTE</th>
-          <th>Strikes</th>
-          <th>Delta</th>
-          <th>Credit</th>
-          <th>Score</th>
-        </tr>
+        <tr><th>Symbol</th><th>Expiry</th><th>DTE</th><th>Strikes</th><th>Delta</th><th>Credit</th><th>Score</th></tr>
       </thead>
-      <tbody id="new-body">
-        <tr><td colspan="7">Loading...</td></tr>
-      </tbody>
+      <tbody id="top10-body"></tbody>
     </table>
   </div>
-</div>
 
-<div class="tab-panel" id="panel-top10">
-  <div class="main">
-    <h3 style="color:var(--gold); font-family:var(--mono);">Top 10 High Liquidity</h3>
-    <p>Filtered for fast $0.01 decay exit strategy.</p>
+  <div class="tab-panel" id="panel-advanced">
+    <h3 style="color:var(--purple); margin-bottom:15px; font-family:var(--mono);">Advanced Kelly Sizing</h3>
+    <tbody id="advanced-body">
+        <p style="color:var(--text3)">Check JSON for Advanced signals...</p>
+    </tbody>
   </div>
-</div>
 
-<div class="tab-panel" id="panel-advanced">
-  <div class="main">
-    <h3 style="color:var(--purple); font-family:var(--mono);">Advanced (Kelly Sizing)</h3>
-    <p>Trend-aligned signals with risk management.</p>
+  <div class="tab-panel" id="panel-new">
+    <h3 style="color:var(--cyan); margin-bottom:15px; font-family:var(--mono);">New Signals (Delta Filter)</h3>
+    <table>
+      <thead>
+        <tr><th>Symbol</th><th>Expiry</th><th>DTE</th><th>Strikes</th><th>Delta</th><th>Credit</th><th>Score</th></tr>
+      </thead>
+      <tbody id="new-body"></tbody>
+    </table>
   </div>
 </div>
 
 <script>
-let allSignals = [];
-let top10 = [];
-let advSignals = [];
-let newSignals = [];
+let signalsData = {};
 
-function switchTab(tab) {
+function switchTab(tabId) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-
-  document.getElementById('panel-' + tab).classList.add('active');
-  document.getElementById('tab-' + tab).classList.add('active');
+  
+  document.getElementById('panel-' + tabId).classList.add('active');
+  document.getElementById('tab-' + tabId).classList.add('active');
 }
 
 async function fetchData() {
   try {
-    const res = await fetch('signalskelly.json?t=' + Date.now());
-    const data = await res.json();
-    processData(data);
+    const response = await fetch('signalskelly.json?t=' + Date.now());
+    const data = await response.json();
+    signalsData = data;
+    renderDashboard();
   } catch (err) {
-    console.error("Fetch error:", err);
+    console.error("Error loading JSON:", err);
   }
 }
 
-function processData(data) {
-  allSignals = data.signals || [];
-  top10 = data.top10 || [];
-  advSignals = data.advanced_signals || [];
-  newSignals = data.new_signals || [];
+function renderDashboard() {
+  // Update Last Updated
+  document.getElementById('last-update').textContent = 'Last Updated: ' + (signalsData.last_updated || 'Unknown');
 
-  // Safely update badges
-  const updateBadge = (id, count) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = count;
-  };
+  // Update Badges
+  document.getElementById('badge-all').textContent = (signalsData.signals || []).length;
+  document.getElementById('badge-top10').textContent = (signalsData.top10 || []).length;
+  document.getElementById('badge-advanced').textContent = (signalsData.advanced_signals || []).length;
+  document.getElementById('badge-new').textContent = (signalsData.new_signals || []).length;
 
-  updateBadge('badge-all', allSignals.length);
-  updateBadge('badge-top10', top10.length);
-  updateBadge('badge-advanced', advSignals.length);
-  updateBadge('badge-new', newSignals.length);
+  // Render Tables
+  renderTable('all-body', signalsData.signals || []);
+  renderTable('top10-body', signalsData.top10 || []);
+  renderTable('new-body', signalsData.new_signals || []);
 
-  renderTable('all-body', allSignals);
-  renderTable('new-body', newSignals);
+  // Render Ticker Bar
+  const tBar = document.getElementById('ticker-bar');
+  tBar.innerHTML = '';
+  for (const [sym, info] of Object.entries(signalsData.tickers || {})) {
+    const div = document.createElement('div');
+    div.className = 'tc';
+    div.innerHTML = `<div class="tc-sym">${sym}</div><div class="tc-price">$${info.price || '—'}</div>`;
+    tBar.appendChild(div);
+  }
 }
 
-function renderTable(elementId, signals) {
-  const tbody = document.getElementById(elementId);
-  if (!tbody) return;
+function renderTable(containerId, signals) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
 
-  if (!signals.length) {
-    tbody.innerHTML = `<tr><td colspan="7">No signals found</td></tr>`;
+  if (signals.length === 0) {
+    container.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--text3); padding:40px;">No signals found</td></tr>';
     return;
   }
 
-  tbody.innerHTML = signals.map(s => `
+  container.innerHTML = signals.map(s => `
     <tr>
-      <td style="color:var(--cyan)">${s.symbol}</td>
+      <td class="sym-col">${s.symbol}</td>
       <td>${s.expiration}</td>
       <td>${s.dte}d</td>
       <td>$${s.short_strike} / $${s.long_strike}</td>
-      <td style="color:var(--blue)">${s.delta?.toFixed(3) ?? '—'}</td>
-      <td style="color:var(--green)">$${s.net_credit.toFixed(2)}</td>
-      <td>${s.score.toFixed(1)}</td>
+      <td style="color:var(--blue)">${s.delta ? s.delta.toFixed(3) : '—'}</td>
+      <td class="pos">$${s.net_credit.toFixed(2)}</td>
+      <td style="font-weight:bold">${s.score.toFixed(1)}</td>
     </tr>
   `).join('');
 }
 
-// Initialization
+// Initial Fetch
 fetchData();
-setInterval(fetchData, 30000); // Refresh every 30 seconds
+// Poll every 30 seconds
+setInterval(fetchData, 30000);
 </script>
 
 </body>
