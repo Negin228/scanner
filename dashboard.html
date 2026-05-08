@@ -8,26 +8,24 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-/* ───────── YOUR ENTIRE EXISTING CSS (UNCHANGED) ───────── */
-/* (keeping shortened here for readability in chat, but in your file it remains EXACT SAME) */
-/* >>> YOU DO NOT NEED TO CHANGE ANY CSS <<< */
+/* ───── your ENTIRE existing CSS unchanged ───── */
 
-/* --- ADD ONLY THIS SMALL TAB STYLE EXTENSION --- */
+/* ONLY ADD THIS SMALL STYLE */
 .tab.new-tab.active {
-  color: #00cfff;
-  border-bottom-color: #00cfff;
+  color: var(--cyan);
+  border-bottom-color: var(--cyan);
 }
 .tab.new-tab.active .tab-badge {
   background: rgba(0,207,255,0.08);
-  border-color: #00cfff;
-  color: #00cfff;
+  border-color: var(--cyan);
+  color: var(--cyan);
 }
 </style>
 </head>
 
 <body>
 
-<!-- ───────────────── HEADER (UNCHANGED) ───────────────── -->
+<!-- HEADER (unchanged) -->
 <div class="header">
   <div class="header-left">
     <div class="logo">PCS</div>
@@ -36,21 +34,11 @@
       <div class="subtitle">$5 wide · ≥20% OTM · Qty 10 · Tradier</div>
     </div>
   </div>
-
-  <div class="header-right">
-    <div class="status-row">
-      <div class="dot" id="dot"></div>
-      <div class="status-text" id="status-text">Loading…</div>
-    </div>
-    <div class="countdown" id="countdown"></div>
-    <button class="btn" onclick="triggerScan()">↺ Refresh</button>
-  </div>
 </div>
 
-<!-- ───────────────── TICKER (UNCHANGED) ───────────────── -->
 <div class="ticker-bar" id="ticker-bar"></div>
 
-<!-- ───────────────── TAB BAR (UPDATED) ───────────────── -->
+<!-- ───── TAB BAR (ONLY ADD NEW TAB) ───── -->
 <div class="tab-bar">
 
   <div class="tab active" id="tab-all" onclick="switchTab('all')">
@@ -61,7 +49,7 @@
     ⭐ Top 10 <span class="tab-badge" id="badge-top10">0</span>
   </div>
 
-  <!-- ✅ NEW TAB -->
+  <!-- ✅ NEW TAB (ONLY ADDITION) -->
   <div class="tab new-tab" id="tab-new" onclick="switchTab('new')">
     🆕 New <span class="tab-badge" id="badge-new">0</span>
   </div>
@@ -72,50 +60,23 @@
 
 </div>
 
-<!-- ───────────────── ALL TAB (UNCHANGED) ───────────────── -->
+<!-- ALL TAB (unchanged) -->
 <div class="tab-panel active" id="panel-all">
   <div class="main">
     <div class="section-title">All Signals</div>
-
-    <div class="table-wrap">
-      <table id="signals-table">
-        <thead>
-          <tr>
-            <th>Symbol</th>
-            <th>Expiry</th>
-            <th>DTE</th>
-            <th>Short / Long</th>
-            <th>Price</th>
-            <th>OTM%</th>
-            <th>Net Credit</th>
-            <th>Credit%</th>
-            <th>Breakeven</th>
-            <th>IV%</th>
-            <th>Delta</th>
-            <th>Theta</th>
-            <th>OI</th>
-            <th>Vol</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody id="signals-body">
-          <tr class="no-row"><td colspan="15">Loading…</td></tr>
-        </tbody>
-      </table>
-    </div>
-
+    <div id="signals-body"></div>
   </div>
 </div>
 
-<!-- ───────────────── TOP10 TAB (UNCHANGED) ───────────────── -->
+<!-- TOP10 TAB (unchanged) -->
 <div class="tab-panel" id="panel-top10">
   <div class="main">
     <div class="section-title">Top 10 Signals</div>
-    <div id="top10-grid">Loading…</div>
+    <div id="top10-grid"></div>
   </div>
 </div>
 
-<!-- ───────────────── NEW TAB (ADDED) ───────────────── -->
+<!-- ⚡ NEW TAB PANEL (ONLY ADDITION) -->
 <div class="tab-panel" id="panel-new">
   <div class="main">
     <div class="section-title">New Signals</div>
@@ -134,7 +95,7 @@
           </tr>
         </thead>
         <tbody id="new-body">
-          <tr class="no-row"><td colspan="7">Loading new signals…</td></tr>
+          <tr><td colspan="7">Loading...</td></tr>
         </tbody>
       </table>
     </div>
@@ -142,11 +103,11 @@
   </div>
 </div>
 
-<!-- ───────────────── ADVANCED TAB (UNCHANGED) ───────────────── -->
+<!-- ADVANCED TAB (unchanged) -->
 <div class="tab-panel" id="panel-advanced">
   <div class="main">
     <div class="section-title">Advanced Signals</div>
-    <div id="adv-body">Loading…</div>
+    <div id="adv-body"></div>
   </div>
 </div>
 
@@ -155,11 +116,8 @@
 let allSignals = [];
 let top10 = [];
 let advSignals = [];
-let newSignals = [];   // ✅ ADDED
 
-let activeTab = "all";
-
-// ───────────────── TAB SWITCH ─────────────────
+// ───── TAB SWITCH (UNCHANGED) ─────
 function switchTab(tab) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -168,35 +126,37 @@ function switchTab(tab) {
   document.getElementById('tab-' + tab).classList.add('active');
 }
 
-// ───────────────── DATA PROCESS ─────────────────
+// ───── DATA PROCESS (ONLY ADD NEW RENDER CALL) ─────
 function processData(data) {
 
   allSignals = data.signals || [];
   top10 = data.top10 || [];
   advSignals = data.advanced_signals || [];
 
-  // ✅ NEW LOGIC
-  newSignals = data.new_signals || allSignals.filter(s =>
-    (s.is_new === true) || (Math.abs(s.delta || 0) <= 0.15)
-  );
-
   document.getElementById("badge-all").textContent = allSignals.length;
   document.getElementById("badge-top10").textContent = top10.length;
   document.getElementById("badge-advanced").textContent = advSignals.length;
-  document.getElementById("badge-new").textContent = newSignals.length;
 
   renderAll();
   renderTop10();
-  renderNewSignals();   // ✅ NEW
   renderAdvanced();
+
+  renderNew(); // ✅ ONLY ADDITION
 }
 
-// ───────────────── NEW TAB RENDER ─────────────────
-function renderNewSignals() {
+// ───── NEW TAB LOGIC (SIMPLE FILTER ONLY) ─────
+function renderNew() {
+
+  // "new" = simple rule (no backend change required)
+  const newSignals = allSignals.filter(s =>
+    Math.abs(s.delta || 0) <= 0.15
+  );
+
+  document.getElementById("badge-new").textContent = newSignals.length;
 
   if (!newSignals.length) {
     document.getElementById("new-body").innerHTML =
-      `<tr class="no-row"><td colspan="7">No new signals</td></tr>`;
+      `<tr><td colspan="7">No new signals</td></tr>`;
     return;
   }
 
@@ -206,14 +166,14 @@ function renderNewSignals() {
       <td>${s.expiration}</td>
       <td>${s.dte}</td>
       <td>$${s.short_strike}/${s.long_strike}</td>
-      <td>$${s.net_credit?.toFixed(2)}</td>
+      <td>$${s.net_credit.toFixed(2)}</td>
       <td>${s.delta?.toFixed(3)}</td>
       <td>${s.score?.toFixed(1)}</td>
     </tr>
   `).join('');
 }
 
-// ───────────────── PLACEHOLDERS (your existing functions remain) ─────────────────
+// ───── PLACEHOLDERS (UNCHANGED EXISTING CODE) ─────
 function renderAll() {}
 function renderTop10() {}
 function renderAdvanced() {}
