@@ -329,20 +329,10 @@
             <th onclick="setSort('symbol', this)">Symbol</th>
             <th onclick="setSort('expiration', this)">Expiry</th>
             <th onclick="setSort('dte', this)">DTE</th>
-            <th>Short / Long</th>
-            <th onclick="setSort('current_price', this)">Price</th>
-            <th onclick="setSort('otm_pct', this)">OTM%</th>
-            <th onclick="setSort('net_credit', this)">Net Credit</th>
-            <th onclick="setSort('credit_pct', this)">Credit%</th>
-            <th onclick="setSort('breakeven', this)">Breakeven</th>
-            <th onclick="setSort('iv_pct', this)">IV%</th>
+            <th onclick="setSort('strike', this)">Strike</th>
+            <th onclick="setSort('credit', this)">Credit</th>
             <th onclick="setSort('delta', this)">Delta</th>
-            <th onclick="setSort('theta', this)">Theta</th>
-            <th onclick="setSort('short_ba', this)">B/A Spread</th>
-            <th onclick="setSort('short_oi', this)">Short OI</th>
-            <th onclick="setSort('short_vol', this)">Short Vol</th>
-            <th onclick="setSort('total_credit', this)">Total Credit</th>
-            <th onclick="setSort('total_risk', this)">Max Risk</th>
+            <th onclick="setSort('iv', this)">IV%</th>
             <th onclick="setSort('score', this)">Score</th>
           </tr>
         </thead>
@@ -600,9 +590,15 @@
 
   function processData(data) {
     allSignals  = data.signals          || [];
-    top10       = data.top10            || [];
     advSignals  = data.advanced_signals || [];
     newSignals  = data.new_signals      || [];
+
+    // Scanner doesn't produce top10 — build it in the browser from signals[]
+    // Top 10: best score, delta ≤ 0.10, credit ≥ $0.40
+    top10 = [...allSignals]
+      .filter(s => s.delta != null && Math.abs(s.delta) <= 0.10 && s.credit >= 0.40)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10);
 
     advMaxScore = Math.max(...advSignals.map(s => s.score), 1);
     maxScore    = Math.max(...allSignals.map(s => s.score),  1);
@@ -612,7 +608,9 @@
     if (!isScanRunning) setStatus(data.error ? 'error' : 'live', 'Updated ' + lastUpdatedStamp);
     countdownVal = data.next_scan_secs || 300;
     startCountdown();
-    renderTickers(data.tickers || {});
+
+    // Build ticker bar from signals[] since scanner doesn't provide tickers{}
+    renderTickersFromSignals(allSignals);
     renderSymFilters(allSignals);
     renderSignals();
     renderTop10();
@@ -641,17 +639,23 @@
     }, 1000);
   }
 
-  function renderTickers(tickers) {
+  function renderTickersFromSignals(signals) {
     const syms = ['NVDA','AMZN','MSFT','META','GOOG','NFLX','PLTR','TSLA'];
+    // Count signals per symbol
+    const sigCount = {};
+    signals.forEach(s => { sigCount[s.symbol] = (sigCount[s.symbol] || 0) + 1; });
+    // Best credit per symbol (proxy for "top" signal)
+    const bestCredit = {};
+    signals.forEach(s => { if (!bestCredit[s.symbol] || s.credit > bestCredit[s.symbol]) bestCredit[s.symbol] = s.credit; });
+
     document.getElementById('ticker-bar').innerHTML = syms.map(sym => {
-      const t = tickers[sym];
-      if (!t) return `<div class="tc"><div class="tc-sym">${sym}</div><div>···</div></div>`;
-      const hasTop10 = t.top10_count > 0;
-      const hasSig = t.signal_count > 0;
-      return `<div class="tc ${hasTop10?'has-top10':hasSig?'has-signal':''}">
+      const count = sigCount[sym] || 0;
+      const best  = bestCredit[sym];
+      const hasSig = count > 0;
+      return `<div class="tc ${hasSig ? 'has-signal' : ''}">
         <div class="tc-sym">${sym}</div>
-        <div class="tc-price">$${t.price.toFixed(2)}</div>
-        <div class="tc-count ${hasTop10?'top':hasSig?'active':''}">${hasTop10?'★ '+t.top10_count:hasSig?t.signal_count+' sigs':'no sigs'}</div>
+        <div class="tc-price">${best ? '$' + best.toFixed(2) + ' cr' : '—'}</div>
+        <div class="tc-count ${hasSig ? 'active' : ''}">${hasSig ? count + ' sig' + (count > 1 ? 's' : '') : 'no sigs'}</div>
       </div>`;
     }).join('');
   }
@@ -921,7 +925,7 @@
 
     document.getElementById('new-body').innerHTML = sigs.map((s, i) => {
       const pct = Math.min((s.score / newMaxScore) * 100, 100).toFixed(0);
-      const ivDisplay = s.iv != null ? s.iv.toFixed(1) : '—';
+      const ivDisplay = s.iv != null ? (s.iv * 100).toFixed(1) : (s.iv_pct != null ? s.iv_pct.toFixed(1) : '—');
       return `<tr class="${i === 0 && newFilter === 'ALL' ? 'top-row' : ''}">
         <td><span class="sym">${s.symbol}</span></td>
         <td><span class="exp">${s.expiration || '—'}</span></td>
