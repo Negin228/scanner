@@ -25,9 +25,12 @@ MAX_DTE            = 45
 MIN_PROB_PROFIT    = 85.0  # Statistical floor
 SLIPPAGE_ADJUST    = 0.02  # 2% haircut on mid-price
 
-# Liquidity Floors
-MIN_OI             = 500
-MIN_VOL            = 100
+# Liquidity Guards (Crucial for real fills)
+MIN_BID_PRICE      = 0.10  # Ignore anything paying less than $10 per contract
+MAX_BID_ASK_RATIO  = 2.5   # Ignore if Ask is more than 2.5x the Bid (Illiquid)
+MIN_OI             = 200
+
+OUTPUT_FILE = "signal.json"
 
 HEADERS = {
     "Authorization": f"Bearer {TRADIER_API_KEY}",
@@ -39,22 +42,15 @@ HEADERS = {
 # ─────────────────────────────────────────────
 
 def calculate_institutional_metrics(short_delta, net_credit, max_loss, price, spy_price, ticker_beta=1.2):
-    """
-    Computes EV, PoP, and Beta-Weighted Delta for the workstation.
-    """
-    # 1. Expected Value & Probability
     p_loss = abs(short_delta)
     p_win = 1.0 - p_loss
     ev = (p_win * net_credit) - (p_loss * max_loss)
     pop = p_win * 100
 
-    # 2. Position Sizing (Risking 2% of $100k)
     dollar_risk_cap = ACCOUNT_SIZE * MAX_RISK_PER_TRADE
     risk_per_spread = max_loss * 100
     recommended_qty = math.floor(dollar_risk_cap / risk_per_spread) if risk_per_spread > 0 else 0
 
-    # 3. Beta-Weighted Delta (Normalized to SPY)
-    # Tells us: "This position is equivalent to being long X shares of SPY"
     pos_delta = short_delta * recommended_qty * 100
     weighted_delta = pos_delta * (price / spy_price) * ticker_beta
 
@@ -67,7 +63,6 @@ def calculate_institutional_metrics(short_delta, net_credit, max_loss, price, sp
     }
 
 def get_correlation(hist1, hist2):
-    """Pearson Correlation Coefficient for Cluster Risk Analysis."""
     if len(hist1) < 10 or len(hist2) < 10: return 0.0
     n = min(len(hist1), len(hist2))
     h1, h2 = hist1[-n:], hist2[-n:]
@@ -104,28 +99,30 @@ def get_historical_closes(symbol):
 def run_workstation_scan():
     print(f"\n[SYSTEM] Initializing $100k Institutional Scan...")
     
-    # 1. Establish Benchmark
     spy_data = fetch_data("markets/quotes", {"symbols": BENCHMARK, "greeks": "true"})
+    if not spy_data or "quotes" not in spy_data:
+        print("Fatal: Could not fetch SPY data.")
+        return
+        
     spy_price = float(spy_data["quotes"]["quote"]["last"])
     spy_hist = get_historical_closes(BENCHMARK)
     
     all_signals = []
     
     for symbol in SYMBOLS:
-        print(f"  > Analyzing {symbol}...", end="\r")
+        print(f"  > Scanning {symbol}...", end="\r")
         
-        # Fetch Underlying & History
         quote_data = fetch_data("markets/quotes", {"symbols": symbol, "greeks": "true"})
-        if not quote_data: continue
+        if not quote_data or not quote_data.get("quotes"): continue
         quote = quote_data["quotes"]["quote"]
         price = float(quote["last"])
         hist = get_historical_closes(symbol)
         correlation = get_correlation(hist, spy_hist)
 
-        # Fetch Expirations
         exp_data = fetch_data("markets/options/expirations", {"symbol": symbol})
         if not exp_data: continue
         dates = exp_data.get("expirations", {}).get("date", [])
+        if isinstance(dates, str): dates = [dates]
         
         valid_dates = [d for d in dates if MIN_DTE <= (datetime.datetime.strptime(d, "%Y-%m-%d").date() - datetime.date.today()).days <= MAX_DTE]
 
@@ -134,7 +131,6 @@ def run_workstation_scan():
             options = chain.get("options", {}).get("option", []) if chain else []
             if isinstance(options, dict): options = [options]
 
-            # Filter for Puts
             puts = [o for o in options if o["option_type"] == "put"]
             by_strike = {float(o["strike"]): o for o in puts}
 
@@ -142,20 +138,28 @@ def run_workstation_scan():
                 long_opt = by_strike.get(strike - SPREAD_WIDTH)
                 if not long_opt: continue
 
-                # Basic Institutional Filters
-                short_oi = int(short_opt.get("open_interest", 0))
-                if short_oi < MIN_OI: continue
-
-                # Calculate Mid-Price and apply Slippage Haircut
-                mid_credit = ((float(short_opt["bid"]) + float(short_opt["ask"]))/2) - \
-                             ((float(long_opt["bid"]) + float(long_opt["ask"]))/2)
+                # --- INSTITUTIONAL LIQUIDITY GUARD ---
+                s_bid = float(short_opt.get("bid", 0))
+                s_ask = float(short_opt.get("ask", 0))
                 
+                # Check 1: Must have a real buyer (No $0.00 bids)
+                if s_bid < MIN_BID_PRICE: continue
+                
+                # Check 2: Bid/Ask spread must be tight enough to execute
+                if s_bid > 0 and (s_ask / s_bid) > MAX_BID_ASK_RATIO: continue
+                
+                # Check 3: Open Interest check
+                if int(short_opt.get("open_interest", 0)) < MIN_OI: continue
+
+                # Mid-price calculation with Slippage Haircut
+                l_bid, l_ask = float(long_opt.get("bid", 0)), float(long_opt.get("ask", 0))
+                mid_credit = ((s_bid + s_ask)/2) - ((l_bid + l_ask)/2)
                 net_credit = mid_credit * (1 - SLIPPAGE_ADJUST)
                 max_loss = SPREAD_WIDTH - net_credit
                 
-                if net_credit <= 0.10: continue
+                if net_credit <= 0.05: continue
 
-                # Greeks & Risk Analytics
+                # Risk Analytics
                 delta = float(short_opt.get("greeks", {}).get("delta", 0))
                 metrics = calculate_institutional_metrics(delta, net_credit, max_loss, price, spy_price)
 
@@ -178,22 +182,19 @@ def run_workstation_scan():
                     "total_risk": round(metrics["qty"] * max_loss * 100, 2)
                 })
 
-    # Sort by Edge Ratio (Most mathematical bang for your buck)
     all_signals.sort(key=lambda x: x["edge_ratio"], reverse=True)
 
-    # Final Output Generation
     report = {
         "scan_time": datetime.datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
         "account_basis": ACCOUNT_SIZE,
         "benchmark_spy": spy_price,
-        "top_signals": all_signals[:15]
+        "top_signals": all_signals[:20]
     }
 
-    with open("signals.json", "w") as f:
+    with open(OUTPUT_FILE, "w") as f:
         json.dump(report, f, indent=4)
 
-    print(f"\n[SUCCESS] Scan complete. Found {len(all_signals)} high-EV institutional signals.")
-    print(f"Results written to signals.json")
+    print(f"\n[SUCCESS] Scan complete. {len(all_signals)} valid signals written to {OUTPUT_FILE}")
 
 if __name__ == "__main__":
     run_workstation_scan()
