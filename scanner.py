@@ -1,4 +1,4 @@
-#adv_kelly but shows 1
+#adv_kelly but shows 1 and adv signals is less restrict
 
 
 """
