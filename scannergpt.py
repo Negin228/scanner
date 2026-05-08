@@ -369,11 +369,6 @@ def adv_find_spreads(symbol, price, puts, expiration, regime, trend_data):
     dte = days_to_expiry(expiration)   # reuse existing helper
 
     for strike, short_put in by_strike.items():
-        max_short = price * (1 - MIN_DISCOUNT_PCT)
-
-        if strike > max_short:
-          continue
-  
         long_put = by_strike.get(strike - SPREAD_WIDTH)
         if long_put is None:
             continue
