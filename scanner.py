@@ -1,4 +1,3 @@
-#adv_kelly but shows 1 and adv signals is less restrict
 
 
 """
@@ -25,6 +24,9 @@ TRADIER_API_KEY = os.getenv("TRADIER_API_KEY")
 
 SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "PLTR", "TSLA", "SPY", "TQQQ", "SQQQ", "AMD", "ORCL"]
 #SYMBOLS = ["GOOGL", "SPY", "TQQQ", "SQQQ", "SOXL", "GOOG", "AMZN", "AAPL", "MSFT", "META", "NVDA", "TSLA", "AVGO", "ASML", "TSM", "ORCL", "CRM", "ADBE", "NFLX", "INTU", "AMD", "QCOM", "TXN", "AMAT", "LRCX", "MU", "PANW", "SNPS", "BRK-B", "JPM", "V", "MA", "BAC", "WFC", "MS", "GS", "BLK", "AXP", "UNH", "JNJ", "LLY", "ABBV", "MRK", "PFE", "TMO", "DHR", "ABT", "ISRG", "XOM", "CVX", "COP", "PG", "KO", "PEP", "COST", "WMT", "HD", "MCD", "NKE", "SBUX", "LOW", "LIN", "HON", "UPS", "CAT", "GE", "RTX", "BA", "NEE", "DUK", "SO", "PLD", "AMT", "TMUS", "VZ", "UBER", "SHOP", "MELI", "PDD", "IBKR", "KKR", "BX", "APO", "CMCSA", "DIS", "DELL", "PLTR", "CRWD", "ARM", "MRVL"]
+
+# ── New tab criteria ─────────────────────────
+NEW_MAX_DELTA = 0.15
 
 SPREAD_WIDTH       = 5
 MIN_DISCOUNT_PCT   = 0.20
@@ -237,6 +239,131 @@ def find_spreads(symbol, price, puts, expiration):
     signals.sort(key=lambda x: x["score"], reverse=True)
     return signals
 
+# ─────────────────────────────────────────────
+# NEW TAB SCANNER
+# Uses delta instead of MIN_DISCOUNT_PCT
+# ─────────────────────────────────────────────
+
+def find_new_spreads(symbol, price, puts, expiration):
+
+    by_strike = {
+        float(p["strike"]): p
+        for p in puts
+        if p.get("strike") is not None
+    }
+
+    signals = []
+
+    for strike, short in by_strike.items():
+
+        # ── NEW FILTER ───────────────────────
+        delta, gamma, theta, iv = extract_greeks(short)
+
+        if delta is None:
+            continue
+
+        if abs(delta) > NEW_MAX_DELTA:
+            continue
+
+        # ─────────────────────────────────────
+
+        long = by_strike.get(strike - SPREAD_WIDTH)
+
+        if long is None:
+            continue
+
+        short_oi  = int(short.get("open_interest") or 0)
+        short_vol = int(short.get("volume") or 0)
+        long_oi   = int(long.get("open_interest") or 0)
+        long_vol  = int(long.get("volume") or 0)
+
+        if short_oi < MIN_OPEN_INTEREST or long_oi < MIN_OPEN_INTEREST:
+            continue
+
+        if short_vol < MIN_VOLUME or long_vol < MIN_VOLUME:
+            continue
+
+        if iv is None:
+            iv = short.get("implied_volatility")
+
+        iv = float(iv) if iv is not None else 0.0
+
+        if iv < MIN_IV:
+            continue
+
+        short_bid = float(short.get("bid") or 0)
+        short_ask = float(short.get("ask") or 0)
+
+        long_bid = float(long.get("bid") or 0)
+        long_ask = float(long.get("ask") or 0)
+
+        net_credit = short_bid - long_ask
+
+        if net_credit < MIN_NET_CREDIT:
+            continue
+
+        short_ba_spread = short_ask - short_bid
+
+        max_loss   = SPREAD_WIDTH - net_credit
+        dte        = days_to_expiry(expiration)
+        credit_pct = (net_credit / SPREAD_WIDTH) * 100
+
+        score = (
+            credit_pct * 2
+            + iv * 100 * 0.5
+            + min(short_oi / 1000, 5)
+            + min(short_vol / 500, 3)
+            + (NEW_MAX_DELTA - abs(delta)) * 100
+        )
+
+        signals.append({
+            "symbol":         symbol,
+            "expiration":     expiration,
+            "dte":            dte,
+            "short_strike":   strike,
+            "long_strike":    strike - SPREAD_WIDTH,
+            "current_price":  round(price, 2),
+
+            "otm_pct": round((1 - strike / price) * 100, 1),
+
+            "short_bid": round(short_bid, 2),
+            "short_ask": round(short_ask, 2),
+
+            "long_bid": round(long_bid, 2),
+            "long_ask": round(long_ask, 2),
+
+            "short_ba": round(short_ba_spread, 3),
+
+            "net_credit": round(net_credit, 2),
+            "max_loss": round(max_loss, 2),
+
+            "credit_pct": round(credit_pct, 1),
+
+            "breakeven": round(strike - net_credit, 2),
+
+            "iv_pct": round(iv * 100, 1),
+
+            "delta": round(delta, 4) if delta is not None else None,
+            "gamma": round(gamma, 4) if gamma is not None else None,
+            "theta": round(theta, 4) if theta is not None else None,
+
+            "short_oi": short_oi,
+            "short_vol": short_vol,
+
+            "long_oi": long_oi,
+            "long_vol": long_vol,
+
+            "qty": QUANTITY,
+
+            "total_credit": round(net_credit * QUANTITY * 100, 0),
+            "total_risk": round(max_loss * QUANTITY * 100, 0),
+
+            "score": round(score, 2),
+        })
+
+    signals.sort(key=lambda x: x["score"], reverse=True)
+
+    return signals
 
 # ─────────────────────────────────────────────
 # ADVANCED SCANNER — CONFIG + HELPERS
@@ -497,6 +624,8 @@ def run_advanced_scan():
             if puts:
                 adv_signals.extend(adv_find_spreads(symbol, price, puts, exp, regime, trend_data))
 
+                
+
     adv_signals.sort(key=lambda x: x["score"], reverse=True)
     print(f"  [ADV] {len(adv_signals)} advanced signal(s) found.")
     return adv_signals, round(vix, 2), regime
@@ -518,6 +647,7 @@ def run_scan():
     print(f"\n[{now_pt.strftime('%H:%M:%S')}] Starting scan (PT)... shadow")
     ticker_data = {}
     all_signals = []
+    new_signals = []
 
     for symbol in SYMBOLS:
         print(f"  Scanning {symbol}...", end=" ", flush=True)
@@ -536,6 +666,7 @@ def run_scan():
             puts = get_puts(symbol, exp)
             if puts:
                 sym_signals.extend(find_spreads(symbol, price, puts, exp))
+                new_signals.extend(find_new_spreads(symbol, price, puts, exp))
 
         sym_signals.sort(key=lambda x: x["score"], reverse=True)
         all_signals.extend(sym_signals)
@@ -550,6 +681,7 @@ def run_scan():
         print(f"${price:.2f}  →  {len(sym_signals)} signal(s)  ({top10_count} top10-eligible)")
 
     all_signals.sort(key=lambda x: x["score"], reverse=True)
+    new_signals.sort(key=lambda x: x["score"], reverse=True)
 
     top10 = sorted(
         [s for s in all_signals if s["top10_eligible"]],
@@ -558,6 +690,7 @@ def run_scan():
     )[:10]
 
     output = {
+        "new_signals": new_signals,
         "last_updated":   timestamp_str,
         "next_scan_secs": SCAN_INTERVAL_SECS,
         "tickers":        ticker_data,
