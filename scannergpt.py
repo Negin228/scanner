@@ -1,5 +1,5 @@
 #adv_kelly but shows 1
-https://github.com/Negin228/scanner/security
+
 
 """
 Put Credit Spread Scanner — Background Service
