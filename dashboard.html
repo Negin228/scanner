@@ -324,6 +324,7 @@
     </div>
     <div class="table-wrap">
       <table id="signals-table">
+      <table id="signals-table">
         <thead>
           <tr>
             <th onclick="setSort('symbol', this)">Symbol</th>
@@ -337,8 +338,7 @@
           </tr>
         </thead>
         <tbody id="signals-body">
-          <tr class="no-row"><td colspan="18">Loading data from signals.json…</td></tr>
-        </tbody>
+          </tbody>
       </table>
     </div>
     <div class="config-bar" id="config-bar" style="display:none;"></div>
@@ -700,35 +700,22 @@
     badge.textContent = `${sigs.length} signal${sigs.length!==1?'s':''}`;
 
     if (!sigs.length) {
-      document.getElementById('signals-body').innerHTML = '<tr class="no-row"><td colspan="18">No signals found</td></tr>';
+      document.getElementById('signals-body').innerHTML = '<tr class="no-row"><td colspan="8">No signals found</td></tr>';
       return;
     }
 
     document.getElementById('signals-body').innerHTML = sigs.map((s,i) => {
-      const isTop = i===0 && activeFilter==='ALL';
       const pct = Math.min((s.score/maxScore)*100,100).toFixed(0);
-      return `<tr class="${isTop?'top-row':''}">
+      return `<tr>
         <td><span class="sym">${s.symbol}</span></td>
         <td><span class="exp">${s.expiration}</span></td>
         <td><span class="dte-b ${s.dte<=30?'sweet':''}">${s.dte}d</span></td>
-        <td>$${s.short_strike} / $${s.long_strike}</td>
-        <td>$${s.current_price.toFixed(2)}</td>
-        <td class="otm-v">${s.otm_pct}%</td>
-        <td class="credit-v">$${s.net_credit.toFixed(2)}</td>
-        <td class="credit-p">${s.credit_pct.toFixed(1)}%</td>
-        <td class="beven">$${s.breakeven.toFixed(2)}</td>
-        <td class="iv-v">${s.iv_pct.toFixed(1)}%</td>
+        <td>$${s.strike}</td>
+        <td class="credit-v">$${s.credit.toFixed(2)}</td>
         <td class="delta-v">${s.delta ? s.delta.toFixed(3) : '—'}</td>
-        <td class="theta-v">${s.theta ? s.theta.toFixed(3) : '—'}</td>
-        <td>${s.short_ba ? '$'+s.short_ba.toFixed(3) : '—'}</td>
-        <td>${s.short_oi.toLocaleString()}</td>
-        <td>${s.short_vol.toLocaleString()}</td>
-        <td class="total-c">$${s.total_credit.toLocaleString()}</td>
-        <td class="total-r">$${s.total_risk.toLocaleString()}</td>
+        <td class="iv-v">${(s.iv * 100).toFixed(1)}%</td>
         <td><div class="score-bar"><span class="score-n">${s.score.toFixed(1)}</span><div class="score-t"><div class="score-f" style="width:${pct}%"></div></div></div></td>
-      </tr>`;
-    }).join('');
-  }
+      </tr>`;}).join('');}
 
   function renderTop10() {
     if (!top10.length) {
