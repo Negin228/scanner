@@ -1,933 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Put Credit Spread Scanner</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0a0e14;
-    --bg2: #0f1520;
-    --bg3: #141c2b;
-    --bg4: #192234;
-    --border: #1e2d45;
-    --border2: #243650;
-    --text: #c8d8ef;
-    --text2: #7a9bbf;
-    --text3: #3d5a7a;
-    --green: #00e5a0;
-    --green-dim: #00b87d;
-    --green-bg: rgba(0,229,160,0.07);
-    --amber: #f5a623;
-    --amber-bg: rgba(245,166,35,0.08);
-    --red: #ff4d6a;
-    --red-bg: rgba(255,77,106,0.08);
-    --blue: #4d9fff;
-    --blue-bg: rgba(77,159,255,0.08);
-    --cyan: #00cfff;
-    --gold: #ffd166;
-    --gold-bg: rgba(255,209,102,0.08);
-    --purple: #b48eff;
-    --purple-bg: rgba(180,142,255,0.08);
-    --purple-dim: #8b5cf6;
-    --teal: #00e5d4;
-    --teal-dim: #00b8a9;
-    --teal-bg: rgba(0,229,212,0.07);
-    --sans: 'IBM Plex Sans', sans-serif;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:var(--sans); font-size:13px; min-height:100vh; padding-bottom:60px; }
+    <meta charset="UTF-8">
+    <title>Institutional Risk Terminal</title>
+    <style>
+        :root {
+            --bg: #0b0e11;
+            --text: #e0e0e0;
+            --accent: #f0b90b;
+            --green: #02c076;
+            --red: #cf304a;
+            --row-hover: #1e2329;
+        }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: var(--text); margin: 20px; }
+        h1 { color: var(--accent); border-bottom: 2px solid var(---accent); padding-bottom: 10px; }
+        
+        /* Risk Header Section */
+        .summary-bar { display: flex; gap: 20px; margin-bottom: 20px; padding: 15px; background: #161a1e; border-radius: 8px; border-left: 5px solid var(--accent); }
+        .stat { display: flex; flex-direction: column; }
+        .stat-label { font-size: 10px; text-transform: uppercase; color: #848e9c; }
+        .stat-value { font-size: 18px; font-weight: bold; }
 
-  /* ── Header ── */
-  .header {
-    background:var(--bg2); border-bottom:1px solid var(--border);
-    padding:14px 24px; display:flex; align-items:center; justify-content:space-between;
-    position:sticky; top:0; z-index:100;
-  }
-  .header-left { display:flex; align-items:center; gap:12px; }
-  .logo { font-family:var(--mono); font-size:11px; font-weight:600; color:var(--green); letter-spacing:0.12em; border:1px solid var(--green-dim); padding:4px 10px; border-radius:3px; }
-  .title { font-size:15px; font-weight:500; }
-  .subtitle { font-size:11px; color:var(--text3); font-family:var(--mono); margin-top:1px; }
-  .header-right { display:flex; align-items:center; gap:16px; }
-  .status-row { display:flex; align-items:center; gap:7px; }
-  .dot { width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 8px var(--green); animation:pulse 2s infinite; }
-  .dot.stale { background:var(--amber); box-shadow:0 0 8px var(--amber); }
-  .dot.error { background:var(--red); box-shadow:0 0 8px var(--red); animation:none; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-  .status-text { font-family:var(--mono); font-size:11px; color:var(--text2); }
-  .countdown { font-family:var(--mono); font-size:11px; color:var(--text3); }
-  .btn { background:var(--bg3); border:1px solid var(--border2); color:var(--text2); font-family:var(--mono); font-size:11px; padding:5px 12px; border-radius:3px; cursor:pointer; transition:all 0.15s; }
-  .btn:hover { border-color:var(--blue); color:var(--blue); }
+        /* Data Table */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+        th { text-align: left; background: #1e2329; padding: 12px; color: #848e9c; cursor: pointer; }
+        td { padding: 12px; border-bottom: 1px solid #2b2f36; }
+        tr:hover { background: var(--row-hover); }
 
-  /* ── Ticker Bar ── */
-  .ticker-bar { background:var(--bg2); border-bottom:1px solid var(--border); padding:12px 24px; display:flex; gap:8px; flex-wrap:wrap; }
-  .tc { background:var(--bg3); border:1px solid var(--border); border-radius:4px; padding:7px 12px; min-width:105px; cursor:default; transition:border-color 0.2s; }
-  .tc.has-signal { border-color:var(--green-dim); }
-  .tc.has-top10 { border-color:var(--gold); }
-  .tc.err { border-color:var(--red); opacity:0.6; }
-  .tc-sym { font-family:var(--mono); font-size:12px; font-weight:600; color:var(--cyan); letter-spacing:0.05em; }
-  .tc-price { font-family:var(--mono); font-size:13px; font-weight:500; margin-top:2px; }
-  .tc-count { font-size:10px; color:var(--text3); margin-top:1px; }
-  .tc-count.active { color:var(--green); }
-  .tc-count.top { color:var(--gold); }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-
-  /* ── Tab bar ── */
-  .tab-bar { display:flex; align-items:center; gap:0; border-bottom:1px solid var(--border); padding:0 24px; background:var(--bg2); }
-  .tab {
-    font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
-    padding:12px 18px; cursor:pointer; color:var(--text3); border-bottom:2px solid transparent;
-    transition:all 0.15s; user-select:none; display:flex; align-items:center; gap:7px;
-  }
-  .tab:hover { color:var(--text2); }
-  .tab.active { color:var(--text); border-bottom-color:var(--green); }
-  .tab.top10-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
-  .tab-badge {
-    font-size:10px; padding:1px 6px; border-radius:3px;
-    background:var(--bg3); border:1px solid var(--border2); color:var(--text3);
-  }
-  .tab.active .tab-badge { background:var(--green-bg); border-color:var(--green-dim); color:var(--green); }
-  .tab.top10-tab.active .tab-badge { background:var(--gold-bg); border-color:var(--gold); color:var(--gold); }
-
-  /* ── New tab styles ── */
-  .tab.new-tab.active { color:var(--teal); border-bottom-color:var(--teal); }
-  .tab.new-tab.active .tab-badge { background:var(--teal-bg); border-color:var(--teal-dim); color:var(--teal); }
-
-  /* ── Main ── */
-  .main { padding:20px 24px; }
-  .tab-panel { display:none; }
-  .tab-panel.active { display:block; }
-
-  /* ── Top 10 intro cards ── */
-  .top10-intro {
-    display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin-bottom:18px;
-  }
-  .intro-card { background:var(--bg3); border:1px solid var(--border); border-radius:5px; padding:10px 14px; }
-  .intro-label { font-size:10px; color:var(--text3); font-family:var(--mono); letter-spacing:0.1em; text-transform:uppercase; }
-  .intro-val { font-family:var(--mono); font-size:13px; color:var(--gold); margin-top:3px; font-weight:500; }
-  .intro-sub { font-size:10px; color:var(--text3); margin-top:2px; }
-
-  /* ── Top 10 cards ── */
-  .top10-grid { display:grid; gap:10px; }
-  .signal-card {
-    background:var(--bg2); border:1px solid var(--border); border-radius:6px;
-    padding:14px 16px; transition:border-color 0.2s; position:relative; overflow:hidden;
-  }
-  .signal-card:hover { border-color:var(--border2); }
-  .signal-card.rank-1 { border-color:var(--gold); }
-  .signal-card.rank-2 { border-color:rgba(255,209,102,0.4); }
-  .signal-card.rank-3 { border-color:rgba(255,209,102,0.2); }
-  .card-rank {
-    position:absolute; top:0; right:0;
-    font-family:var(--mono); font-size:10px; font-weight:600;
-    color:var(--bg); background:var(--text3);
-    padding:3px 8px; border-radius:0 6px 0 4px;
-  }
-  .rank-1 .card-rank { background:var(--gold); }
-  .rank-2 .card-rank { background:rgba(255,209,102,0.6); }
-  .rank-3 .card-rank { background:rgba(255,209,102,0.35); color:var(--gold); }
-  .card-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:10px; }
-  .card-sym { font-family:var(--mono); font-size:16px; font-weight:600; color:var(--cyan); }
-  .card-exp { font-family:var(--mono); font-size:11px; color:var(--text2); margin-top:2px; }
-  .card-credit { text-align:right; }
-  .card-credit-val { font-family:var(--mono); font-size:18px; font-weight:600; color:var(--green); }
-  .card-credit-sub { font-size:10px; color:var(--text3); font-family:var(--mono); margin-top:1px; }
-  .card-meta { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
-  .card-stat { }
-  .card-stat-label { font-size:10px; color:var(--text3); font-family:var(--mono); letter-spacing:0.08em; text-transform:uppercase; }
-  .card-stat-val { font-family:var(--mono); font-size:12px; color:var(--text); margin-top:2px; }
-  .card-divider { border:none; border-top:1px solid var(--border); margin:10px 0; }
-  .card-legs { font-family:var(--mono); font-size:11px; color:var(--text2); }
-  .card-legs span { color:var(--text3); }
-  .card-profit-row { display:flex; align-items:center; gap:8px; margin-top:8px; flex-wrap:wrap; }
-  .profit-pill {
-    font-family:var(--mono); font-size:11px;
-    background:var(--green-bg); border:1px solid var(--green-dim);
-    color:var(--green); padding:2px 8px; border-radius:3px;
-  }
-  .dte-pill {
-    font-family:var(--mono); font-size:11px;
-    background:var(--amber-bg); border:1px solid var(--amber);
-    color:var(--amber); padding:2px 8px; border-radius:3px;
-  }
-  .delta-pill {
-    font-family:var(--mono); font-size:11px;
-    background:var(--blue-bg); border:1px solid var(--blue);
-    color:var(--blue); padding:2px 8px; border-radius:3px;
-  }
-  .ba-pill {
-    font-family:var(--mono); font-size:11px;
-    background:var(--bg3); border:1px solid var(--border2);
-    color:var(--text2); padding:2px 8px; border-radius:3px;
-  }
-
-  /* ── Profit calculator ── */
-  .calc-box {
-    background:var(--bg3); border:1px solid var(--border); border-radius:5px;
-    padding:12px 14px; margin-top:10px;
-  }
-  .calc-title { font-size:10px; color:var(--text3); font-family:var(--mono); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px; }
-  .calc-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-  .calc-row label { font-size:11px; color:var(--text2); font-family:var(--mono); }
-  .calc-row input[type=range] { width:120px; }
-  .calc-row input[type=number] {
-    background:var(--bg2); border:1px solid var(--border2); color:var(--text);
-    font-family:var(--mono); font-size:12px; padding:3px 7px; border-radius:3px; width:70px;
-  }
-  .calc-result { font-family:var(--mono); font-size:13px; color:var(--green); font-weight:500; }
-
-  /* ── Filters / sort ── */
-  .toolbar { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; align-items:center; }
-  .filter-label { font-size:11px; color:var(--text3); font-family:var(--mono); }
-  .fbtn { background:var(--bg3); border:1px solid var(--border); color:var(--text2); font-family:var(--mono); font-size:11px; padding:4px 10px; border-radius:3px; cursor:pointer; transition:all 0.15s; }
-  .fbtn:hover { border-color:var(--border2); color:var(--text); }
-  .fbtn.active { background:var(--blue-bg); border-color:var(--blue); color:var(--blue); }
-
-  /* ── Table ── */
-  .table-wrap { overflow-x:auto; border:1px solid var(--border); border-radius:6px; }
-  table { width:100%; border-collapse:collapse; font-family:var(--mono); font-size:12px; }
-  thead th {
-    background:var(--bg3); color:var(--text3); font-size:10px; font-weight:600;
-    letter-spacing:0.12em; text-transform:uppercase; padding:10px 12px;
-    text-align:left; border-bottom:1px solid var(--border); white-space:nowrap;
-    cursor:pointer; user-select:none; transition:color 0.15s;
-  }
-  thead th:hover { color:var(--text2); }
-  thead th.sorted { color: var(--cyan) !important; border-bottom: 2px solid var(--cyan); }
-
-  tbody tr { border-bottom:1px solid var(--border); transition:background 0.1s; }
-  tbody tr:last-child { border-bottom:none; }
-  tbody tr:hover { background:var(--bg3); }
-  tbody tr.top-row { background:rgba(0,229,160,0.03); }
-  tbody tr.top-row td:first-child { border-left:2px solid var(--green); }
-  td { padding:9px 12px; white-space:nowrap; color:var(--text); vertical-align:middle; }
-  .sym { color:var(--cyan); font-weight:600; }
-  .exp { color:var(--text2); }
-  .dte-b { display:inline-block; padding:1px 6px; border-radius:3px; font-size:10px; background:var(--bg3); border:1px solid var(--border2); color:var(--text2); }
-  .dte-b.sweet { border-color:var(--green-dim); color:var(--green); background:var(--green-bg); }
-  .credit-v { color:var(--green); font-weight:500; }
-  .credit-p { color:var(--green-dim); }
-  .otm-v { color:var(--amber); }
-  .iv-v { color:var(--blue); }
-  .delta-v { color:var(--blue); }
-  .theta-v { color:var(--amber); }
-  .beven { color:var(--text2); }
-  .total-c { color:var(--green); font-weight:500; }
-  .total-r { color:var(--red); }
-  .score-bar { display:flex; align-items:center; gap:6px; }
-  .score-n { color:var(--text2); min-width:28px; }
-  .score-t { flex:1; height:3px; background:var(--border); border-radius:2px; overflow:hidden; min-width:40px; }
-  .score-f { height:100%; background:var(--green); border-radius:2px; transition:width 0.4s; }
-  .no-row td { text-align:center; padding:40px; color:var(--text3); font-family:var(--mono); font-size:12px; }
-
-  /* ── Config bar ── */
-  .config-bar { display:flex; gap:16px; flex-wrap:wrap; margin-top:18px; padding:12px 16px; background:var(--bg2); border:1px solid var(--border); border-radius:5px; }
-  .cfg-item { display:flex; flex-direction:column; gap:2px; }
-  .cfg-label { font-size:10px; color:var(--text3); font-family:var(--mono); letter-spacing:0.1em; text-transform:uppercase; }
-  .cfg-val { font-family:var(--mono); font-size:12px; color:var(--cyan); }
-
-  .tab.adv-tab.active { color:var(--purple); border-bottom-color:var(--purple); }
-  .tab.adv-tab.active .tab-badge { background:var(--purple-bg); border-color:var(--purple-dim); color:var(--purple); }
-
-  /* ── Advanced meta bar ── */
-  .adv-meta-bar {
-    display:flex; gap:12px; flex-wrap:wrap; align-items:center;
-    margin-bottom:14px; padding:10px 14px;
-    background:var(--bg2); border:1px solid var(--purple-dim);
-    border-radius:5px; font-family:var(--mono); font-size:11px;
-  }
-  .adv-meta-item { display:flex; flex-direction:column; gap:1px; }
-  .adv-meta-label { font-size:10px; color:var(--text3); letter-spacing:0.1em; text-transform:uppercase; }
-  .adv-meta-val { color:var(--purple); font-size:12px; font-weight:500; }
-  .regime-pill {
-    padding:2px 10px; border-radius:3px; font-size:11px; font-family:var(--mono);
-    border:1px solid var(--purple-dim); background:var(--purple-bg); color:var(--purple);
-  }
-  .regime-bull    { border-color:var(--green-dim); background:var(--green-bg); color:var(--green); }
-  .regime-bear    { border-color:var(--red); background:var(--red-bg); color:var(--red); }
-  .regime-crisis  { border-color:var(--red); background:var(--red-bg); color:var(--red); }
-  .regime-neutral { border-color:var(--amber); background:var(--amber-bg); color:var(--amber); }
-  .regime-high_volatility { border-color:var(--amber); background:var(--amber-bg); color:var(--amber); }
-  .ror-v { color:var(--purple); font-weight:500; }
-  .ivr-v { color:var(--cyan); }
-  .pt-v  { color:var(--amber); }
-
-  /* ── New signals meta bar ── */
-  .new-meta-bar {
-    display:flex; gap:12px; flex-wrap:wrap; align-items:center;
-    margin-bottom:14px; padding:10px 14px;
-    background:var(--bg2); border:1px solid var(--teal-dim);
-    border-radius:5px; font-family:var(--mono); font-size:11px;
-  }
-  .new-meta-item { display:flex; flex-direction:column; gap:1px; }
-  .new-meta-label { font-size:10px; color:var(--text3); letter-spacing:0.1em; text-transform:uppercase; }
-  .new-meta-val { color:var(--teal); font-size:12px; font-weight:500; }
-  .new-score-f { height:100%; background:var(--teal); border-radius:2px; transition:width 0.4s; }
-
-  .section-title { font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text3); letter-spacing:0.15em; text-transform:uppercase; }
-  .sig-badge { font-family:var(--mono); font-size:11px; color:var(--green); background:var(--green-bg); border:1px solid var(--green-dim); padding:2px 8px; border-radius:3px; display:none; }
-</style>
+        /* Conditional Classes */
+        .high-edge { color: var(--green); font-weight: bold; }
+        .high-corr { background: rgba(207, 48, 74, 0.1); color: var(--red); }
+        .qty-badge { background: var(--accent); color: black; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+    </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-left">
-    <div class="logo">PCS</div>
-    <div>
-      <div class="title">Put Credit Spread Scanner</div>
-      <div class="subtitle">$5 wide · ≥20% OTM · Qty 10 · Tradier</div>
-    </div>
-  </div>
-  <div class="header-right">
-    <div class="status-row">
-      <div class="dot" id="dot"></div>
-      <div class="status-text" id="status-text">Loading…</div>
-    </div>
-    <div class="countdown" id="countdown"></div>
-    <button class="btn" onclick="triggerScan()">↺ Refresh</button>
-  </div>
-</div>
+    <h1>Institutional Option Scanner <small style="font-size: 12px; color: #848e9c;">$100k Basis</small></h1>
 
-<div class="ticker-bar" id="ticker-bar"></div>
-
-<div class="tab-bar">
-  <div class="tab active" id="tab-all" onclick="switchTab('all')">
-    All Signals <span class="tab-badge" id="badge-all">0</span>
-  </div>
-  <div class="tab top10-tab" id="tab-top10" onclick="switchTab('top10')">
-    ⭐ Top 10 <span class="tab-badge" id="badge-top10">0</span>
-  </div>
-  <div class="tab adv-tab" id="tab-advanced" onclick="switchTab('advanced')">
-    ⚡ Advanced <span class="tab-badge" id="badge-advanced">0</span>
-  </div>
-  <div class="tab new-tab" id="tab-new" onclick="switchTab('new')">
-    🔍 New <span class="tab-badge" id="badge-new">0</span>
-  </div>
-</div>
-
-<div class="tab-panel active" id="panel-all">
-  <div class="main">
-    <div class="section-hdr">
-      <div class="section-title">All Signals</div>
-      <div class="sig-badge" id="sig-badge"></div>
+    <div class="summary-bar" id="risk-header">
+        <div class="stat"><span class="stat-label">Last Update</span><span id="update-time" class="stat-value">--:--:--</span></div>
+        <div class="stat"><span class="stat-label">SPY Benchmark</span><span id="spy-price" class="stat-value">$0.00</span></div>
+        <div class="stat"><span class="stat-label">Total Signals</span><span id="signal-count" class="stat-value">0</span></div>
     </div>
-    <div class="toolbar">
-      <span class="filter-label">Filter:</span>
-      <button class="fbtn active" onclick="setFilter('ALL',this)">All</button>
-      <span id="sym-filters"></span>
-      <span style="margin-left:8px;" class="filter-label">Sort:</span>
-      <button class="fbtn active" id="sb-score" onclick="setSort('score',this)">Score</button>
-      <button class="fbtn" id="sb-net_credit" onclick="setSort('net_credit',this)">Credit</button>
-      <button class="fbtn" id="sb-dte" onclick="setSort('dte',this)">DTE</button>
-      <button class="fbtn" id="sb-iv_pct" onclick="setSort('iv_pct',this)">IV</button>
-    </div>
-    <div class="table-wrap">
-      <table id="signals-table">
-      <table id="signals-table">
+
+    <table>
         <thead>
-          <tr>
-            <th onclick="setSort('symbol', this)">Symbol</th>
-            <th onclick="setSort('expiration', this)">Expiry</th>
-            <th onclick="setSort('dte', this)">DTE</th>
-            <th onclick="setSort('strike', this)">Strike</th>
-            <th onclick="setSort('credit', this)">Credit</th>
-            <th onclick="setSort('delta', this)">Delta</th>
-            <th onclick="setSort('iv', this)">IV%</th>
-            <th onclick="setSort('score', this)">Score</th>
-          </tr>
+            <tr>
+                <th>Ticker</th>
+                <th>Expiration</th>
+                <th>Spread</th>
+                <th>Net Credit</th>
+                <th>PoP%</th>
+                <th>EV ($)</th>
+                <th>Edge Ratio</th>
+                <th>Qty</th>
+                <th>SPY Delta Eq</th>
+                <th>Corr (SPY)</th>
+            </tr>
         </thead>
-        <tbody id="signals-body">
-          </tbody>
-      </table>
-    </div>
-    <div class="config-bar" id="config-bar" style="display:none;"></div>
-  </div>
-</div>
-
-<div class="tab-panel" id="panel-top10">
-  <div class="main">
-    <div class="top10-intro" id="top10-intro"></div>
-    <div class="calc-box" style="margin-bottom:18px;">
-      <div class="calc-title">Profit Calculator — per spread</div>
-      <div class="calc-row">
-        <label>Qty per signal:</label>
-        <input type="number" id="calc-qty" value="30" min="1" max="500" oninput="updateCalc()">
-        <label>Close at $</label>
-        <input type="number" id="calc-close" value="0.01" min="0.01" max="10" step="0.01" oninput="updateCalc()">
-        <label>below entry =</label>
-        <span class="calc-result" id="calc-result">—</span>
-      </div>
-      <div style="font-size:10px;color:var(--text3);font-family:var(--mono);margin-top:6px;" id="calc-detail"></div>
-    </div>
-    <div class="section-hdr">
-      <div class="section-title">Top 10 Signals</div>
-      <div class="sig-badge" id="top10-badge" style="display:none;color:var(--gold);background:var(--gold-bg);border-color:var(--gold);"></div>
-    </div>
-    <div class="top10-grid" id="top10-grid">
-      <div style="text-align:center;padding:40px;color:var(--text3);font-family:var(--mono);font-size:12px;">Loading…</div>
-    </div>
-    <div class="config-bar" id="top10-config-bar" style="display:none;margin-top:18px;border-color:rgba(255,209,102,0.2);"></div>
-  </div>
-</div>
-
-<div class="tab-panel" id="panel-advanced">
-  <div class="main">
-    <div class="section-hdr" style="margin-bottom:10px;">
-      <div class="section-title">Advanced Signals</div>
-      <div class="sig-badge" id="adv-badge"></div>
-    </div>
-    <div class="adv-meta-bar" id="adv-meta-bar" style="display:none;"></div>
-    <div class="toolbar">
-      <span class="filter-label">Filter:</span>
-      <button class="fbtn active" onclick="advSetFilter('ALL',this)">All</button>
-      <span id="adv-sym-filters"></span>
-      <span style="margin-left:8px;" class="filter-label">Sort:</span>
-      <button class="fbtn active" id="adv-sb-score"          onclick="advSetSort('score',this)">Score</button>
-      <button class="fbtn"        id="adv-sb-return_on_risk" onclick="advSetSort('return_on_risk',this)">RoR</button>
-      <button class="fbtn"        id="adv-sb-net_credit"     onclick="advSetSort('net_credit',this)">Credit</button>
-      <button class="fbtn"        id="adv-sb-dte"            onclick="advSetSort('dte',this)">DTE</button>
-      <button class="fbtn"        id="adv-sb-iv_rank"        onclick="advSetSort('iv_rank',this)">IVR</button>
-      <button class="fbtn"        id="adv-sb-probability_touch" onclick="advSetSort('probability_touch',this)">P-Touch</button>
-    </div>
-    <div class="table-wrap">
-      <table id="adv-table">
-        <thead>
-          <tr>
-            <th onclick="advSetSort('symbol',this)">Symbol</th>
-            <th onclick="advSetSort('expiration',this)">Expiry</th>
-            <th onclick="advSetSort('dte',this)">DTE</th>
-            <th>Short / Long</th>
-            <th onclick="advSetSort('current_price',this)">Price</th>
-            <th onclick="advSetSort('expected_move',this)">Exp Move</th>
-            <th onclick="advSetSort('net_credit',this)">Net Credit</th>
-            <th onclick="advSetSort('return_on_risk',this)">RoR%</th>
-            <th onclick="advSetSort('iv',this)">IV%</th>
-            <th onclick="advSetSort('iv_rank',this)">IVR</th>
-            <th onclick="advSetSort('delta',this)">Delta</th>
-            <th onclick="advSetSort('theta',this)">Theta</th>
-            <th onclick="advSetSort('probability_touch',this)">P-Touch%</th>
-            <th onclick="advSetSort('rsi',this)">RSI</th>
-            <th onclick="advSetSort('open_interest',this)">OI</th>
-            <th onclick="advSetSort('volume',this)">Vol</th>
-            <th onclick="advSetSort('short_ba',this)">B/A</th>
-            <th onclick="advSetSort('qty',this)">Kelly Qty</th>
-            <th onclick="advSetSort('total_credit',this)">Total Credit</th>
-            <th onclick="advSetSort('score',this)">Score</th>
-          </tr>
-        </thead>
-        <tbody id="adv-body">
-          <tr class="no-row"><td colspan="20">Loading…</td></tr>
+        <tbody id="signal-table">
+            <!-- Data injected here -->
         </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+    </table>
 
-<!-- ── NEW SIGNALS TAB ── -->
-<div class="tab-panel" id="panel-new">
-  <div class="main">
-    <div class="section-hdr" style="margin-bottom:10px;">
-      <div class="section-title">New Signals</div>
-      <div class="sig-badge" id="new-badge"></div>
-    </div>
-    <!-- Meta info bar -->
-    <div class="new-meta-bar" id="new-meta-bar">
-      <div class="new-meta-item">
-        <div class="new-meta-label">Filter</div>
-        <div class="new-meta-val">Delta ≤ 0.15</div>
-      </div>
-      <div class="new-meta-item">
-        <div class="new-meta-label">OTM Range</div>
-        <div class="new-meta-val">Broad (≤ 95% price)</div>
-      </div>
-      <div class="new-meta-item">
-        <div class="new-meta-label">Scoring</div>
-        <div class="new-meta-val">(0.15 − |Δ|) × 100 + credit × 50</div>
-      </div>
-      <div class="new-meta-item" id="new-meta-count">
-        <div class="new-meta-label">Signals</div>
-        <div class="new-meta-val" id="new-count-val">—</div>
-      </div>
-    </div>
-    <!-- Filters + sort toolbar -->
-    <div class="toolbar">
-      <span class="filter-label">Filter:</span>
-      <button class="fbtn active" onclick="newSetFilter('ALL',this)">All</button>
-      <span id="new-sym-filters"></span>
-      <span style="margin-left:8px;" class="filter-label">Sort:</span>
-      <button class="fbtn active" id="new-sb-score"  onclick="newSetSort('score',this)">Score</button>
-      <button class="fbtn"        id="new-sb-credit" onclick="newSetSort('credit',this)">Credit</button>
-      <button class="fbtn"        id="new-sb-delta"  onclick="newSetSort('delta',this)">Delta</button>
-      <button class="fbtn"        id="new-sb-iv"     onclick="newSetSort('iv',this)">IV</button>
-    </div>
-    <div class="table-wrap">
-      <table id="new-table">
-        <thead>
-          <tr>
-            <th onclick="newSetSort('symbol',this)">Symbol</th>
-            <th onclick="newSetSort('expiration',this)">Expiry</th>
-            <th onclick="newSetSort('strike',this)">Strike</th>
-            <th onclick="newSetSort('credit',this)">Net Credit</th>
-            <th onclick="newSetSort('delta',this)">Delta</th>
-            <th onclick="newSetSort('iv',this)">IV%</th>
-            <th onclick="newSetSort('score',this)">Score</th>
-          </tr>
-        </thead>
-        <tbody id="new-body">
-          <tr class="no-row"><td colspan="7">Loading data from signals.json…</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+    <script>
+        async function refreshData() {
+            try {
+                const response = await fetch('signalskelly.json');
+                const data = await response.json();
+                
+                document.getElementById('update-time').innerText = data.scan_time;
+                document.getElementById('spy-price').innerText = `$${data.benchmark_spy}`;
+                document.getElementById('signal-count').innerText = data.top_signals.length;
 
-<script>
-  let allSignals = [], top10 = [], advSignals = [], newSignals = [];
-  let activeFilter = 'ALL', activeSort = 'score', sortDir = -1;
-  let advFilter = 'ALL', advSort = 'score', advSortDir = -1;
-  let newFilter = 'ALL', newSort = 'score', newSortDir = -1;
-  let maxScore = 1, advMaxScore = 1, newMaxScore = 1;
-  let countdownVal = 300, countdownTimer = null;
+                const tableBody = document.getElementById('signal-table');
+                tableBody.innerHTML = '';
 
-  function switchTab(tab) {
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('panel-' + tab).classList.add('active');
-    document.getElementById('tab-' + tab).classList.add('active');
-  }
+                data.top_signals.forEach(s => {
+                    const row = document.createElement('tr');
+                    
+                    // Logic: Flag high correlation to avoid cluster risk
+                    if (s.correlation_spy > 0.85) row.classList.add('high-corr');
 
-  let lastUpdatedStamp = null;
-  let isScanRunning = false;
+                    row.innerHTML = `
+                        <td><b>${s.symbol}</b> <small style="color:#848e9c">$${s.price}</small></td>
+                        <td>${s.expiration}</td>
+                        <td>${s.spread}</td>
+                        <td>$${s.net_credit.toFixed(2)}</td>
+                        <td style="color:var(--green)">${s.pop_pct}%</td>
+                        <td class="${s.ev > 0.2 ? 'high-edge' : ''}">$${s.ev.toFixed(2)}</td>
+                        <td>${(s.edge_ratio * 100).toFixed(1)}%</td>
+                        <td><span class="qty-badge">${s.rec_qty}</span></td>
+                        <td style="color:${s.spy_delta_eq < 0 ? 'var(--red)' : 'var(--green)'}">${s.spy_delta_eq}</td>
+                        <td>${s.correlation_spy.toFixed(2)}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
 
-  function setRefreshBtn(scanning) {
-    const btn = document.querySelector('.btn');
-    if (!btn) return;
-    btn.disabled = scanning;
-    btn.textContent = scanning ? '⏳ Running…' : '↺ Refresh';
-    btn.style.opacity = scanning ? '0.5' : '';
-    btn.style.cursor  = scanning ? 'not-allowed' : '';
-  }
+            } catch (e) {
+                console.error("Dashboard Sync Error:", e);
+            }
+        }
 
-  function setScanningStatus(msg) {
-    document.getElementById('dot').className = 'dot stale';
-    document.getElementById('status-text').textContent =
-      msg + (lastUpdatedStamp ? ' · Last: ' + lastUpdatedStamp : '');
-  }
-
-  async function fetchData() {
-    if (!isScanRunning) setScanningStatus('Fetching…');
-    try {
-      const res = await fetch('signals.json?t=' + Date.now());
-      if (res.ok) {
-        const data = await res.json();
-        processData(data);
-      } else {
-        setStatus('stale', 'signals.json not found');
-      }
-    } catch (e) {
-      setStatus('error', 'Load error: ' + e.message);
-    }
-  }
-
-  async function triggerScan() {
-    if (isScanRunning) return;
-
-    let token = localStorage.getItem('gh_token');
-    if (!token) {
-      token = prompt("Enter GitHub Personal Access Token:");
-      if (token) localStorage.setItem('gh_token', token);
-    }
-    if (!token) return;
-
-    try {
-      isScanRunning = true;
-      setRefreshBtn(true);
-      setScanningStatus('Triggering scan…');
-
-      const res = await fetch('https://api.github.com/repos/negin228/scanner/dispatches', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Accept': 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ event_type: 'manual_refresh' })
-      });
-
-      if (res.status === 401) {
-        localStorage.removeItem('gh_token');
-        alert("Invalid token — please try again.");
-        isScanRunning = false;
-        setRefreshBtn(false);
-        return;
-      }
-
-      if (res.ok) {
-        let attempts = 0;
-        const poll = setInterval(async () => {
-          attempts++;
-          setScanningStatus('Scanning… (' + attempts + '/9)');
-          await fetchData();
-          if (attempts >= 9) {
-            clearInterval(poll);
-            isScanRunning = false;
-            setRefreshBtn(false);
-            setStatus('live', 'Updated ' + lastUpdatedStamp);
-          }
-        }, 10000);
-      } else {
-        isScanRunning = false;
-        setRefreshBtn(false);
-        setStatus('error', 'Trigger failed: ' + res.status);
-      }
-    } catch (e) {
-      isScanRunning = false;
-      setRefreshBtn(false);
-      setStatus('error', 'Trigger error: ' + e.message);
-    }
-  }
-
-  function processData(data) {
-    allSignals  = data.signals          || [];
-    advSignals  = data.advanced_signals || [];
-    newSignals  = data.new_signals      || [];
-
-    // Scanner doesn't produce top10 — build it in the browser from signals[]
-    // Top 10: best score, delta ≤ 0.10, credit ≥ $0.40
-    top10 = [...allSignals]
-      .filter(s => s.delta != null && Math.abs(s.delta) <= 0.10 && s.credit >= 0.40)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 10);
-
-    advMaxScore = Math.max(...advSignals.map(s => s.score), 1);
-    maxScore    = Math.max(...allSignals.map(s => s.score),  1);
-    newMaxScore = Math.max(...newSignals.map(s => s.score),  1);
-
-    lastUpdatedStamp = data.last_updated || '—';
-    if (!isScanRunning) setStatus(data.error ? 'error' : 'live', 'Updated ' + lastUpdatedStamp);
-    countdownVal = data.next_scan_secs || 300;
-    startCountdown();
-
-    // Build ticker bar from signals[] since scanner doesn't provide tickers{}
-    renderTickersFromSignals(allSignals);
-    renderSymFilters(allSignals);
-    renderSignals();
-    renderTop10();
-    renderAdvanced(data);
-    renderNewSignals();
-    if (data.config) { renderConfig(data.config); renderTop10Config(data.config); }
-
-    document.getElementById('badge-all').textContent      = allSignals.length;
-    document.getElementById('badge-top10').textContent    = top10.length;
-    document.getElementById('badge-advanced').textContent = advSignals.length;
-    document.getElementById('badge-new').textContent      = newSignals.length;
-  }
-
-  function setStatus(state, msg) {
-    document.getElementById('dot').className = 'dot' + (state==='error'?' error':state==='stale'?' stale':'');
-    document.getElementById('status-text').textContent = msg;
-  }
-
-  function startCountdown() {
-    if (countdownTimer) clearInterval(countdownTimer);
-    countdownTimer = setInterval(() => {
-      countdownVal--;
-      const m = Math.floor(countdownVal/60), s = countdownVal%60;
-      document.getElementById('countdown').textContent = `Next scan in ${m}:${String(s).padStart(2,'0')}`;
-      if (countdownVal <= 0) { clearInterval(countdownTimer); fetchData(); }
-    }, 1000);
-  }
-
-  function renderTickersFromSignals(signals) {
-    const syms = ['NVDA','AMZN','MSFT','META','GOOG','NFLX','PLTR','TSLA'];
-    // Count signals per symbol
-    const sigCount = {};
-    signals.forEach(s => { sigCount[s.symbol] = (sigCount[s.symbol] || 0) + 1; });
-    // Best credit per symbol (proxy for "top" signal)
-    const bestCredit = {};
-    signals.forEach(s => { if (!bestCredit[s.symbol] || s.credit > bestCredit[s.symbol]) bestCredit[s.symbol] = s.credit; });
-
-    document.getElementById('ticker-bar').innerHTML = syms.map(sym => {
-      const count = sigCount[sym] || 0;
-      const best  = bestCredit[sym];
-      const hasSig = count > 0;
-      return `<div class="tc ${hasSig ? 'has-signal' : ''}">
-        <div class="tc-sym">${sym}</div>
-        <div class="tc-price">${best ? '$' + best.toFixed(2) + ' cr' : '—'}</div>
-        <div class="tc-count ${hasSig ? 'active' : ''}">${hasSig ? count + ' sig' + (count > 1 ? 's' : '') : 'no sigs'}</div>
-      </div>`;
-    }).join('');
-  }
-
-  function renderSymFilters(signals) {
-    const syms = [...new Set(signals.map(s=>s.symbol))].sort();
-    document.getElementById('sym-filters').innerHTML = syms.map(sym =>
-      `<button class="fbtn ${activeFilter===sym?'active':''}" onclick="setFilter('${sym}',this)">${sym}</button>`
-    ).join('');
-  }
-
-  function setFilter(sym, btn) {
-    activeFilter = sym;
-    document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderSignals();
-  }
-
-  function setSort(field, btn) {
-    if (activeSort === field) { sortDir *= -1; }
-    else { activeSort = field; sortDir = -1; }
-    document.querySelectorAll('thead th, .fbtn').forEach(el => el.classList.remove('active', 'sorted'));
-    if (btn) btn.classList.add('sorted');
-    const toolbarBtn = document.getElementById('sb-' + field);
-    if (toolbarBtn) toolbarBtn.classList.add('active');
-    renderSignals();
-  }
-
-  function renderSignals() {
-    let sigs = activeFilter==='ALL' ? [...allSignals] : allSignals.filter(s=>s.symbol===activeFilter);
-
-    sigs.sort((a,b) => {
-      let vA = a[activeSort], vB = b[activeSort];
-      if (vA == null) return 1; if (vB == null) return -1;
-      if (typeof vA === 'string') return sortDir === -1 ? vB.localeCompare(vA) : vA.localeCompare(vB);
-      const factor = activeSort === 'dte' ? -sortDir : sortDir;
-      return (vA - vB) * factor;
-    });
-
-    const badge = document.getElementById('sig-badge');
-    badge.style.display = sigs.length ? 'inline-block' : 'none';
-    badge.textContent = `${sigs.length} signal${sigs.length!==1?'s':''}`;
-
-    if (!sigs.length) {
-      document.getElementById('signals-body').innerHTML = '<tr class="no-row"><td colspan="8">No signals found</td></tr>';
-      return;
-    }
-
-    document.getElementById('signals-body').innerHTML = sigs.map((s,i) => {
-      const pct = Math.min((s.score/maxScore)*100,100).toFixed(0);
-      return `<tr>
-        <td><span class="sym">${s.symbol}</span></td>
-        <td><span class="exp">${s.expiration}</span></td>
-        <td><span class="dte-b ${s.dte<=30?'sweet':''}">${s.dte}d</span></td>
-        <td>$${s.strike}</td>
-        <td class="credit-v">$${s.credit.toFixed(2)}</td>
-        <td class="delta-v">${s.delta ? s.delta.toFixed(3) : '—'}</td>
-        <td class="iv-v">${(s.iv * 100).toFixed(1)}%</td>
-        <td><div class="score-bar"><span class="score-n">${s.score.toFixed(1)}</span><div class="score-t"><div class="score-f" style="width:${pct}%"></div></div></div></td>
-      </tr>`;}).join('');}
-
-  function renderTop10() {
-    if (!top10.length) {
-      document.getElementById('top10-grid').innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3);">No Top 10 signals</div>';
-      return;
-    }
-    updateCalc();
-  }
-
-  function updateCalc() {
-    const qty = parseInt(document.getElementById('calc-qty')?.value || 30);
-    const closeAt = parseFloat(document.getElementById('calc-close')?.value || 0.01);
-    const profit = (closeAt * qty * 100).toFixed(0);
-    document.getElementById('calc-result').textContent = `$${profit} profit`;
-    document.getElementById('calc-detail').textContent = `${qty} contracts × 100 shares × $${closeAt.toFixed(2)} = $${profit}`;
-
-    document.getElementById('top10-grid').innerHTML = top10.map((s,i) => `
-      <div class="signal-card ${i<3?`rank-${i+1}`:''}">
-        <div class="card-rank">#${i+1}</div>
-        <div class="card-top">
-          <div><div class="card-sym">${s.symbol}</div><div class="card-exp">${s.expiration} · ${s.dte} DTE</div></div>
-          <div class="card-credit"><div class="card-credit-val">$${s.net_credit.toFixed(2)}</div><div class="card-credit-sub">${s.credit_pct.toFixed(1)}% width</div></div>
-        </div>
-        <hr class="card-divider">
-        <div class="card-meta">
-          <div class="card-stat"><div class="card-stat-label">Strikes</div><div class="card-stat-val">$${s.short_strike}/${s.long_strike}</div></div>
-          <div class="card-stat"><div class="card-stat-label">Breakeven</div><div class="card-stat-val">$${s.breakeven.toFixed(2)}</div></div>
-          <div class="card-stat"><div class="card-stat-label">IV%</div><div class="card-stat-val" style="color:var(--blue)">${s.iv_pct.toFixed(1)}%</div></div>
-          <div class="card-stat"><div class="card-stat-label">OI</div><div class="card-stat-val">${s.short_oi.toLocaleString()}</div></div>
-          <div class="card-stat"><div class="card-stat-label">Vol</div><div class="card-stat-val">${s.short_vol.toLocaleString()}</div></div>
-        </div>
-        <div class="card-profit-row">
-          <span class="profit-pill">$${closeAt.toFixed(2)} drop → $${profit} profit</span>
-          <span class="dte-pill">${s.dte} DTE</span>
-          <span class="delta-pill">Δ ${s.delta?s.delta.toFixed(3):'—'}</span>
-        </div>
-      </div>`).join('');
-  }
-
-  function renderConfig(cfg) {
-    const bar = document.getElementById('config-bar');
-    bar.style.display = 'flex';
-    bar.innerHTML = [['Width','$'+cfg.spread_width],['OTM',cfg.min_otm_pct+'%'],['Qty',cfg.quantity],['Min OI',cfg.min_oi],['Min Vol',cfg.min_volume],['DTE',cfg.dte_range[0]+'–'+cfg.dte_range[1]+'d']].map(([l,v])=>`<div class="cfg-item"><span class="cfg-label">${l}</span><span class="cfg-val">${v}</span></div>`).join('');
-  }
-
-  function renderTop10Config(cfg) {
-    const bar = document.getElementById('top10-config-bar');
-    if (!cfg.top10_min_oi) return;
-    bar.style.display = 'flex';
-    bar.innerHTML = [['Min OI',cfg.top10_min_oi],['Min Vol',cfg.top10_min_vol],['Credit%',cfg.top10_min_credit_pct+'%'],['Max Delta',cfg.top10_max_delta]].map(([l,v])=>`<div class="cfg-item"><span class="cfg-label">${l}</span><span class="cfg-val" style="color:var(--gold)">${v}</span></div>`).join('');
-    document.getElementById('top10-intro').innerHTML = [['Liquidity','OI ≥ '+cfg.top10_min_oi+', Vol ≥ '+cfg.top10_min_vol,'Fast exit'],['Premium','≥ '+cfg.top10_min_credit_pct+'% width','Good return'],['Delta','≤ '+cfg.top10_max_delta,'Safer OTM']].map(([t,v,s])=>`<div class="intro-card"><div class="cfg-label">${t}</div><div class="intro-val">${v}</div><div class="intro-sub">${s}</div></div>`).join('');
-  }
-
-  function renderAdvanced(data) {
-    const metaBar = document.getElementById('adv-meta-bar');
-    if (data.advanced_vix != null) {
-      const regime = data.advanced_regime || 'unknown';
-      metaBar.style.display = 'flex';
-      metaBar.innerHTML = `
-        <div class="adv-meta-item"><div class="adv-meta-label">VIX</div><div class="adv-meta-val">${data.advanced_vix.toFixed(2)}</div></div>
-        <div class="adv-meta-item"><div class="adv-meta-label">Regime</div><div><span class="regime-pill regime-${regime}">${regime.replace('_',' ').toUpperCase()}</span></div></div>
-        <div class="adv-meta-item"><div class="adv-meta-label">Signals</div><div class="adv-meta-val">${advSignals.length}</div></div>
-        <div class="adv-meta-item"><div class="adv-meta-label">Trend Filter</div><div class="adv-meta-val">MA20 > MA50 · RSI 40–75</div></div>
-        <div class="adv-meta-item"><div class="adv-meta-label">Kelly Sizing</div><div class="adv-meta-val">25% fraction · $100k account</div></div>
-      `;
-    }
-    const syms = [...new Set(advSignals.map(s => s.symbol))].sort();
-    document.getElementById('adv-sym-filters').innerHTML = syms.map(sym =>
-      `<button class="fbtn ${advFilter===sym?'active':''}" onclick="advSetFilter('${sym}',this)">${sym}</button>`
-    ).join('');
-    renderAdvSignals();
-  }
-
-  function advSetFilter(sym, btn) {
-    advFilter = sym;
-    document.querySelectorAll('#adv-sym-filters .fbtn').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-    renderAdvSignals();
-  }
-
-  function advSetSort(field, btn) {
-    if (advSort === field) { advSortDir *= -1; }
-    else { advSort = field; advSortDir = -1; }
-    document.querySelectorAll('#adv-table thead th').forEach(el => el.classList.remove('sorted'));
-    if (btn) btn.classList.add('sorted');
-    const toolbarBtn = document.getElementById('adv-sb-' + field);
-    if (toolbarBtn) { document.querySelectorAll('#panel-advanced .fbtn').forEach(b=>b.classList.remove('active')); toolbarBtn.classList.add('active'); }
-    renderAdvSignals();
-  }
-
-  function renderAdvSignals() {
-    let sigs = advFilter === 'ALL' ? [...advSignals] : advSignals.filter(s => s.symbol === advFilter);
-    sigs.sort((a, b) => {
-      let vA = a[advSort], vB = b[advSort];
-      if (vA == null) return 1; if (vB == null) return -1;
-      if (typeof vA === 'string') return advSortDir === -1 ? vB.localeCompare(vA) : vA.localeCompare(vB);
-      const factor = advSort === 'dte' ? -advSortDir : advSortDir;
-      return (vA - vB) * factor;
-    });
-
-    const badge = document.getElementById('adv-badge');
-    badge.style.display = sigs.length ? 'inline-block' : 'none';
-    badge.textContent = `${sigs.length} signal${sigs.length !== 1 ? 's' : ''}`;
-
-    if (!sigs.length) {
-      document.getElementById('adv-body').innerHTML = '<tr class="no-row"><td colspan="20">No advanced signals found</td></tr>';
-      return;
-    }
-
-    document.getElementById('adv-body').innerHTML = sigs.map((s, i) => {
-      const pct = Math.min((s.score / advMaxScore) * 100, 100).toFixed(0);
-      return `<tr>
-        <td><span class="sym">${s.symbol}</span></td>
-        <td><span class="exp">${s.expiration}</span></td>
-        <td><span class="dte-b ${s.dte <= 21 ? 'sweet' : ''}">${s.dte}d</span></td>
-        <td>$${s.short_strike} / $${s.long_strike}</td>
-        <td>$${s.current_price.toFixed(2)}</td>
-        <td class="text-muted">±$${s.expected_move != null ? s.expected_move.toFixed(2) : '—'}</td>
-        <td class="credit-v">$${s.net_credit.toFixed(2)}</td>
-        <td class="ror-v">${(s.return_on_risk * 100).toFixed(1)}%</td>
-        <td class="iv-v">${s.iv != null ? s.iv.toFixed(1) : '—'}%</td>
-        <td class="ivr-v">${s.iv_rank != null ? s.iv_rank.toFixed(0) : '—'}</td>
-        <td class="delta-v">${s.delta != null ? s.delta.toFixed(3) : '—'}</td>
-        <td class="theta-v">${s.theta != null ? s.theta.toFixed(3) : '—'}</td>
-        <td class="pt-v">${s.probability_touch != null ? s.probability_touch.toFixed(1) + '%' : '—'}</td>
-        <td>${s.rsi != null ? s.rsi.toFixed(1) : '—'}</td>
-        <td>${s.open_interest != null ? s.open_interest.toLocaleString() : '—'}</td>
-        <td>${s.volume != null ? s.volume.toLocaleString() : '—'}</td>
-        <td>${s.short_ba != null ? '$' + s.short_ba.toFixed(3) : '—'}</td>
-        <td style="color:var(--text2)">${s.qty}</td>
-        <td class="total-c">$${s.total_credit != null ? s.total_credit.toFixed(0) : '—'}</td>
-        <td><div class="score-bar"><span class="score-n">${s.score.toFixed(1)}</span><div class="score-t"><div class="score-f" style="width:${pct}%;background:var(--purple)"></div></div></div></td>
-      </tr>`;
-    }).join('');
-  }
-
-  // ── NEW SIGNALS ─────────────────────────────────
-
-  function renderNewSignals() {
-    // Update meta count
-    document.getElementById('new-count-val').textContent = newSignals.length;
-
-    // Build sym filter buttons
-    const syms = [...new Set(newSignals.map(s => s.symbol))].sort();
-    document.getElementById('new-sym-filters').innerHTML = syms.map(sym =>
-      `<button class="fbtn ${newFilter===sym?'active':''}" onclick="newSetFilter('${sym}',this)">${sym}</button>`
-    ).join('');
-
-    renderNewTable();
-  }
-
-  function newSetFilter(sym, btn) {
-    newFilter = sym;
-    document.querySelectorAll('#new-sym-filters .fbtn').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-    renderNewTable();
-  }
-
-  function newSetSort(field, btn) {
-    if (newSort === field) { newSortDir *= -1; }
-    else { newSort = field; newSortDir = -1; }
-    document.querySelectorAll('#new-table thead th').forEach(el => el.classList.remove('sorted'));
-    if (btn) btn.classList.add('sorted');
-    const toolbarBtn = document.getElementById('new-sb-' + field);
-    if (toolbarBtn) {
-      document.querySelectorAll('#panel-new .fbtn').forEach(b => b.classList.remove('active'));
-      toolbarBtn.classList.add('active');
-    }
-    renderNewTable();
-  }
-
-  function renderNewTable() {
-    let sigs = newFilter === 'ALL' ? [...newSignals] : newSignals.filter(s => s.symbol === newFilter);
-
-    sigs.sort((a, b) => {
-      let vA = a[newSort], vB = b[newSort];
-      if (vA == null) return 1; if (vB == null) return -1;
-      if (typeof vA === 'string') return newSortDir === -1 ? vB.localeCompare(vA) : vA.localeCompare(vB);
-      // for delta, lower abs value is "better" so flip direction when sorting asc
-      return (vA - vB) * newSortDir;
-    });
-
-    const badge = document.getElementById('new-badge');
-    badge.style.display = sigs.length ? 'inline-block' : 'none';
-    badge.style.color = 'var(--teal)';
-    badge.style.background = 'var(--teal-bg)';
-    badge.style.borderColor = 'var(--teal-dim)';
-    badge.textContent = `${sigs.length} signal${sigs.length !== 1 ? 's' : ''}`;
-
-    if (!sigs.length) {
-      document.getElementById('new-body').innerHTML = '<tr class="no-row"><td colspan="7">No new signals found</td></tr>';
-      return;
-    }
-
-    document.getElementById('new-body').innerHTML = sigs.map((s, i) => {
-      const pct = Math.min((s.score / newMaxScore) * 100, 100).toFixed(0);
-      const ivDisplay = s.iv != null ? (s.iv * 100).toFixed(1) : (s.iv_pct != null ? s.iv_pct.toFixed(1) : '—');
-      return `<tr class="${i === 0 && newFilter === 'ALL' ? 'top-row' : ''}">
-        <td><span class="sym">${s.symbol}</span></td>
-        <td><span class="exp">${s.expiration || '—'}</span></td>
-        <td>$${s.strike != null ? s.strike.toFixed(2) : '—'}</td>
-        <td class="credit-v">$${s.credit != null ? s.credit.toFixed(2) : '—'}</td>
-        <td class="delta-v">${s.delta != null ? s.delta.toFixed(3) : '—'}</td>
-        <td class="iv-v">${ivDisplay}%</td>
-        <td><div class="score-bar"><span class="score-n">${s.score.toFixed(1)}</span><div class="score-t"><div class="score-f new-score-f" style="width:${pct}%"></div></div></div></td>
-      </tr>`;
-    }).join('');
-  }
-
-  // Auto-refresh every 30s
-  setInterval(fetchData, 30000);
-  fetchData();
-</script>
+        setInterval(refreshData, 30000); // Sync every 30s
+        refreshData();
+    </script>
 </body>
 </html>
