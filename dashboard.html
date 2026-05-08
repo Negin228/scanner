@@ -921,7 +921,7 @@
 
     document.getElementById('new-body').innerHTML = sigs.map((s, i) => {
       const pct = Math.min((s.score / newMaxScore) * 100, 100).toFixed(0);
-      const ivDisplay = s.iv != null ? (s.iv * 100).toFixed(1) : (s.iv_pct != null ? s.iv_pct.toFixed(1) : '—');
+      const ivDisplay = s.iv != null ? s.iv.toFixed(1) : '—';
       return `<tr class="${i === 0 && newFilter === 'ALL' ? 'top-row' : ''}">
         <td><span class="sym">${s.symbol}</span></td>
         <td><span class="exp">${s.expiration || '—'}</span></td>
