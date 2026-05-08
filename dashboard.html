@@ -1,295 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Put Credit Spread Scanner</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0a0e14;
-    --bg2: #0f1520;
-    --bg3: #141c2b;
-    --bg4: #192234;
-    --border: #1e2d45;
-    --border2: #243650;
-    --text: #c8d8ef;
-    --text2: #7a9bbf;
-    --text3: #3d5a7a;
-    --green: #00e5a0;
-    --green-dim: #00b87d;
-    --green-bg: rgba(0,229,160,0.07);
-    --amber: #f5a623;
-    --amber-bg: rgba(245,166,35,0.08);
-    --red: #ff4d6a;
-    --red-bg: rgba(255,77,106,0.08);
-    --blue: #4d9fff;
-    --blue-bg: rgba(77,159,255,0.08);
-    --cyan: #00cfff;
-    --gold: #ffd166;
-    --gold-bg: rgba(255,209,102,0.08);
-    --purple: #b48eff;
-    --purple-bg: rgba(180,142,255,0.08);
-    --purple-dim: #8b5cf6;
-    --sans: 'IBM Plex Sans', sans-serif;
-    --mono: 'IBM Plex Mono', monospace;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:var(--sans); font-size:13px; min-height:100vh; padding-bottom:60px; }
+    <title>Put Credit Spread Dashboard</title>
 
-  /* ── Header ── */
-  .header {
-    background:var(--bg2); border-bottom:1px solid var(--border);
-    padding:14px 24px; display:flex; align-items:center; justify-content:space-between;
-    position:sticky; top:0; z-index:100;
-  }
-  .header-left { display:flex; align-items:center; gap:12px; }
-  .logo { font-family:var(--mono); font-size:11px; font-weight:600; color:var(--green); letter-spacing:0.12em; border:1px solid var(--green-dim); padding:4px 10px; border-radius:3px; }
-  .title { font-size:15px; font-weight:500; }
-  .subtitle { font-size:11px; color:var(--text3); font-family:var(--mono); margin-top:1px; }
-  .header-right { display:flex; align-items:center; gap:16px; }
-  .status-row { display:flex; align-items:center; gap:7px; }
-  .dot { width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 8px var(--green); animation:pulse 2s infinite; }
-  .dot.stale { background:var(--amber); box-shadow:0 0 8px var(--amber); }
-  .dot.error { background:var(--red); box-shadow:0 0 8px var(--red); animation:none; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-  .status-text { font-family:var(--mono); font-size:11px; color:var(--text2); }
-  .countdown { font-family:var(--mono); font-size:11px; color:var(--text3); }
-  .btn { background:var(--bg3); border:1px solid var(--border2); color:var(--text2); font-family:var(--mono); font-size:11px; padding:5px 12px; border-radius:3px; cursor:pointer; transition:all 0.15s; }
-  .btn:hover { border-color:var(--blue); color:var(--blue); }
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: white;
+            margin: 0;
+        }
 
-  /* ── Ticker Bar ── */
-  .ticker-bar { background:var(--bg2); border-bottom:1px solid var(--border); padding:12px 24px; display:flex; gap:8px; flex-wrap:wrap; }
-  .tc { background:var(--bg3); border:1px solid var(--border); border-radius:4px; padding:7px 12px; min-width:105px; cursor:default; transition:border-color 0.2s; }
-  .tc.has-signal { border-color:var(--green-dim); }
-  .tc.has-top10 { border-color:var(--gold); }
-  .tc.err { border-color:var(--red); opacity:0.6; }
-  .tc-sym { font-family:var(--mono); font-size:12px; font-weight:600; color:var(--cyan); letter-spacing:0.05em; }
-  .tc-price { font-family:var(--mono); font-size:13px; font-weight:500; margin-top:2px; }
-  .tc-count { font-size:10px; color:var(--text3); margin-top:1px; }
-  .tc-count.active { color:var(--green); }
-  .tc-count.top { color:var(--gold); }
+        .header {
+            padding: 12px;
+            background: #111827;
+            display: flex;
+            gap: 10px;
+        }
 
-  /* ── Tab bar ── */
-  .tab-bar { display:flex; align-items:center; gap:0; border-bottom:1px solid var(--border); padding:0 24px; background:var(--bg2); }
-  .tab {
-    font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
-    padding:12px 18px; cursor:pointer; color:var(--text3); border-bottom:2px solid transparent;
-    transition:all 0.15s; user-select:none; display:flex; align-items:center; gap:7px;
-  }
-  .tab:hover { color:var(--text2); }
-  .tab.active { color:var(--text); border-bottom-color:var(--green); }
-  .tab.top10-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
-  .tab-badge {
-    font-size:10px; padding:1px 6px; border-radius:3px;
-    background:var(--bg3); border:1px solid var(--border2); color:var(--text3);
-  }
-  .tab.active .tab-badge { background:var(--green-bg); border-color:var(--green-dim); color:var(--green); }
-  .tab.top10-tab.active .tab-badge { background:var(--gold-bg); border-color:var(--gold); color:var(--gold); }
+        button {
+            padding: 10px 14px;
+            border: none;
+            cursor: pointer;
+            background: #1f2937;
+            color: white;
+            border-radius: 6px;
+        }
 
-  /* ── Main ── */
-  .main { padding:20px 24px; }
-  .tab-panel { display:none; }
-  .tab-panel.active { display:block; }
+        button.active {
+            background: #2563eb;
+        }
 
-  /* ── Table ── */
-  .table-wrap { overflow-x:auto; border:1px solid var(--border); border-radius:6px; }
-  table { width:100%; border-collapse:collapse; font-family:var(--mono); font-size:12px; }
-  thead th {
-    background:var(--bg3); color:var(--text3); font-size:10px; font-weight:600;
-    letter-spacing:0.12em; text-transform:uppercase; padding:10px 12px;
-    text-align:left; border-bottom:1px solid var(--border); white-space:nowrap;
-    cursor:pointer; user-select:none; transition:color 0.15s;
-  }
-  thead th:hover { color:var(--text2); }
-  thead th.sorted { color: var(--cyan) !important; border-bottom: 2px solid var(--cyan); }
-  tbody tr { border-bottom:1px solid var(--border); transition:background 0.1s; }
-  tbody tr:last-child { border-bottom:none; }
-  tbody tr:hover { background:var(--bg3); }
-  td { padding:9px 12px; white-space:nowrap; color:var(--text); vertical-align:middle; }
-  .sym { color:var(--cyan); font-weight:600; }
-  .exp { color:var(--text2); }
-  .dte-b { display:inline-block; padding:1px 6px; border-radius:3px; font-size:10px; background:var(--bg3); border:1px solid var(--border2); color:var(--text2); }
-  .credit-v { color:var(--green); font-weight:500; }
-  .no-row td { text-align:center; padding:40px; color:var(--text3); font-family:var(--mono); font-size:12px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
 
-  /* Tab Specific Colors */
-  .tab.new-tab.active { color:var(--cyan); border-bottom-color:var(--cyan); }
-  .tab.new-tab.active .tab-badge { background:rgba(0,207,255,0.08); border-color:var(--cyan); color:var(--cyan); }
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #1f2937;
+            font-size: 13px;
+            text-align: center;
+        }
 
-  /* (Remaining styles for Top 10 cards and Advanced regime from your code) */
-  .top10-grid { display:grid; gap:10px; }
-  .signal-card { background:var(--bg2); border:1px solid var(--border); border-radius:6px; padding:14px 16px; position:relative; overflow:hidden; }
-  .card-rank { position:absolute; top:0; right:0; font-family:var(--mono); font-size:10px; font-weight:600; color:var(--bg); background:var(--text3); padding:3px 8px; border-radius:0 6px 0 4px; }
-  .card-sym { font-family:var(--mono); font-size:16px; font-weight:600; color:var(--cyan); }
-  .card-credit-val { font-family:var(--mono); font-size:18px; font-weight:600; color:var(--green); }
-</style>
+        th {
+            background: #111827;
+            position: sticky;
+            top: 0;
+        }
+
+        .container {
+            padding: 10px;
+        }
+
+        .meta {
+            padding: 10px;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+    </style>
 </head>
+
 <body>
 
 <div class="header">
-  <div class="header-left">
-    <div class="logo">PCS</div>
-    <div>
-      <div class="title">Put Credit Spread Scanner</div>
-      <div class="subtitle">$5 wide · ≥20% OTM · Qty 10 · Tradier</div>
-    </div>
-  </div>
-  <div class="header-right">
-    <div class="status-row">
-      <div class="dot" id="dot"></div>
-      <div class="status-text" id="status-text">Loading…</div>
-    </div>
-    <div class="countdown" id="countdown"></div>
-    <button class="btn" onclick="triggerScan()">↺ Refresh</button>
-  </div>
+    <button onclick="setTab('all')" id="tab-all" class="active">All</button>
+    <button onclick="setTab('top10')" id="tab-top10">Top 10</button>
+    <button onclick="setTab('new')" id="tab-new">New</button>
 </div>
 
-<div class="ticker-bar" id="ticker-bar"></div>
+<div class="meta" id="meta"></div>
 
-<div class="tab-bar">
-  <div class="tab active" id="tab-all" onclick="switchTab('all')">
-    All Signals <span class="tab-badge" id="badge-all">0</span>
-  </div>
-  <div class="tab top10-tab" id="tab-top10" onclick="switchTab('top10')">
-    ⭐ Top 10 <span class="tab-badge" id="badge-top10">0</span>
-  </div>
-  <div class="tab adv-tab" id="tab-advanced" onclick="switchTab('advanced')">
-    ⚡ Advanced <span class="tab-badge" id="badge-advanced">0</span>
-  </div>
-  <div class="tab new-tab" id="tab-new" onclick="switchTab('new')">
-    New <span class="tab-badge" id="badge-new">0</span>
-  </div>
-</div>
-
-<div class="tab-panel active" id="panel-all">
-  <div class="main">
-    <div class="section-title">All Signals</div>
-    <div class="table-wrap">
-      <table id="signals-table">
+<div class="container">
+    <table>
         <thead>
-          <tr>
-            <th onclick="setSort('symbol', this)">Symbol</th>
-            <th onclick="setSort('expiration', this)">Expiry</th>
-            <th onclick="setSort('dte', this)">DTE</th>
-            <th>Short / Long</th>
-            <th onclick="setSort('net_credit', this)">Net Credit</th>
-            <th onclick="setSort('score', this)">Score</th>
-          </tr>
+            <tr>
+                <th>Symbol</th>
+                <th>Exp</th>
+                <th>DTE</th>
+                <th>Strike</th>
+                <th>Credit</th>
+                <th>Delta</th>
+                <th>IV</th>
+                <th>Score</th>
+            </tr>
         </thead>
-        <tbody id="signals-body">
-          <tr class="no-row"><td colspan="6">Loading data…</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<div class="tab-panel" id="panel-top10">
-  <div class="main">
-    <div class="section-title">Top 10 Signals</div>
-    <div id="top10-grid" class="top10-grid"></div>
-  </div>
-</div>
-
-<div class="tab-panel" id="panel-advanced">
-  <div class="main">
-    <div class="section-title">Advanced Signals</div>
-    <div class="table-wrap">
-      <table>
-        <tbody id="adv-body"></tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<div class="tab-panel" id="panel-new">
-  <div class="main">
-    <div class="section-title">New Signals</div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Symbol</th>
-            <th>Expiry</th>
-            <th>DTE</th>
-            <th>Short / Long</th>
-            <th>Net Credit</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody id="new-body">
-          <tr class="no-row"><td colspan="6">No new signals</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+        <tbody id="rows"></tbody>
+    </table>
 </div>
 
 <script>
-  let allSignals = [], top10 = [], advSignals = [], newSignals = [];
-  let activeFilter = 'ALL', activeSort = 'score', sortDir = -1;
-  let countdownVal = 300, countdownTimer = null;
 
-  function switchTab(tab) {
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('panel-' + tab).classList.add('active');
-    document.getElementById('tab-' + tab).classList.add('active');
-  }
+let data = {
+    signals: [],
+    top10: [],
+    new_signals: [],
+    last_updated: ""
+};
 
-  async function fetchData() {
+let currentTab = "all";
+
+function setTab(tab) {
+    currentTab = tab;
+
+    document.querySelectorAll("button").forEach(b => b.classList.remove("active"));
+    document.getElementById("tab-" + tab).classList.add("active");
+
+    render();
+}
+
+function pickData() {
+    if (currentTab === "top10") return data.top10 || [];
+    if (currentTab === "new") return data.new_signals || [];
+    return data.signals || [];
+}
+
+function render() {
+    const rows = document.getElementById("rows");
+    rows.innerHTML = "";
+
+    const list = pickData();
+
+    document.getElementById("meta").innerText =
+        `Last updated: ${data.last_updated || "N/A"} | ${currentTab.toUpperCase()} signals: ${list.length}`;
+
+    list.forEach(s => {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${s.symbol}</td>
+            <td>${s.expiration}</td>
+            <td>${s.dte || "-"}</td>
+            <td>${s.short_strike || s.strike}</td>
+            <td>${s.net_credit || s.credit}</td>
+            <td>${s.delta ?? "-"}</td>
+            <td>${s.iv_pct || s.iv || "-"}</td>
+            <td>${s.score ?? "-"}</td>
+        `;
+
+        rows.appendChild(tr);
+    });
+}
+
+async function loadData() {
     try {
-      const res = await fetch('signalskelly.json?t=' + Date.now());
-      if (res.ok) {
-        const data = await res.json();
-        processData(data);
-      }
-    } catch (e) { console.error(e); }
-  }
-
-  function processData(data) {
-    allSignals = data.signals || [];
-    top10 = data.top10 || [];
-    advSignals = data.advanced_signals || [];
-    newSignals = data.new_signals || []; // Process New Signals
-
-    document.getElementById('badge-all').textContent = allSignals.length;
-    document.getElementById('badge-top10').textContent = top10.length;
-    document.getElementById('badge-advanced').textContent = advSignals.length;
-    document.getElementById('badge-new').textContent = newSignals.length;
-
-    renderSignals();
-    renderTop10();
-    renderNew();
-    document.getElementById('status-text').textContent = 'Updated ' + (data.last_updated || '—');
-  }
-
-  function renderNew() {
-    const tbody = document.getElementById('new-body');
-    if (!newSignals.length) {
-      tbody.innerHTML = '<tr class="no-row"><td colspan="6">No new signals</td></tr>';
-      return;
+        const res = await fetch("signalskelly.json?ts=" + new Date().getTime());
+        data = await res.json();
+        render();
+    } catch (e) {
+        console.log("Error loading data", e);
     }
-    tbody.innerHTML = newSignals.map(s => `
-      <tr>
-        <td><span class="sym">${s.symbol}</span></td>
-        <td><span class="exp">${s.expiration}</span></td>
-        <td><span class="dte-b">${s.dte}d</span></td>
-        <td>$${s.short_strike} / $${s.long_strike}</td>
-        <td class="credit-v">$${s.net_credit.toFixed(2)}</td>
-        <td>${(s.score || 0).toFixed(1)}</td>
-      </tr>
-    `).join('');
-  }
+}
 
-  // Placeholder functions for existing logic
-  function renderSignals() { /* Your existing render logic */ }
-  function renderTop10() { /* Your existing render logic */ }
-  function setSort(f, b) { fetchData(); }
-  function triggerScan() { fetchData(); }
+// auto refresh every 5 seconds
+setInterval(loadData, 5000);
 
-  fetchData();
+// initial load
+loadData();
+
 </script>
+
 </body>
 </html>
