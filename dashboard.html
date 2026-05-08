@@ -347,7 +347,7 @@
           </tr>
         </thead>
         <tbody id="signals-body">
-          <tr class="no-row"><td colspan="18">Loading data from signalskelly.json…</td></tr>
+          <tr class="no-row"><td colspan="18">Loading data from signals.json…</td></tr>
         </tbody>
       </table>
     </div>
@@ -485,7 +485,7 @@
           </tr>
         </thead>
         <tbody id="new-body">
-          <tr class="no-row"><td colspan="7">Loading data from signalskelly.json…</td></tr>
+          <tr class="no-row"><td colspan="7">Loading data from signals.json…</td></tr>
         </tbody>
       </table>
     </div>
@@ -528,12 +528,12 @@
   async function fetchData() {
     if (!isScanRunning) setScanningStatus('Fetching…');
     try {
-      const res = await fetch('signalskelly.json?t=' + Date.now());
+      const res = await fetch('signals.json?t=' + Date.now());
       if (res.ok) {
         const data = await res.json();
         processData(data);
       } else {
-        setStatus('stale', 'signalskelly.json not found');
+        setStatus('stale', 'signals.json not found');
       }
     } catch (e) {
       setStatus('error', 'Load error: ' + e.message);
