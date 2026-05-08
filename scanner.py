@@ -30,7 +30,7 @@ MIN_BID_PRICE      = 0.10  # Ignore anything paying less than $10 per contract
 MAX_BID_ASK_RATIO  = 2.5   # Ignore if Ask is more than 2.5x the Bid (Illiquid)
 MIN_OI             = 200
 
-OUTPUT_FILE = "signal.json"
+OUTPUT_FILE = "signals.json"
 
 HEADERS = {
     "Authorization": f"Bearer {TRADIER_API_KEY}",
