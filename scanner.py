@@ -31,7 +31,7 @@ HEADERS = {
     "Accept": "application/json"
 }
 
-OUTPUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "signalskelly.json")
+OUTPUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "signals.json")
 
 # ─────────────────────────────────────────────
 # CORE PARAMETERS
