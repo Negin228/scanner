@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-05-13 22:46:31 UTC-07:00",
-  "advanced_vix": null,
-  "advanced_regime": "unknown",
+  "last_updated": "2026-05-13 22:48:22 UTC-07:00",
+  "advanced_vix": 17.87,
+  "advanced_regime": "neutral",
   "advanced_signals": [],
   "config": {
     "spread_width": 5,
