@@ -22,6 +22,7 @@ from datetime import timedelta, timezone
 BASE_URL = "https://api.tradier.com/v1"
 # Sandbox: "https://sandbox.tradier.com/v1"
 TRADIER_API_KEY = os.getenv("TRADIER_API_KEY")
+print("API KEY:", TRADIER_API_KEY)
 
 SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "PLTR", "TSLA", "SPY", "TQQQ", "SQQQ", "AMD", "ORCL"]
 #SYMBOLS = ["GOOGL", "SPY", "TQQQ", "SQQQ", "SOXL", "GOOG", "AMZN", "AAPL", "MSFT", "META", "NVDA", "TSLA", "AVGO", "ASML", "TSM", "ORCL", "CRM", "ADBE", "NFLX", "INTU", "AMD", "QCOM", "TXN", "AMAT", "LRCX", "MU", "PANW", "SNPS", "BRK-B", "JPM", "V", "MA", "BAC", "WFC", "MS", "GS", "BLK", "AXP", "UNH", "JNJ", "LLY", "ABBV", "MRK", "PFE", "TMO", "DHR", "ABT", "ISRG", "XOM", "CVX", "COP", "PG", "KO", "PEP", "COST", "WMT", "HD", "MCD", "NKE", "SBUX", "LOW", "LIN", "HON", "UPS", "CAT", "GE", "RTX", "BA", "NEE", "DUK", "SO", "PLD", "AMT", "TMUS", "VZ", "UBER", "SHOP", "MELI", "PDD", "IBKR", "KKR", "BX", "APO", "CMCSA", "DIS", "DELL", "PLTR", "CRWD", "ARM", "MRVL"]
@@ -154,7 +155,7 @@ def find_spreads(symbol, price, puts, expiration):
         if iv is None:
             iv = short.get("implied_volatility")
         iv = float(iv) if iv is not None else 0.0
-        if iv < MIN_IV:
+        if iv is None or iv < MIN_IV:
             continue
 
         short_bid = float(short.get("bid") or 0)
@@ -445,7 +446,7 @@ def adv_find_spreads(symbol, price, puts, expiration, regime, trend_data):
             "delta":             round(delta, 4) if delta is not None else None,
             "gamma":             round(gamma, 4) if gamma is not None else None,
             "theta":             round(theta, 4) if theta is not None else None,
-            "probability_touch": round(pot * 100, 1) if pot is not None else None,
+            "probability_touch": round((pot or 0) * 100, 1),
             "iv":                round(iv * 100, 1),
             "iv_rank":           round(ivr, 1),
             "open_interest":     short_oi,
