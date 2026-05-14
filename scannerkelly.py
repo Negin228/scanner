@@ -661,6 +661,9 @@ def run_scan():
 
     output = {
         "last_updated": timestamp_str,
+        "signals": adv_signals,
+        "top10": adv_signals[:10],
+        "tickers": {},
         "advanced_vix": adv_vix,
         "advanced_regime": adv_regime,
         "advanced_signals": adv_signals,
