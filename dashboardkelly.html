@@ -32,6 +32,7 @@
     --purple-bg: rgba(180,142,255,0.08);
     --purple-dim: #8b5cf6;
     --sans: 'IBM Plex Sans', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); color:var(--text); font-family:var(--sans); font-size:13px; min-height:100vh; padding-bottom:60px; }
@@ -442,7 +443,7 @@
   }
 
   function setScanningStatus(msg) {
-    document.getElementById('dot').className = 'dot stale';
+    document.getElementById('dot').className = 'dot';
     document.getElementById('status-text').textContent =
       msg + (lastUpdatedStamp ? ' · Last: ' + lastUpdatedStamp : '');
   }
@@ -590,7 +591,7 @@
   function setSort(field, btn) {
     if (activeSort === field) { sortDir *= -1; }
     else { activeSort = field; sortDir = -1; }
-    document.querySelectorAll('thead th, .fbtn').forEach(el => el.classList.remove('active', 'sorted'));
+    document.querySelectorAll('#panel-all thead th, #panel-all .fbtn').forEach(el => el.classList.remove('active', 'sorted'));
     if (btn) btn.classList.add('sorted');
     const toolbarBtn = document.getElementById('sb-' + field);
     if (toolbarBtn) toolbarBtn.classList.add('active');
@@ -625,7 +626,7 @@
         <td><span class="exp">${s.expiration}</span></td>
         <td><span class="dte-b ${s.dte<=30?'sweet':''}">${s.dte}d</span></td>
         <td>$${s.short_strike} / $${s.long_strike}</td>
-        <td>$${s.current_price.toFixed(2)}</td>
+        <td>$${(s.current_price ?? 0).toFixed(2)}</td>
         <td class="otm-v">${s.otm_pct}%</td>
         <td class="credit-v">$${s.net_credit.toFixed(2)}</td>
         <td class="credit-p">${s.credit_pct.toFixed(1)}%</td>
@@ -638,7 +639,7 @@
         <td>${s.short_vol.toLocaleString()}</td>
         <td class="total-c">$${s.total_credit.toLocaleString()}</td>
         <td class="total-r">$${s.total_risk.toLocaleString()}</td>
-        <td><div class="score-bar"><span class="score-n">${s.score.toFixed(1)}</span><div class="score-t"><div class="score-f" style="width:${pct}%"></div></div></div></td>
+        <td><div class="score-bar"><span class="score-n">${(s.score ?? 0).toFixed(1)}</span><div class="score-t"><div class="score-f" style="width:${pct}%"></div></div></div></td>
       </tr>`;
     }).join('');
   }
@@ -792,7 +793,7 @@
         <td>${s.short_ba != null ? '$' + s.short_ba.toFixed(3) : '—'}</td>
         <td style="color:var(--text2)">${s.qty}</td>
         <td class="total-c">$${s.total_credit != null ? s.total_credit.toFixed(0) : '—'}</td>
-        <td><div class="score-bar"><span class="score-n">${s.score.toFixed(1)}</span><div class="score-t"><div class="score-f" style="width:${pct}%;background:var(--purple)"></div></div></div></td>
+        <td><div class="score-bar"><span class="score-n">${(s.score ?? 0).toFixed(1)}</span><div class="score-t"><div class="score-f" style="width:${pct}%;background:var(--purple)"></div></div></div></td>
       </tr>`;
     }).join('');
   }
