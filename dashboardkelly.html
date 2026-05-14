@@ -563,12 +563,20 @@
     const syms = ['NVDA','AMZN','MSFT','META','GOOG','NFLX','PLTR','TSLA'];
     document.getElementById('ticker-bar').innerHTML = syms.map(sym => {
       const t = tickers?.[sym];
-      if (!t) return `<div class="tc"><div class="tc-sym">${sym}</div><div>···</div></div>`;
+
+      if (!t || typeof t.price !== 'number') {
+        return `<div class="tc">
+          <div class="tc-sym">${sym}</div>
+          <div class="tc-price">—</div>
+          <div class="tc-count">no data</div>
+        </div>`;
+      }
+      const price = Number(t.price);
       const hasTop10 = t.top10_count > 0;
       const hasSig = t.signal_count > 0;
       return `<div class="tc ${hasTop10?'has-top10':hasSig?'has-signal':''}">
         <div class="tc-sym">${sym}</div>
-        <div class="tc-price">$${(t.price ?? 0).toFixed(2)}</div>
+        <div class="tc-price">$${price.toFixed(2)}</div>
         <div class="tc-count ${hasTop10?'top':hasSig?'active':''}">${hasTop10?'★ '+t.top10_count:hasSig?t.signal_count+' sigs':'no sigs'}</div>
       </div>`;
     }).join('');
@@ -626,7 +634,7 @@
         <td><span class="exp">${s.expiration}</span></td>
         <td><span class="dte-b ${s.dte<=30?'sweet':''}">${s.dte}d</span></td>
         <td>$${s.short_strike} / $${s.long_strike}</td>
-        <td>$${(s.current_price ?? 0).toFixed(2)}</td>
+        <td>$${Number(s.current_price ?? 0).toFixed(2)}</td>
         <td class="otm-v">${s.otm_pct}%</td>
         <td class="credit-v">$${(s.net_credit ?? 0).toFixed(2)}</td>
         <td class="credit-p">${s.credit_pct.toFixed(1)}%</td>
@@ -781,7 +789,7 @@
         <td>$${(s.current_price ?? 0).toFixed(2)}</td>
         <td class="text-muted">±$${s.expected_move != null ? s.expected_move.toFixed(2) : '—'}</td>
         <td class="credit-v">$${s.net_credit.toFixed(2)}</td>
-        <td class="ror-v">${(s.return_on_risk * 100).toFixed(1)}%</td>
+        <td class="ror-v">${s.return_on_risk != null ? (s.return_on_risk * 100).toFixed(1) : '—'}%</td>
         <td class="iv-v">${s.iv != null ? s.iv.toFixed(1) : '—'}%</td>
         <td class="ivr-v">${s.iv_rank != null ? s.iv_rank.toFixed(0) : '—'}</td>
         <td class="delta-v">${s.delta != null ? s.delta.toFixed(3) : '—'}</td>
