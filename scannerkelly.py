@@ -26,9 +26,15 @@ SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG",
 SPREAD_WIDTH = 5
 MIN_DISCOUNT_PCT = 0.20
 MIN_OPEN_INTEREST = 100
-MIN_VOLUME = 50
+#MIN_VOLUME = 50
+MIN_VOLUME = 0
+
+#MIN_IV = 0.20
 MIN_IV = 0.20
-MIN_RETURN_ON_RISK = 0.20
+
+#MIN_RETURN_ON_RISK = 0.20
+MIN_RETURN_ON_RISK = 0.05
+
 
 OUTPUT_FILE = os.path.join(os.path.dirname(__file__), "signalskelly.json")
 
