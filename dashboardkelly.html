@@ -527,8 +527,8 @@
     allSignals = data.signals || [];
     top10 = data.top10 || [];
     advSignals = data.advanced_signals || [];
-    advMaxScore = Math.max(...advSignals.map(s => s.score || 0), 1);
-    maxScore = Math.max(...allSignals.map(s => s.score || 0), 1);  
+    advMaxScore = advSignals.length ? Math.max(...advSignals.map(s => s.score || 0)) : 1;
+    maxScore = allSignals.length ? Math.max(...allSignals.map(s => s.score || 0)) : 1;
     lastUpdatedStamp = data.last_updated || '—';
     if (!isScanRunning) setStatus(data.error ? 'error' : 'live', 'Updated ' + lastUpdatedStamp);
     countdownVal = data.next_scan_secs || 300;
@@ -628,7 +628,7 @@
         <td>$${s.short_strike} / $${s.long_strike}</td>
         <td>$${(s.current_price ?? 0).toFixed(2)}</td>
         <td class="otm-v">${s.otm_pct}%</td>
-        <td class="credit-v">$${s.net_credit.toFixed(2)}</td>
+        <td class="credit-v">$${(s.net_credit ?? 0).toFixed(2)}</td>
         <td class="credit-p">${s.credit_pct.toFixed(1)}%</td>
         <td class="beven">$${s.breakeven.toFixed(2)}</td>
         <td class="iv-v">${s.iv_pct.toFixed(1)}%</td>
@@ -636,7 +636,7 @@
         <td class="theta-v">${s.theta ? s.theta.toFixed(3) : '—'}</td>
         <td>${s.short_ba ? '$'+s.short_ba.toFixed(3) : '—'}</td>
         <td>${(s.short_oi ?? 0).toLocaleString()}</td>
-        <td>${s.short_vol.toLocaleString()}</td>
+        <td>${(s.short_vol ?? 0).toLocaleString()}</td>
         <td class="total-c">$${s.total_credit.toLocaleString()}</td>
         <td class="total-r">$${s.total_risk.toLocaleString()}</td>
         <td><div class="score-bar"><span class="score-n">${(s.score ?? 0).toFixed(1)}</span><div class="score-t"><div class="score-f" style="width:${pct}%"></div></div></div></td>
@@ -778,7 +778,7 @@
         <td><span class="exp">${s.expiration}</span></td>
         <td><span class="dte-b ${s.dte <= 21 ? 'sweet' : ''}">${s.dte}d</span></td>
         <td>$${s.short_strike} / $${s.long_strike}</td>
-        <td>$${s.current_price.toFixed(2)}</td>
+        <td>$${(s.current_price ?? 0).toFixed(2)}</td>
         <td class="text-muted">±$${s.expected_move != null ? s.expected_move.toFixed(2) : '—'}</td>
         <td class="credit-v">$${s.net_credit.toFixed(2)}</td>
         <td class="ror-v">${(s.return_on_risk * 100).toFixed(1)}%</td>
