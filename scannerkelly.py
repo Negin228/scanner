@@ -215,13 +215,25 @@ def find_spreads(symbol, price, puts, expiration):
         STAGES["passed_all_filters"] += 1
 
         signals.append({
-            "symbol": symbol,
-            "expiration": expiration,
-            "strike": strike,
-            "net_credit": round(net_credit, 2),
-            "max_loss": round(max_loss, 2),
-            "ror": round(return_on_risk, 3)
-        })
+               "symbol":        symbol,
+               "expiration":    expiration,
+               "dte":           days_to_expiry(expiration),
+               "short_strike":  strike,
+               "long_strike":   strike - SPREAD_WIDTH,
+               "current_price": round(price, 2),
+               "otm_pct":       round((price - strike) / price * 100, 1),
+               "net_credit":    round(net_credit, 2),
+               "credit_pct":    round(net_credit / SPREAD_WIDTH * 100, 1),
+               "breakeven":     round(strike - net_credit, 2),
+               "iv_pct":        round((iv or 0) * 100, 1),
+               "delta":         round(delta, 3) if delta else None,
+               "theta":         round(theta, 3) if theta else None,
+               "short_ba":      round(short_ask - short_bid, 3),
+               "short_oi":      short_oi,
+               "short_vol":     short_vol,
+               "total_credit":  round(net_credit * 100 * 10, 2),   # 10 contracts
+               "total_risk":    round(max_loss  * 100 * 10, 2),
+               "score":         round(return_on_risk * 100 + (iv or 0) * 10, 1),})
 
     return signals
 
