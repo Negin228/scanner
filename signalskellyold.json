@@ -1,1 +1,108 @@
-
+{
+  "last_updated": "2026-05-14 00:39:33 UTC-07:00",
+  "next_scan_secs": 300,
+  "tickers": {
+    "NVDA": {
+      "price": 225.83,
+      "signal_count": 0,
+      "top10_count": 0,
+      "status": "ok"
+    },
+    "AMZN": {
+      "price": 270.13,
+      "signal_count": 0,
+      "top10_count": 0,
+      "status": "ok"
+    },
+    "MSFT": {
+      "price": 405.21,
+      "signal_count": 0,
+      "top10_count": 0,
+      "status": "ok"
+    },
+    "META": {
+      "price": 616.63,
+      "signal_count": 0,
+      "top10_count": 0,
+      "status": "ok"
+    },
+    "GOOG": {
+      "price": 399.04,
+      "signal_count": 0,
+      "top10_count": 0,
+      "status": "ok"
+    },
+    "NFLX": {
+      "price": 87.56,
+      "signal_count": 0,
+      "top10_count": 0,
+      "status": "ok"
+    },
+    "PLTR": {
+      "price": 130.05,
+      "signal_count": 0,
+      "top10_count": 0,
+      "status": "ok"
+    },
+    "TSLA": {
+      "price": 445.27,
+      "signal_count": 0,
+      "top10_count": 0,
+      "status": "ok"
+    },
+    "SPY": {
+      "price": 742.31,
+      "signal_count": 0,
+      "top10_count": 0,
+      "status": "ok"
+    },
+    "TQQQ": {
+      "price": 77.24,
+      "signal_count": 0,
+      "top10_count": 0,
+      "status": "ok"
+    },
+    "SQQQ": {
+      "price": 41.99,
+      "signal_count": 0,
+      "top10_count": 0,
+      "status": "ok"
+    },
+    "AMD": {
+      "price": 445.5,
+      "signal_count": 0,
+      "top10_count": 0,
+      "status": "ok"
+    },
+    "ORCL": {
+      "price": 189.76,
+      "signal_count": 0,
+      "top10_count": 0,
+      "status": "ok"
+    }
+  },
+  "signals": [],
+  "top10": [],
+  "config": {
+    "spread_width": 5,
+    "min_otm_pct": 20,
+    "quantity": 10,
+    "min_oi": 100,
+    "min_volume": 50,
+    "min_credit": 0.1,
+    "min_iv_pct": 20,
+    "dte_range": [
+      7,
+      45
+    ],
+    "top10_min_oi": 500,
+    "top10_min_vol": 200,
+    "top10_min_credit_pct": 8.0,
+    "top10_max_dte": 21,
+    "top10_max_delta": 0.1,
+    "top10_max_ba": 0.1
+  },
+  "advanced_signals": [],
+  "advanced_vix": 17.79,
+  "advanced_regime": "neutral"
+}
