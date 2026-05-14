@@ -26,8 +26,9 @@ SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG",
 SPREAD_WIDTH = 5
 MIN_DISCOUNT_PCT = 0.20
 MIN_OPEN_INTEREST = 100
-#MIN_VOLUME = 50
 MIN_VOLUME = 0
+
+MAX_DAYS_TO_EXPIRY = 45
 
 #MIN_IV = 0.20
 MIN_IV = 0.20
@@ -263,6 +264,9 @@ def run_scan():
         exps = get_expirations(symbol)
 
         for exp in exps:
+           dte = days_to_expiry(exp)
+           if dte > MAX_DAYS_TO_EXPIRY or dte < 1:
+                      continue
 
             puts = get_puts(symbol, exp)
             if not puts:
