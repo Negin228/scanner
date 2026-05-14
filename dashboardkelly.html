@@ -526,8 +526,8 @@
     allSignals = data.signals || [];
     top10 = data.top10 || [];
     advSignals = data.advanced_signals || [];
-    advMaxScore = Math.max(...advSignals.map(s => s.score), 1);
-    maxScore = Math.max(...allSignals.map(s => s.score), 1);
+    advMaxScore = Math.max(...advSignals.map(s => s.score || 0), 1);
+    maxScore = Math.max(...allSignals.map(s => s.score || 0), 1);  
     lastUpdatedStamp = data.last_updated || '—';
     if (!isScanRunning) setStatus(data.error ? 'error' : 'live', 'Updated ' + lastUpdatedStamp);
     countdownVal = data.next_scan_secs || 300;
@@ -561,13 +561,13 @@
   function renderTickers(tickers) {
     const syms = ['NVDA','AMZN','MSFT','META','GOOG','NFLX','PLTR','TSLA'];
     document.getElementById('ticker-bar').innerHTML = syms.map(sym => {
-      const t = tickers[sym];
+      const t = tickers?.[sym];
       if (!t) return `<div class="tc"><div class="tc-sym">${sym}</div><div>···</div></div>`;
       const hasTop10 = t.top10_count > 0;
       const hasSig = t.signal_count > 0;
       return `<div class="tc ${hasTop10?'has-top10':hasSig?'has-signal':''}">
         <div class="tc-sym">${sym}</div>
-        <div class="tc-price">$${t.price.toFixed(2)}</div>
+        <div class="tc-price">$${(t.price ?? 0).toFixed(2)}</div>
         <div class="tc-count ${hasTop10?'top':hasSig?'active':''}">${hasTop10?'★ '+t.top10_count:hasSig?t.signal_count+' sigs':'no sigs'}</div>
       </div>`;
     }).join('');
@@ -634,7 +634,7 @@
         <td class="delta-v">${s.delta ? s.delta.toFixed(3) : '—'}</td>
         <td class="theta-v">${s.theta ? s.theta.toFixed(3) : '—'}</td>
         <td>${s.short_ba ? '$'+s.short_ba.toFixed(3) : '—'}</td>
-        <td>${s.short_oi.toLocaleString()}</td>
+        <td>${(s.short_oi ?? 0).toLocaleString()}</td>
         <td>${s.short_vol.toLocaleString()}</td>
         <td class="total-c">$${s.total_credit.toLocaleString()}</td>
         <td class="total-r">$${s.total_risk.toLocaleString()}</td>
@@ -670,7 +670,7 @@
           <div class="card-stat"><div class="card-stat-label">Strikes</div><div class="card-stat-val">$${s.short_strike}/${s.long_strike}</div></div>
           <div class="card-stat"><div class="card-stat-label">Breakeven</div><div class="card-stat-val">$${s.breakeven.toFixed(2)}</div></div>
           <div class="card-stat"><div class="card-stat-label">IV%</div><div class="card-stat-val" style="color:var(--blue)">${s.iv_pct.toFixed(1)}%</div></div>
-          <div class="card-stat"><div class="card-stat-label">OI</div><div class="card-stat-val">${s.short_oi.toLocaleString()}</div></div>
+          <div class="card-stat"><div class="card-stat-label">OI</div><div class="card-stat-val">${(s.short_oi ?? 0).toLocaleString()}</div></div>
           <div class="card-stat"><div class="card-stat-label">Vol</div><div class="card-stat-val">${s.short_vol.toLocaleString()}</div></div>
         </div>
         <div class="card-profit-row">
@@ -684,7 +684,23 @@
   function renderConfig(cfg) {
     const bar = document.getElementById('config-bar');
     bar.style.display = 'flex';
-    bar.innerHTML = [['Width','$'+cfg.spread_width],['OTM',cfg.min_otm_pct+'%'],['Qty',cfg.quantity],['Min OI',cfg.min_oi],['Min Vol',cfg.min_volume],['DTE',cfg.dte_range[0]+'–'+cfg.dte_range[1]+'d']].map(([l,v])=>`<div class="cfg-item"><span class="cfg-label">${l}</span><span class="cfg-val">${v}</span></div>`).join('');
+
+    const dteMin = cfg.dte_range ? cfg.dte_range[0] : '—';
+    const dteMax = cfg.dte_range ? cfg.dte_range[1] : '—';
+
+    bar.innerHTML = [
+      ['Width', '$' + (cfg.spread_width ?? '—')],
+      ['OTM', (cfg.min_otm_pct ?? '—') + '%'],
+      ['Qty', cfg.quantity ?? '—'],
+      ['Min OI', cfg.min_oi ?? '—'],
+      ['Min Vol', cfg.min_volume ?? '—'],
+      ['DTE', dteMin + '–' + dteMax + 'd']
+    ].map(([l,v]) =>
+      `<div class="cfg-item">
+        <span class="cfg-label">${l}</span>
+        <span class="cfg-val">${v}</span>
+      </div>`
+    ).join('');
   }
 
   function renderTop10Config(cfg) {
