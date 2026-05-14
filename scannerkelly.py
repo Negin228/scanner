@@ -1,3 +1,17 @@
+REJECT = {
+    "no_puts": 0,
+    "low_oi": 0,
+    "low_vol": 0,
+    "low_iv": 0,
+    "high_delta": 0,
+    "high_pot": 0,
+    "expected_move": 0,
+    "low_credit": 0,
+    "low_return_on_risk": 0,
+    "other": 0,
+    "passed": 0
+}
+
 # scannerkelly.py
 """
 Professional Put Credit Spread Scanner
@@ -102,6 +116,12 @@ HEADERS = {
 # API HELPERS
 # ─────────────────────────────────────────────
 
+def reject(reason):
+    if reason in REJECT:
+        REJECT[reason] += 1
+    else:
+        REJECT["other"] += 1
+        
 def get_quote(symbol):
     url = f"{BASE_URL}/markets/quotes"
     params = {
@@ -401,28 +421,36 @@ def adv_find_spreads(
         short_vol = int(short_put.get("volume") or 0)
 
         if short_oi < MIN_OPEN_INTEREST:
+            reject("low_oi")
             continue
 
         if short_vol < MIN_VOLUME:
+            reject("low_vol")
             continue
 
         delta, gamma, theta, iv = extract_greeks(short_put)
 
         if iv is None or iv < MIN_IV:
+            reject("low_iv")
             continue
 
         pot = adv_probability_of_touch(delta)
 
         if pot is not None and pot > ADV_MAX_PROBABILITY_TOUCH:
+            reject("high_pot")
             continue
 
         if delta is not None and abs(delta) > ADV_MAX_DELTA:
+            reject("high_delta")
             continue
 
         exp_move = adv_expected_move(price, iv, dte)
 
         if (price - strike) < (exp_move * ADV_EXPECTED_MOVE_MULT):
+            reject("expected_move")
             continue
+
+        REJECT["passed"] += 1
 
         short_bid = float(short_put.get("bid") or 0)
         short_ask = float(short_put.get("ask") or 0)
@@ -440,6 +468,7 @@ def adv_find_spreads(
         )
 
         if net_credit < ADV_MIN_CREDIT:
+            reject("low_credit")
             continue
 
         short_ba = short_ask - short_bid
@@ -455,6 +484,7 @@ def adv_find_spreads(
         return_on_risk = net_credit / max_loss
 
         if return_on_risk < MIN_RETURN_ON_RISK:
+            reject("low_return_on_risk")
             continue
 
         qty = adv_position_size(
@@ -530,6 +560,10 @@ def adv_find_spreads(
 
 def run_advanced_scan():
 
+    print("\n──────── REJECTION BREAKDOWN ────────")
+    for k, v in REJECT.items():
+        print(f"{k:20}: {v}")
+    
     global ADV_MAX_DELTA
 
     vix = get_quote("VIX")
