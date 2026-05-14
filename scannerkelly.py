@@ -21,7 +21,7 @@ from datetime import timedelta, timezone
 # CONFIGURATION
 # ─────────────────────────────────────────────
 
-BASE_URL = "https://sandbox.tradier.com/v1"
+BASE_URL = "https://api.tradier.com/v1"
 TRADIER_API_KEY = os.getenv("TRADIER_API_KEY", "").strip()
 
 print("=" * 60)
