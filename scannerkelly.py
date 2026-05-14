@@ -264,9 +264,9 @@ def run_scan():
         exps = get_expirations(symbol)
 
         for exp in exps:
-           dte = days_to_expiry(exp)
-           if dte > MAX_DAYS_TO_EXPIRY or dte < 1:
-                      continue
+            dte = days_to_expiry(exp)
+            if dte > MAX_DAYS_TO_EXPIRY or dte < 1:
+                continue
 
             puts = get_puts(symbol, exp)
             if not puts:
