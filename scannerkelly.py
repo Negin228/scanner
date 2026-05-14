@@ -1,6 +1,4 @@
 # scannerkelly.py
-
-```python
 """
 Professional Put Credit Spread Scanner
 - Tradier API
