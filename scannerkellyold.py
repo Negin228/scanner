@@ -3,7 +3,7 @@
 
 """
 Put Credit Spread Scanner — Background Service
-Polls Tradier API every 5 minutes and writes results to signalskelly.json
+Polls Tradier API every 5 minutes and writes results to signalskellyold.json
 Open dashboard.html in your browser to view live results.
 """
 
@@ -56,7 +56,7 @@ TOP10_MAX_DTE        = 21     # 7-21 DTE sweet spot for fast theta decay
 TOP10_MAX_DELTA      = 0.10   # short put delta <= 0.10 (far OTM, safer)
 TOP10_MAX_BA_SPREAD  = 0.10   # tight bid/ask so you can close quickly
 
-OUTPUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "signalskelly.json")
+OUTPUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "signalskellyold.json")
 
 HEADERS = {
     "Authorization": f"Bearer {TRADIER_API_KEY}",
@@ -611,7 +611,7 @@ def run_scan():
     with open(OUTPUT_FILE, "w") as f:
         json.dump(output, f, indent=2)
 
-    print(f"  Done. {len(all_signals)} total, {len(top10)} in Top 10. Written to signalskelly.json")
+    print(f"  Done. {len(all_signals)} total, {len(top10)} in Top 10. Written to signalskellyold.json")
 
     # ── Advanced scan ──────────────────────────
     print("\n  Running advanced scan…")
@@ -624,7 +624,7 @@ def run_scan():
     with open(OUTPUT_FILE, "w") as f:
         json.dump(output, f, indent=2)
 
-    print(f"  Advanced: {len(adv_signals)} signal(s). signalskelly.json updated.")
+    print(f"  Advanced: {len(adv_signals)} signal(s). signalskellyold.json updated.")
 
 
 # ─────────────────────────────────────────────
