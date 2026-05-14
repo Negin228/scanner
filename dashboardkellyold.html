@@ -326,7 +326,7 @@
           </tr>
         </thead>
         <tbody id="signals-body">
-          <tr class="no-row"><td colspan="18">Loading data from signalskelly.json…</td></tr>
+          <tr class="no-row"><td colspan="18">Loading data from signalskellyold.json…</td></tr>
         </tbody>
       </table>
     </div>
@@ -447,16 +447,16 @@
       msg + (lastUpdatedStamp ? ' · Last: ' + lastUpdatedStamp : '');
   }
 
-  // ── Reads signalskelly.json from the same folder (works on GitHub Pages or local server) ──
+  // ── Reads signalskellyold.json from the same folder (works on GitHub Pages or local server) ──
   async function fetchData() {
     if (!isScanRunning) setScanningStatus('Fetching…');
     try {
-      const res = await fetch('signalskelly.json?t=' + Date.now());
+      const res = await fetch('signalskellyold.json?t=' + Date.now());
       if (res.ok) {
         const data = await res.json();
         processData(data);
       } else {
-        setStatus('stale', 'signalskelly.json not found');
+        setStatus('stale', 'signalskellyold.json not found');
       }
     } catch (e) {
       setStatus('error', 'Load error: ' + e.message);
