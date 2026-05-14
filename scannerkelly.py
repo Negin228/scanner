@@ -21,8 +21,16 @@ from datetime import timedelta, timezone
 # ─────────────────────────────────────────────
 BASE_URL = "https://api.tradier.com/v1"
 # Sandbox: "https://sandbox.tradier.com/v1"
-TRADIER_API_KEY = os.getenv("TRADIER_API_KEY")
-print("API KEY:", TRADIER_API_KEY)
+TRADIER_API_KEY = os.getenv("TRADIER_API_KEY", "").strip()
+
+print("===================================")
+print("TRADIER DEBUG")
+print("===================================")
+print("BASE_URL:", BASE_URL)
+print("API KEY EXISTS:", bool(TRADIER_API_KEY))
+print("API KEY LENGTH:", len(TRADIER_API_KEY))
+print("FIRST 6 CHARS:", TRADIER_API_KEY[:6] if TRADIER_API_KEY else "NONE")
+print("===================================")
 
 SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "PLTR", "TSLA", "SPY", "TQQQ", "SQQQ", "AMD", "ORCL"]
 #SYMBOLS = ["GOOGL", "SPY", "TQQQ", "SQQQ", "SOXL", "GOOG", "AMZN", "AAPL", "MSFT", "META", "NVDA", "TSLA", "AVGO", "ASML", "TSM", "ORCL", "CRM", "ADBE", "NFLX", "INTU", "AMD", "QCOM", "TXN", "AMAT", "LRCX", "MU", "PANW", "SNPS", "BRK-B", "JPM", "V", "MA", "BAC", "WFC", "MS", "GS", "BLK", "AXP", "UNH", "JNJ", "LLY", "ABBV", "MRK", "PFE", "TMO", "DHR", "ABT", "ISRG", "XOM", "CVX", "COP", "PG", "KO", "PEP", "COST", "WMT", "HD", "MCD", "NKE", "SBUX", "LOW", "LIN", "HON", "UPS", "CAT", "GE", "RTX", "BA", "NEE", "DUK", "SO", "PLD", "AMT", "TMUS", "VZ", "UBER", "SHOP", "MELI", "PDD", "IBKR", "KKR", "BX", "APO", "CMCSA", "DIS", "DELL", "PLTR", "CRWD", "ARM", "MRVL"]
@@ -54,6 +62,9 @@ HEADERS = {
     "Authorization": f"Bearer {TRADIER_API_KEY}",
     "Accept": "application/json"
 }
+print("\n[DEBUG] HEADERS CREATED")
+print("[DEBUG] Authorization starts with Bearer:",
+      HEADERS["Authorization"].startswith("Bearer "))
 
 
 # ─────────────────────────────────────────────
@@ -64,13 +75,28 @@ def get_quote(symbol):
     url = f"{BASE_URL}/markets/quotes"
     params = {"symbols": symbol, "greeks": "false"}
     try:
+        print(f"\n[DEBUG] Requesting quote for {symbol}")
+        print("[DEBUG] URL:", url)
+        print("[DEBUG] Params:", params)
+        print("[DEBUG] Authorization header exists:", "Authorization" in HEADERS)
+
         r = requests.get(url, headers=HEADERS, params=params, timeout=10)
+        print("[DEBUG] Status Code:", r.status_code)
+        print("[DEBUG] Response Text:", r.text[:500])
         r.raise_for_status()
-        quote = r.json().get("quotes", {}).get("quote", {})
+        data = r.json()
+        print("[DEBUG] JSON:", data)
+        quote = data.get("quotes", {}).get("quote", {})
         last = quote.get("last") or quote.get("bid")
         return float(last) if last else None
     except Exception as e:
-        print(f"  [ERROR] Quote {symbol}: {e}")
+        print(f"\n[ERROR] Quote {symbol}:")
+        print(type(e).__name__)
+        print(str(e))
+        if 'r' in locals():
+            print("\n[DEBUG] FULL RESPONSE:")
+            print(r.text)
+
         return None
 
 
