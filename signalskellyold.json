@@ -1,81 +1,81 @@
 {
-  "last_updated": "2026-05-21 06:09:50 UTC-07:00",
+  "last_updated": "2026-05-21 06:30:21 UTC-07:00",
   "next_scan_secs": 300,
   "tickers": {
     "NVDA": {
-      "price": 223.47,
+      "price": 221.34,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "AMZN": {
-      "price": 265.01,
+      "price": 263.4,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "MSFT": {
-      "price": 421.06,
+      "price": 424.93,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "META": {
-      "price": 605.06,
+      "price": 599.44,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "GOOG": {
-      "price": 384.9,
+      "price": 380.85,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "NFLX": {
-      "price": 88.09,
+      "price": 87.89,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "PLTR": {
-      "price": 137.15,
+      "price": 135.98,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "TSLA": {
-      "price": 417.26,
+      "price": 422.35,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "SPY": {
-      "price": 741.25,
+      "price": 738.24,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "TQQQ": {
-      "price": 76.51,
+      "price": 75.2,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "SQQQ": {
-      "price": 42.19,
+      "price": 42.95,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "AMD": {
-      "price": 447.58,
+      "price": 445.64,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "ORCL": {
-      "price": 188.16,
+      "price": 188.3,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
@@ -102,7 +102,36 @@
     "top10_max_delta": 0.1,
     "top10_max_ba": 0.1
   },
-  "advanced_signals": [],
-  "advanced_vix": 17.73,
+  "advanced_signals": [
+    {
+      "symbol": "NVDA",
+      "expiration": "2026-05-29",
+      "dte": 8,
+      "market_regime": "bull",
+      "short_strike": 200.0,
+      "long_strike": 195.0,
+      "current_price": 220.94,
+      "expected_move": 19.29,
+      "net_credit": 0.18,
+      "max_loss": 4.82,
+      "return_on_risk": 0.0384,
+      "delta": -0.0988,
+      "gamma": 0.0089,
+      "theta": -0.22,
+      "probability_touch": 19.8,
+      "iv": 59.0,
+      "iv_rank": 155.9,
+      "open_interest": 13993,
+      "volume": 127,
+      "short_ba": 0.03,
+      "rsi": 68.3,
+      "qty": 4,
+      "total_credit": 74.0,
+      "total_risk": 1926.0,
+      "theta_efficiency": 0.000457,
+      "score": 73.72
+    }
+  ],
+  "advanced_vix": 17.72,
   "advanced_regime": "bull"
 }
