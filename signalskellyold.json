@@ -1,81 +1,81 @@
 {
-  "last_updated": "2026-05-22 06:26:12 UTC-07:00",
+  "last_updated": "2026-05-22 06:30:20 UTC-07:00",
   "next_scan_secs": 300,
   "tickers": {
     "NVDA": {
-      "price": 219.51,
+      "price": 219.74,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "AMZN": {
-      "price": 268.46,
+      "price": 268.77,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "MSFT": {
-      "price": 419.09,
+      "price": 420.46,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "META": {
-      "price": 607.38,
+      "price": 611.07,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "GOOG": {
-      "price": 383.47,
+      "price": 382.3,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "NFLX": {
-      "price": 89.3,
+      "price": 89.64,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "PLTR": {
-      "price": 137.41,
+      "price": 137.97,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "TSLA": {
-      "price": 417.85,
+      "price": 424.2,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "SPY": {
-      "price": 742.72,
+      "price": 746.14,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "TQQQ": {
-      "price": 76.95,
+      "price": 78.14,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "SQQQ": {
-      "price": 41.96,
+      "price": 41.31,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "AMD": {
-      "price": 449.59,
+      "price": 474.06,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "ORCL": {
-      "price": 189.77,
+      "price": 192.12,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
