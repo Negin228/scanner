@@ -441,7 +441,6 @@ td { padding: 9px 12px; white-space: nowrap; vertical-align: middle; }
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="brand">
     <div class="brand-mark">PCS</div>
@@ -460,10 +459,8 @@ td { padding: 9px 12px; white-space: nowrap; vertical-align: middle; }
   </div>
 </div>
 
-<!-- TICKER BAR -->
 <div class="ticker-bar" id="ticker-bar"></div>
 
-<!-- NAV TABS -->
 <div class="nav-tabs">
   <div class="tab active" id="tab-all" onclick="switchTab('all')">
     All Signals <span class="tbadge" id="badge-all">0</span>
@@ -476,7 +473,6 @@ td { padding: 9px 12px; white-space: nowrap; vertical-align: middle; }
   </div>
 </div>
 
-<!-- ══ ALL SIGNALS PANEL ══ -->
 <div class="panel active" id="panel-all">
 
   <div class="panel-hdr">
@@ -530,7 +526,6 @@ td { padding: 9px 12px; white-space: nowrap; vertical-align: middle; }
   <div class="config-bar" id="config-bar" style="display:none"></div>
 </div>
 
-<!-- ══ TOP 10 PANEL ══ -->
 <div class="panel" id="panel-top10">
 
   <div class="t10-summary" id="t10-summary"></div>
@@ -557,7 +552,6 @@ td { padding: 9px 12px; white-space: nowrap; vertical-align: middle; }
   <div class="config-bar" id="top10-config-bar" style="display:none;border-color:rgba(255,209,102,0.2)"></div>
 </div>
 
-<!-- ══ ADVANCED PANEL ══ -->
 <div class="panel" id="panel-advanced">
 
   <div class="adv-meta" id="adv-meta" style="display:none"></div>
@@ -628,7 +622,10 @@ let activeFilter = 'ALL', activeSort = 'score', sortDir = -1;
 let advFilter = 'ALL', advSort = 'score', advSortDir = -1;
 let maxScore = 1, advMaxScore = 1;
 let countdownVal = 300, countdownTimer = null;
-let isScanRunning = false, lastStamp = null;
+
+// Track running status and last data status across page reloads via localStorage
+let isScanRunning = localStorage.getItem('isScanRunning') === 'true';
+let lastStamp = localStorage.getItem('lastStamp') || '—';
 
 // ── Tab switching ──
 function switchTab(tab) {
@@ -645,12 +642,25 @@ function setStatus(state, msg) {
   document.getElementById('status-text').textContent = msg;
 }
 function setScanningStatus(msg) {
-  setStatus('live', msg + (lastStamp ? ' · Last: ' + lastStamp : ''));
+  setStatus('live', msg + (lastStamp ? ' · Last Refresh: ' + lastStamp : ''));
 }
 function setRefreshBtn(busy) {
   const btn = document.querySelector('.refresh-btn');
+  if (!btn) return;
   btn.disabled = busy;
-  btn.textContent = busy ? '⏳ RUNNING…' : '↺ REFRESH';
+  if (busy) {
+    btn.textContent = '⏳ RUNNING…';
+    btn.style.opacity = '0.4';
+    btn.style.cursor = 'not-allowed';
+    btn.style.borderColor = 'var(--amber)';
+    btn.style.color = 'var(--amber)';
+  } else {
+    btn.textContent = '↺ REFRESH';
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+    btn.style.borderColor = 'var(--border2)';
+    btn.style.color = 'var(--text2)';
+  }
 }
 
 // ── Fetch ──
@@ -667,12 +677,16 @@ async function fetchData() {
 
 // ── Trigger GitHub Action ──
 async function triggerScan() {
-  if (isScanRunning) return;
+  if (isScanRunning) return; // Completely drop sequential click actions
   let token = localStorage.getItem('gh_token');
   if (!token) { token = prompt('GitHub Personal Access Token:'); if (token) localStorage.setItem('gh_token', token); }
   if (!token) return;
 
-  isScanRunning = true; setRefreshBtn(true); setScanningStatus('Triggering scan…');
+  // Persist busy execution lock immediately before handling promises
+  isScanRunning = true; 
+  localStorage.setItem('isScanRunning', 'true');
+  setRefreshBtn(true); 
+  setScanningStatus('Triggering scan…');
 
   try {
     const res = await fetch('https://api.github.com/repos/negin228/scanner/dispatches', {
@@ -680,17 +694,40 @@ async function triggerScan() {
       headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
       body: JSON.stringify({ event_type: 'manual_refresh' })
     });
-    if (res.status === 401) { localStorage.removeItem('gh_token'); alert('Invalid token.'); isScanRunning=false; setRefreshBtn(false); return; }
+    if (res.status === 401) { 
+      localStorage.removeItem('gh_token'); 
+      alert('Invalid token.'); 
+      isScanRunning = false; 
+      localStorage.setItem('isScanRunning', 'false');
+      setRefreshBtn(false); 
+      return; 
+    }
     if (res.ok) {
       let n = 0;
       const poll = setInterval(async () => {
         n++;
         setScanningStatus(`Scanning… (${n}/9)`);
         await fetchData();
-        if (n >= 9) { clearInterval(poll); isScanRunning=false; setRefreshBtn(false); setStatus('live', 'Updated ' + lastStamp); }
+        if (n >= 9) { 
+          clearInterval(poll); 
+          isScanRunning = false; 
+          localStorage.setItem('isScanRunning', 'false');
+          setRefreshBtn(false); 
+          setStatus('live', 'Last Refresh: ' + lastStamp); 
+        }
       }, 10000);
-    } else { isScanRunning=false; setRefreshBtn(false); setStatus('error', 'Trigger failed: '+res.status); }
-  } catch(e) { isScanRunning=false; setRefreshBtn(false); setStatus('error', e.message); }
+    } else { 
+      isScanRunning = false; 
+      localStorage.setItem('isScanRunning', 'false');
+      setRefreshBtn(false); 
+      setStatus('error', 'Trigger failed: '+res.status); 
+    }
+  } catch(e) { 
+    isScanRunning = false; 
+    localStorage.setItem('isScanRunning', 'false');
+    setRefreshBtn(false); 
+    setStatus('error', e.message); 
+  }
 }
 
 // ── Process data ──
@@ -702,8 +739,13 @@ function processData(data) {
   maxScore    = allSignals.length  ? Math.max(1, ...allSignals.map(s=>s.score||0))  : 1;
   advMaxScore = advSignals.length  ? Math.max(1, ...advSignals.map(s=>s.score||0))  : 1;
 
+  // Track the underlying structured dataset generation stamp natively
   lastStamp = data.last_updated || '—';
-  if (!isScanRunning) setStatus(data.error ? 'error' : 'live', 'Updated ' + lastStamp);
+  localStorage.setItem('lastStamp', lastStamp);
+
+  if (!isScanRunning) {
+    setStatus(data.error ? 'error' : 'live', 'Last Refresh: ' + lastStamp);
+  }
 
   countdownVal = data.next_scan_secs || 300;
   startCountdown();
@@ -984,6 +1026,8 @@ function renderTop10Config(cfg) {
 }
 
 // ── Init ──
+// Synchronize visual presentation hooks against persistent configurations on boot
+setRefreshBtn(isScanRunning);
 setInterval(fetchData, 30000);
 fetchData();
 </script>
