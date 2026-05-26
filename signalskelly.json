@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-26 15:26:43 UTC-07:00",
+  "last_updated": "2026-05-26 15:43:56 UTC-07:00",
   "next_scan_secs": 300,
   "tickers": {
     "NVDA": {
@@ -490,7 +490,7 @@
     "min_ror_pct": 8,
     "min_iv_pct": 20,
     "dte_range": [
-      7,
+      0,
       45
     ],
     "top10_min_oi": 500,
