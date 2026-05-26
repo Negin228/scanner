@@ -32,8 +32,8 @@ print("API KEY LENGTH:", len(TRADIER_API_KEY))
 print("FIRST 6 CHARS:", TRADIER_API_KEY[:6] if TRADIER_API_KEY else "NONE")
 print("===================================")
 
-SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "PLTR", "TSLA", "SPY", "TQQQ", "SQQQ", "AMD", "ORCL"]
-#SYMBOLS = ["GOOGL", "SPY", "TQQQ", "SQQQ", "SOXL", "GOOG", "AMZN", "AAPL", "MSFT", "META", "NVDA", "TSLA", "AVGO", "ASML", "TSM", "ORCL", "CRM", "ADBE", "NFLX", "INTU", "AMD", "QCOM", "TXN", "AMAT", "LRCX", "MU", "PANW", "SNPS", "BRK-B", "JPM", "V", "MA", "BAC", "WFC", "MS", "GS", "BLK", "AXP", "UNH", "JNJ", "LLY", "ABBV", "MRK", "PFE", "TMO", "DHR", "ABT", "ISRG", "XOM", "CVX", "COP", "PG", "KO", "PEP", "COST", "WMT", "HD", "MCD", "NKE", "SBUX", "LOW", "LIN", "HON", "UPS", "CAT", "GE", "RTX", "BA", "NEE", "DUK", "SO", "PLD", "AMT", "TMUS", "VZ", "UBER", "SHOP", "MELI", "PDD", "IBKR", "KKR", "BX", "APO", "CMCSA", "DIS", "DELL", "PLTR", "CRWD", "ARM", "MRVL"]
+#SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "PLTR", "TSLA", "SPY", "TQQQ", "SQQQ", "AMD", "ORCL"]
+SYMBOLS = ["GOOGL", "SPY", "TQQQ", "SQQQ", "SOXL", "GOOG", "AMZN", "AAPL", "MSFT", "META", "NVDA", "TSLA", "AVGO", "ASML", "TSM", "ORCL", "CRM", "ADBE", "NFLX", "INTU", "AMD", "QCOM", "TXN", "AMAT", "LRCX", "MU", "PANW", "SNPS", "BRK-B", "JPM", "V", "MA", "BAC", "WFC", "MS", "GS", "BLK", "AXP", "UNH", "JNJ", "LLY", "ABBV", "MRK", "PFE", "TMO", "DHR", "ABT", "ISRG", "XOM", "CVX", "COP", "PG", "KO", "PEP", "COST", "WMT", "HD", "MCD", "NKE", "SBUX", "LOW", "LIN", "HON", "UPS", "CAT", "GE", "RTX", "BA", "NEE", "DUK", "SO", "PLD", "AMT", "TMUS", "VZ", "UBER", "SHOP", "MELI", "PDD", "IBKR", "KKR", "BX", "APO", "CMCSA", "DIS", "DELL", "PLTR", "CRWD", "ARM", "MRVL"]
 
 SPREAD_WIDTH       = 5
 MIN_DISCOUNT_PCT   = 0.20
