@@ -1,4 +1,4 @@
-name: Manual ScannerKelly Update
+name: Manual ScannerKelly Update python scannerkelly.py
 on:
   repository_dispatch:
     types: [manual_refresh]
