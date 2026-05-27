@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-27 06:08:27 UTC-07:00",
+  "last_updated": "2026-05-27 06:12:11 UTC-07:00",
   "next_scan_secs": 300,
   "tickers": {
     "NVDA": {
@@ -104,6 +104,6 @@
     "top10_max_ba": 0.1
   },
   "advanced_signals": [],
-  "advanced_vix": 16.84,
+  "advanced_vix": 16.87,
   "advanced_regime": "bull"
 }
