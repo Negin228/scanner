@@ -1,4 +1,4 @@
-name: Manual Scanner Update
+name: Manual Scanner Update python scanner.py
 on:
   repository_dispatch:
     types: [manual_refresh]
