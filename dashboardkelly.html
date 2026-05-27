@@ -715,7 +715,7 @@ async function triggerScan() {
           setRefreshBtn(false); 
           setStatus('live', 'Last Refresh: ' + lastStamp); 
         }
-      }, 5000);
+      }, 10000);
     } else { 
       isScanRunning = false; 
       localStorage.setItem('isScanRunning', 'false');
