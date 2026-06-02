@@ -9,8 +9,10 @@ from datetime import timedelta, timezone
 # ─────────────────────────────────────────────
 # INSTITUTIONAL CONFIGURATION
 # ─────────────────────────────────────────────
+
 BASE_URL = "https://api.tradier.com/v1"
 TRADIER_API_KEY = os.getenv("TRADIER_API_KEY", "").strip()
+
 
 # High-Liquidity Institutional Watchlist (Trimmed Core)
 SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "TSLA", "SPY", "AMD", "QCOM", "AAPL", "ORCL", "TQQQ"]
