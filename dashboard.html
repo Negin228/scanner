@@ -1,109 +1,447 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Institutional Risk Terminal</title>
-    <style>
-        :root {
-            --bg: #0b0e11;
-            --text: #e0e0e0;
-            --accent: #f0b90b;
-            --green: #02c076;
-            --red: #cf304a;
-            --row-hover: #1e2329;
-        }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: var(--text); margin: 20px; }
-        h1 { color: var(--accent); border-bottom: 2px solid var(---accent); padding-bottom: 10px; }
-        
-        /* Risk Header Section */
-        .summary-bar { display: flex; gap: 20px; margin-bottom: 20px; padding: 15px; background: #161a1e; border-radius: 8px; border-left: 5px solid var(--accent); }
-        .stat { display: flex; flex-direction: column; }
-        .stat-label { font-size: 10px; text-transform: uppercase; color: #848e9c; }
-        .stat-value { font-size: 18px; font-weight: bold; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Institutional Put Credit Spread Workstation</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --bg2: #0f1520;
+    --bg3: #141c2b;
+    --bg4: #192234;
+    --border: #1e2d45;
+    --border2: #243650;
+    --text: #c8d8ef;
+    --text2: #7a9bbf;
+    --text3: #3d5a7a;
+    --green: #00e5a0;
+    --green-dim: #00b87d;
+    --green-bg: rgba(0,229,160,0.07);
+    --amber: #f5a623;
+    --amber-bg: rgba(245,166,35,0.08);
+    --red: #ff4d6a;
+    --red-bg: rgba(255,77,106,0.08);
+    --blue: #4d9fff;
+    --blue-bg: rgba(77,159,255,0.08);
+    --cyan: #00cfff;
+    --gold: #ffd166;
+    --gold-bg: rgba(255,209,102,0.08);
+    --purple: #b48eff;
+    --purple-bg: rgba(180,142,255,0.08);
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:var(--sans); font-size:13px; min-height:100vh; padding-bottom:60px; }
 
-        /* Data Table */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
-        th { text-align: left; background: #1e2329; padding: 12px; color: #848e9c; cursor: pointer; }
-        td { padding: 12px; border-bottom: 1px solid #2b2f36; }
-        tr:hover { background: var(--row-hover); }
+  /* ── Header ── */
+  .header {
+    background:var(--bg2); border-bottom:1px solid var(--border);
+    padding:14px 24px; display:flex; align-items:center; justify-content:space-between;
+    position:sticky; top:0; z-index:100;
+  }
+  .header-left { display:flex; align-items:center; gap:12px; }
+  .logo { font-family:var(--mono); font-size:11px; font-weight:600; color:var(--green); letter-spacing:0.12em; border:1px solid var(--green-dim); padding:4px 10px; border-radius:3px; }
+  .title { font-size:15px; font-weight:500; }
+  .subtitle { font-size:11px; color:var(--text3); font-family:var(--mono); margin-top:1px; }
+  .header-right { display:flex; align-items:center; gap:16px; }
+  .status-row { display:flex; align-items:center; gap:7px; }
+  .dot { width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 8px var(--green); animation:pulse 2s infinite; }
+  .dot.stale { background:var(--amber); box-shadow:0 0 8px var(--amber); }
+  .dot.error { background:var(--red); box-shadow:0 0 8px var(--red); animation:none; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .status-text { font-family:var(--mono); font-size:11px; color:var(--text2); }
+  .btn { background:var(--bg3); border:1px solid var(--border2); color:var(--text2); font-family:var(--mono); font-size:11px; padding:5px 12px; border-radius:3px; cursor:pointer; transition:all 0.15s; }
+  .btn:hover { border-color:var(--blue); color:var(--blue); }
 
-        /* Conditional Classes */
-        .high-edge { color: var(--green); font-weight: bold; }
-        .high-corr { background: rgba(207, 48, 74, 0.1); color: var(--red); }
-        .qty-badge { background: var(--accent); color: black; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
-    </style>
+  /* ── Tab bar ── */
+  .tab-bar { display:flex; align-items:center; gap:0; border-bottom:1px solid var(--border); padding:0 24px; background:var(--bg2); }
+  .tab {
+    font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
+    padding:12px 18px; cursor:pointer; color:var(--text3); border-bottom:2px solid transparent;
+    transition:all 0.15s; user-select:none; display:flex; align-items:center; gap:7px;
+  }
+  .tab:hover { color:var(--text2); }
+  .tab.active { color:var(--text); border-bottom-color:var(--green); }
+  .tab.top10-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
+  .tab-badge {
+    font-size:10px; padding:1px 6px; border-radius:3px;
+    background:var(--bg3); border:1px solid var(--border2); color:var(--text3);
+  }
+  .tab.active .tab-badge { background:var(--green-bg); border-color:var(--green-dim); color:var(--green); }
+  .tab.top10-tab.active .tab-badge { background:var(--gold-bg); border-color:var(--gold); color:var(--gold); }
+
+  /* ── Main ── */
+  .main { padding:20px 24px; }
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
+
+  /* ── Top Grid Cards ── */
+  .top10-grid { display:grid; gap:10px; }
+  .signal-card {
+    background:var(--bg2); border:1px solid var(--border); border-radius:6px;
+    padding:14px 16px; transition:border-color 0.2s; position:relative; overflow:hidden;
+  }
+  .signal-card:hover { border-color:var(--border2); }
+  .signal-card.rank-1 { border-color:var(--gold); }
+  .signal-card.rank-2 { border-color:rgba(255,209,102,0.4); }
+  .signal-card.rank-3 { border-color:rgba(255,209,102,0.2); }
+  .card-rank {
+    position:absolute; top:0; right:0;
+    font-family:var(--mono); font-size:10px; font-weight:600;
+    color:var(--bg); background:var(--text3);
+    padding:3px 8px; border-radius:0 6px 0 4px;
+  }
+  .rank-1 .card-rank { background:var(--gold); }
+  .rank-2 .card-rank { background:rgba(255,209,102,0.6); }
+  .rank-3 .card-rank { background:rgba(255,209,102,0.35); color:var(--gold); }
+  
+  .card-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:10px; }
+  .card-sym { font-family:var(--mono); font-size:16px; font-weight:600; color:var(--cyan); }
+  .card-exp { font-family:var(--mono); font-size:11px; color:var(--text2); margin-top:2px; }
+  .card-credit { text-align:right; }
+  .card-credit-val { font-family:var(--mono); font-size:18px; font-weight:600; color:var(--green); }
+  .card-credit-sub { font-size:10px; color:var(--text3); font-family:var(--mono); margin-top:1px; }
+  
+  .card-meta { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+  .card-stat-label { font-size:10px; color:var(--text3); font-family:var(--mono); letter-spacing:0.08em; text-transform:uppercase; }
+  .card-stat-val { font-family:var(--mono); font-size:12px; color:var(--text); margin-top:2px; }
+  .card-divider { border:none; border-top:1px solid var(--border); margin:10px 0; }
+  
+  .card-profit-row { display:flex; align-items:center; gap:8px; margin-top:8px; flex-wrap:wrap; }
+  .profit-pill { font-family:var(--mono); font-size:11px; background:var(--green-bg); border:1px solid var(--green-dim); color:var(--green); padding:2px 8px; border-radius:3px; }
+  .dte-pill { font-family:var(--mono); font-size:11px; background:var(--amber-bg); border:1px solid var(--amber); color:var(--amber); padding:2px 8px; border-radius:3px; }
+  .delta-pill { font-family:var(--mono); font-size:11px; background:var(--blue-bg); border:1px solid var(--blue); color:var(--blue); padding:2px 8px; border-radius:3px; }
+
+  /* ── Toolbar / Filters ── */
+  .toolbar { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; align-items:center; }
+  .filter-label { font-size:11px; color:var(--text3); font-family:var(--mono); }
+  .fbtn { background:var(--bg3); border:1px solid var(--border); color:var(--text2); font-family:var(--mono); font-size:11px; padding:4px 10px; border-radius:3px; cursor:pointer; transition:all 0.15s; }
+  .fbtn:hover { border-color:var(--border2); color:var(--text); }
+  .fbtn.active { background:var(--blue-bg); border-color:var(--blue); color:var(--blue); }
+
+  /* ── Institutional Table Layout ── */
+  .table-wrap { overflow-x:auto; border:1px solid var(--border); border-radius:6px; }
+  table { width:100%; border-collapse:collapse; font-family:var(--mono); font-size:12px; }
+  thead th {
+    background:var(--bg3); color:var(--text3); font-size:10px; font-weight:600;
+    letter-spacing:0.12em; text-transform:uppercase; padding:10px 12px;
+    text-align:left; border-bottom:1px solid var(--border); white-space:nowrap;
+    cursor:pointer; user-select:none; transition:color 0.15s;
+  }
+  thead th:hover { color:var(--text2); }
+  thead th.sorted { color: var(--cyan) !important; border-bottom: 2px solid var(--cyan); }
+
+  tbody tr { border-bottom:1px solid var(--border); transition:background 0.1s; }
+  tbody tr:last-child { border-bottom:none; }
+  tbody tr:hover { background:var(--bg3); }
+  tbody tr.top-row { background:rgba(0,229,160,0.03); }
+  tbody tr.top-row td:first-child { border-left:2px solid var(--green); }
+  td { padding:9px 12px; white-space:nowrap; color:var(--text); vertical-align:middle; }
+  
+  .sym { color:var(--cyan); font-weight:600; }
+  .exp { color:var(--text2); }
+  .dte-b { display:inline-block; padding:1px 6px; border-radius:3px; font-size:10px; background:var(--bg3); border:1px solid var(--border2); color:var(--text2); }
+  .dte-b.sweet { border-color:var(--green-dim); color:var(--green); background:var(--green-bg); }
+  .credit-v { color:var(--green); font-weight:500; }
+  .risk-v { color:var(--red); }
+  .ev-v { color:var(--gold); font-weight:500; }
+  .pop-v { color:var(--green); }
+  .edge-v { color:var(--purple); }
+  .beta-v { color:var(--blue); }
+  .no-row td { text-align:center; padding:40px; color:var(--text3); font-family:var(--mono); font-size:12px; }
+  
+  .section-title { font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text3); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:12px; }
+  .account-meta-bar { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:14px; padding:12px 16px; background:var(--bg2); border:1px solid var(--border); border-radius:5px; }
+  .meta-item { display:flex; flex-direction:column; gap:2px; }
+  .meta-label { font-size:10px; color:var(--text3); font-family:var(--mono); letter-spacing:0.1em; text-transform:uppercase; }
+  .meta-val { font-family:var(--mono); font-size:12px; color:var(--cyan); }
+</style>
 </head>
 <body>
 
-    <h1>Institutional Option Scanner <small style="font-size: 12px; color: #848e9c;">$100k Basis</small></h1>
+<div class="header">
+  <div class="header-left">
+    <div class="logo">PCS</div>
+    <div>
+      <div class="title">Institutional Risk Workstation</div>
+      <div class="subtitle">$5 wide · Dynamic Risk Cap · Real Slippage Adjusted</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="status-row">
+      <div class="dot" id="dot"></div>
+      <div class="status-text" id="status-text">Connecting to Node...</div>
+    </div>
+    <button class="btn" onclick="triggerScan()">↺ Run Engine</button>
+  </div>
+</div>
 
-    <div class="summary-bar" id="risk-header">
-        <div class="stat"><span class="stat-label">Last Update</span><span id="update-time" class="stat-value">--:--:--</span></div>
-        <div class="stat"><span class="stat-label">SPY Benchmark</span><span id="spy-price" class="stat-value">$0.00</span></div>
-        <div class="stat"><span class="stat-label">Total Signals</span><span id="signal-count" class="stat-value">0</span></div>
+<div class="tab-bar">
+  <div class="tab active" id="tab-all" onclick="switchTab('all')">
+    All Valid Signals <span class="tab-badge" id="badge-all">0</span>
+  </div>
+  <div class="tab top10-tab" id="tab-top10" onclick="switchTab('top10')">
+    ⭐ Top Alpha Trades <span class="tab-badge" id="badge-top10">0</span>
+  </div>
+</div>
+
+<div class="tab-panel active" id="panel-all">
+  <div class="main">
+    <div class="account-meta-bar" id="meta-bar">
+      <div class="meta-item"><span class="meta-label">Account Basis</span><span class="meta-val" id="meta-basis">$0.00</span></div>
+      <div class="meta-item"><span class="meta-label">SPY Reference</span><span class="meta-val" id="meta-spy">$0.00</span></div>
+      <div class="meta-item"><span class="meta-label">Max Trade Risk</span><span class="meta-val" style="color:var(--red);">2.00% ($2k)</span></div>
     </div>
 
-    <table>
+    <div class="toolbar">
+      <span class="filter-label">Filter:</span>
+      <button class="fbtn active" onclick="setFilter('ALL',this)">All Underlyings</button>
+      <span id="sym-filters"></span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
         <thead>
-            <tr>
-                <th>Ticker</th>
-                <th>Expiration</th>
-                <th>Spread</th>
-                <th>Net Credit</th>
-                <th>PoP%</th>
-                <th>EV ($)</th>
-                <th>Edge Ratio</th>
-                <th>Qty</th>
-                <th>SPY Delta Eq</th>
-                <th>Corr (SPY)</th>
-            </tr>
+          <tr>
+            <th onclick="setSort('symbol', this)">Symbol</th>
+            <th onclick="setSort('expiration', this)">Expiry</th>
+            <th onclick="setSort('dte', this)">DTE</th>
+            <th>Spread Leg Matrix</th>
+            <th onclick="setSort('price', this)">Underlying</th>
+            <th onclick="setSort('net_credit', this)">Slippage Credit</th>
+            <th onclick="setSort('max_loss', this)">Max Loss</th>
+            <th onclick="setSort('ev', this)">Expected Value (EV)</th>
+            <th onclick="setSort('pop_pct', this)">PoP%</th>
+            <th onclick="setSort('rec_qty', this)">Sized Qty</th>
+            <th onclick="setSort('spy_delta_eq', this)">SPY Beta-Weighted Δ</th>
+            <th onclick="setSort('correlation_spy', this)">SPY Corr</th>
+            <th onclick="setSort('edge_ratio', this)">Edge Ratio</th>
+            <th onclick="setSort('total_risk', this)">Total Matrix Risk</th>
+          </tr>
         </thead>
-        <tbody id="signal-table">
-            <!-- Data injected here -->
+        <tbody id="signals-body">
+          <tr class="no-row"><td colspan="14">Awaiting signals.json payload parse...</td></tr>
         </tbody>
-    </table>
+      </table>
+    </div>
+  </div>
+</div>
 
-    <script>
-        async function refreshData() {
-            try {
-                const response = await fetch('signals.json');
-                const data = await response.json();
-                
-                document.getElementById('update-time').innerText = data.scan_time;
-                document.getElementById('spy-price').innerText = `$${data.benchmark_spy}`;
-                document.getElementById('signal-count').innerText = data.top_signals.length;
+<div class="tab-panel" id="panel-top10">
+  <div class="main">
+    <div class="section-title">Highest Edge Allocations</div>
+    <div class="top10-grid" id="top10-grid">
+      <div class="no-row" style="color:var(--text3); padding:40px; text-align:center;">Processing engine metrics...</div>
+    </div>
+  </div>
+</div>
 
-                const tableBody = document.getElementById('signal-table');
-                tableBody.innerHTML = '';
+<script>
+  let allSignals = [];
+  let activeFilter = 'ALL', activeSort = 'edge_ratio', sortDir = -1;
+  let lastUpdatedStamp = null;
+  let isScanRunning = false;
 
-                data.top_signals.forEach(s => {
-                    const row = document.createElement('tr');
-                    
-                    // Logic: Flag high correlation to avoid cluster risk
-                    if (s.correlation_spy > 0.85) row.classList.add('high-corr');
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+  }
 
-                    row.innerHTML = `
-                        <td><b>${s.symbol}</b> <small style="color:#848e9c">$${s.price}</small></td>
-                        <td>${s.expiration}</td>
-                        <td>${s.spread}</td>
-                        <td>$${s.net_credit.toFixed(2)}</td>
-                        <td style="color:var(--green)">${s.pop_pct}%</td>
-                        <td class="${s.ev > 0.2 ? 'high-edge' : ''}">$${s.ev.toFixed(2)}</td>
-                        <td>${(s.edge_ratio * 100).toFixed(1)}%</td>
-                        <td><span class="qty-badge">${s.rec_qty}</span></td>
-                        <td style="color:${s.spy_delta_eq < 0 ? 'var(--red)' : 'var(--green)'}">${s.spy_delta_eq}</td>
-                        <td>${s.correlation_spy.toFixed(2)}</td>
-                    `;
-                    tableBody.appendChild(row);
-                });
+  function setScanningStatus(msg) {
+    document.getElementById('dot').className = 'dot stale';
+    document.getElementById('status-text').textContent = msg + (lastUpdatedStamp ? ' · Last Matrix: ' + lastUpdatedStamp : '');
+  }
 
-            } catch (e) {
-                console.error("Dashboard Sync Error:", e);
-            }
-        }
+  async function fetchData() {
+    if (!isScanRunning) setScanningStatus('Reading Data Streams...');
+    try {
+      const res = await fetch('signals.json?t=' + Date.now());
+      if (res.ok) {
+        const data = await res.json();
+        processData(data);
+      } else {
+        document.getElementById('dot').className = 'dot error';
+        document.getElementById('status-text').textContent = 'signals.json connection array missing';
+      }
+    } catch (e) {
+      document.getElementById('dot').className = 'dot error';
+      document.getElementById('status-text').textContent = 'Stream error: ' + e.message;
+    }
+  }
 
-        setInterval(refreshData, 30000); // Sync every 30s
-        refreshData();
-    </script>
+  async function triggerScan() {
+    if (isScanRunning) return;
+    let token = localStorage.getItem('gh_token');
+    if (!token) {
+      token = prompt("Enter GitHub Personal Access Token:");
+      if (token) localStorage.setItem('gh_token', token);
+    }
+    if (!token) return;
+
+    try {
+      isScanRunning = true;
+      const btn = document.querySelector('.btn');
+      btn.textContent = '⏳ Engine Mapping…';
+      setScanningStatus('Deploying GitHub Dispatch Routine…');
+
+      const res = await fetch('https://api.github.com/repos/negin228/scanner/dispatches', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ event_type: 'manual_refresh' })
+      });
+
+      if (res.status === 401) {
+        localStorage.removeItem('gh_token');
+        alert("Invalid authorization payload string.");
+        isScanRunning = false;
+        btn.textContent = '↺ Run Engine';
+        return;
+      }
+
+      if (res.ok) {
+        let attempts = 0;
+        const poll = setInterval(async () => {
+          attempts++;
+          setScanningStatus('Re-calculating Greeks (' + attempts + '/9)');
+          await fetchData();
+          if (attempts >= 9) {
+            clearInterval(poll);
+            isScanRunning = false;
+            btn.textContent = '↺ Run Engine';
+            document.getElementById('dot').className = 'dot';
+          }
+        }, 8000);
+      }
+    } catch (e) {
+      isScanRunning = false;
+      document.querySelector('.btn').textContent = '↺ Run Engine';
+    }
+  }
+
+  function processData(data) {
+    allSignals = data.top_signals || [];
+    lastUpdatedStamp = data.scan_time || '—';
+    
+    document.getElementById('meta-basis').textContent = '$' + data.account_basis.toLocaleString();
+    document.getElementById('meta-spy').textContent = '$' + data.benchmark_spy.toFixed(2);
+    
+    if (!isScanRunning) {
+      document.getElementById('dot').className = 'dot';
+      document.getElementById('status-text').textContent = 'Live Synced: ' + lastUpdatedStamp;
+    }
+
+    document.getElementById('badge-all').textContent = allSignals.length;
+    document.getElementById('badge-top10').textContent = Math.min(allSignals.length, 10);
+
+    renderSymFilters(allSignals);
+    renderSignals();
+    renderTopCards();
+  }
+
+  function renderSymFilters(signals) {
+    const syms = [...new Set(signals.map(s=>s.symbol))].sort();
+    document.getElementById('sym-filters').innerHTML = syms.map(sym =>
+      `<button class="fbtn ${activeFilter===sym?'active':''}" onclick="setFilter('${sym}',this)">${sym}</button>`
+    ).join('');
+  }
+
+  function setFilter(sym, btn) {
+    activeFilter = sym;
+    document.querySelectorAll('.toolbar .fbtn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderSignals();
+  }
+
+  function setSort(field, btn) {
+    if (activeSort === field) { sortDir *= -1; }
+    else { activeSort = field; sortDir = -1; }
+    document.querySelectorAll('thead th').forEach(el => el.classList.remove('sorted'));
+    if (btn) btn.classList.add('sorted');
+    renderSignals();
+  }
+
+  function renderSignals() {
+    let sigs = activeFilter==='ALL' ? [...allSignals] : allSignals.filter(s=>s.symbol===activeFilter);
+
+    sigs.sort((a,b) => {
+      let vA = a[activeSort], vB = b[activeSort];
+      if (vA == null) return 1; if (vB == null) return -1;
+      const factor = (activeSort === 'dte' || activeSort === 'max_loss') ? -sortDir : sortDir;
+      return (vA - vB) * factor;
+    });
+
+    if (!sigs.length) {
+      document.getElementById('signals-body').innerHTML = '<tr class="no-row"><td colspan="14">No matrix intersections cleared filters.</td></tr>';
+      return;
+    }
+
+    document.getElementById('signals-body').innerHTML = sigs.map((s,i) => {
+      // Direct extraction of days to match pattern
+      const matchDte = s.expiration ? Math.round((new Date(s.expiration) - new Date()) / (1000*60*60*24)) : 0;
+      return `<tr>
+        <td><span class="sym">${s.symbol}</span></td>
+        <td><span class="exp">${s.expiration}</span></td>
+        <td><span class="dte-b ${matchDte <= 30 ? 'sweet':''}">${matchDte}d</span></td>
+        <td>$${s.spread}</td>
+        <td>$${s.price.toFixed(2)}</td>
+        <td class="credit-v">$${s.net_credit.toFixed(2)}</td>
+        <td class="risk-v">$${s.max_loss.toFixed(2)}</td>
+        <td class="ev-v">$${s.ev.toFixed(2)}</td>
+        <td class="pop-v">${s.pop_pct}%</td>
+        <td style="font-weight:600;">${s.rec_qty} c</td>
+        <td class="beta-v">${s.spy_delta_eq.toFixed(1)} Δ</td>
+        <td>${s.correlation_spy.toFixed(2)}</td>
+        <td class="edge-v">${s.edge_ratio.toFixed(4)}</td>
+        <td style="color:var(--text); font-weight:500;">$${s.total_risk.toLocaleString()}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function renderTopCards() {
+    let topTrades = allSignals.slice(0, 10);
+    if (!topTrades.length) {
+      document.getElementById('top10-grid').innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3);">Zero alpha flags detected.</div>';
+      return;
+    }
+
+    document.getElementById('top10-grid').innerHTML = topTrades.map((s,i) => {
+      const matchDte = s.expiration ? Math.round((new Date(s.expiration) - new Date()) / (1000*60*60*24)) : 0;
+      return `
+      <div class="signal-card ${i<3 ? `rank-${i+1}` : ''}">
+        <div class="card-rank">EDGE RANK #${i+1}</div>
+        <div class="card-top">
+          <div><div class="card-sym">${s.symbol}</div><div class="card-exp">${s.expiration} · ${matchDte} DTE</div></div>
+          <div class="card-credit"><div class="card-credit-val">$${s.net_credit.toFixed(2)}</div><div class="card-credit-sub">Net Entry Credit</div></div>
+        </div>
+        <hr class="card-divider">
+        <div class="card-meta">
+          <div class="card-stat"><div class="card-stat-label">Strikes Matrix</div><div class="card-stat-val">$${s.spread}</div></div>
+          <div class="card-stat"><div class="card-stat-label">Expected Value</div><div class="card-stat-val" style="color:var(--gold); font-weight:600;">+$${s.ev.toFixed(2)}</div></div>
+          <div class="card-stat"><div class="card-stat-label">Sized Allocation</div><div class="card-stat-val" style="color:var(--cyan); font-weight:600;">${s.rec_qty} Contracts</div></div>
+          <div class="card-stat"><div class="card-stat-label">Edge Ratio</div><div class="card-stat-val" style="color:var(--purple);">${s.edge_ratio.toFixed(4)}</div></div>
+          <div class="card-stat"><div class="card-stat-label">Max Matrix Loss</div><div class="card-stat-val" style="color:var(--red);">$${s.total_risk.toLocaleString()}</div></div>
+        </div>
+        <div class="card-profit-row">
+          <span class="profit-pill">PoP: ${s.pop_pct}%</span>
+          <span class="dte-pill">Beta Weighted Exposure: ${s.spy_delta_eq.toFixed(1)} Δ SPY</span>
+          <span class="delta-pill">Benchmark Correlation: ${s.correlation_spy.toFixed(2)}</span>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // Auto-refresh stream data every 30s
+  setInterval(fetchData, 30000);
+  fetchData();
+</script>
 </body>
 </html>
