@@ -1,5 +1,5 @@
 #adv_kelly but shows 1
-
+#working version
 
 """
 Put Credit Spread Scanner — Background Service
