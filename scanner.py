@@ -10,13 +10,33 @@ from datetime import timedelta, timezone
 # INSTITUTIONAL CONFIGURATION
 # ─────────────────────────────────────────────
 BASE_URL = "https://api.tradier.com/v1"
-TRADIER_API_KEY = os.getenv("TRADIER_API_KEY")
+TRADIER_API_KEY = os.getenv("TRADIER_API_KEY", "").strip()
 
-# High-Liquidity Institutional Watchlist
-#SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "TSLA", "SPY", "AMD", "QCOM", "AAPL"]
-SYMBOLS =['TQQQ', 'SQQQ', 'UPRO', 'SPXU', 'UDOW', 'SDOW', 'SOXL','SOXS', 'MMM', 'AOS', 'ABT', 'ABBV', 'ACN', 'ADBE', 'AMD', 'AES', 'AFL', 'A', 'APD', 'ABNB', 'AKAM', 'ALB', 'ARE', 'ALGN', 'ALLE', 'LNT', 'ALL', 'GOOGL', 'GOOG', 'MO', 'AMZN', 'AMCR', 'AEE', 'AEP', 'AXP', 'AIG', 'AMT', 'AWK', 'AMP', 'AME', 'AMGN', 'APH', 'ADI', 'AON', 'APA', 'APO', 'AAPL', 'AMAT', 'APTV', 'ACGL', 'ADM', 'ANET', 'AJG', 'AIZ', 'T', 'ATO', 'ADSK', 'ADP', 'AZO', 'AVB', 'AVY', 'AXON', 'BKR', 'BALL', 'BAC', 'BAX', 'BDX', 'BRK-B', 'BBY', 'TECH', 'BIIB', 'BLK', 'BX', 'XYZ', 'BK', 'BA', 'BKNG', 'BSX', 'BMY', 'AVGO', 'BR', 'BRO', 'BF-B', 'BLDR', 'BG', 'BXP', 'CHRW', 'CDNS', 'CZR','CPT', 'CPB', 'COF', 'CAH', 'KMX', 'CCL', 'CARR', 'CAT', 'CBOE', 'CBRE', 'CDW', 'COR', 'CNC', 'CNP', 'CF', 'CRL', 'SCHW', 'CHTR', 'CVX', 'CMG', 'CB', 'CHD', 'CI', 'CINF', 'CTAS', 'CSCO', 'C', 'CFG', 'CLX', 'CME', 'CMS', 'KO', 'CTSH', 'COIN', 'CL', 'CMCSA','CAG', 'COP', 'ED', 'STZ', 'CEG', 'COO', 'CPRT', 'GLW', 'CPAY', 'CTVA', 'CSGP', 'COST', 'CTRA', 'CRWD', 'CCI', 'CSX', 'CMI', 'CVS', 'DHR', 'DRI', 'DDOG', 'DVA', 'DAY', 'DECK', 'DE', 'DELL', 'DAL', 'DVN', 'DXCM', 'FANG', 'DLR', 'DG', 'DLTR', 'D', 'DPZ', 'DASH', 'DOV', 'DOW', 'DHI', 'DTE', 'DUK', 'DD', 'EMN', 'ETN', 'EBAY', 'ECL', 'EIX', 'EW', 'EA', 'ELV', 'EMR', 'ENPH', 'ETR', 'EOG', 'EPAM', 'EQT', 'EFX', 'EQIX', 'EQR', 'ERIE', 'ESS', 'EL', 'EG', 'EVRG', 'ES', 'EXC', 'EXE', 'EXPE', 'EXPD', 'EXR', 'XOM', 'FFIV', 'FDS', 'FICO', 'FAST', 'FRT', 'FDX', 'FIS', 'FITB', 'FSLR', 'FE', 'FI', 'FISV', 'F', 'FTNT', 'FTV', 'FOXA', 'FOX', 'BEN', 'FCX', 'GRMN', 'IT', 'GE', 'GEHC', 'GEV', 'GEN', 'GNRC', 'GD', 'GIS', 'GM', 'GPC', 'GILD', 'GPN', 'GL', 'GDDY', 'GS', 'HAL', 'HIG', 'HAS', 'HCA', 'DOC', 'HSIC', 'HSY', 'HPE', 'HLT', 'HOLX', 'HD', 'HON', 'HRL', 'HST', 'HWM', 'HPQ', 'HUBB', 'HUM', 'HBAN', 'HII', 'IBM', 'IEX', 'IDXX', 'ITW', 'INCY', 'IR', 'PODD', 'INTC', 'ICE', 'IFF', 'IP', 'IPG', 'INTU', 'ISRG', 'IVZ', 'INVH', 'IQV', 'IRM', 'JBHT', 'JBL', 'JKHY', 'J', 'JNJ', 'JCI', 'JPM', 'K', 'KVUE', 'KDP', 'KEY', 'KEYS', 'KMB', 'KIM', 'KMI', 'KKR', 'KLAC', 'KHC', 'KR', 'LHX', 'LH', 'LRCX', 'LW', 'LVS', 'LDOS', 'LEN', 'LII', 'LLY', 'LIN', 'LYV', 'LKQ', 'LMT', 'L', 'LOW', 'LULU', 'LYB', 'MTB', 'MPC', 'MKTX', 'MAR', 'MMC', 'MLM', 'MAS', 'MA', 'MTCH', 'MKC', 'MCD', 'MCK', 'MDT', 'MRK', 'META', 'MET', 'MTD', 'MGM', 'MCHP', 'MU', 'MSFT', 'MAA', 'MRNA', 'MHK', 'MOH', 'TAP', 'MDLZ', 'MPWR', 'MNST', 'MCO', 'MS', 'MOS', 'MSI', 'MSCI', 'NDAQ', 'NTAP', 'NFLX', 'NEM', 'NWSA', 'NWS', 'NEE', 'NKE', 'NI', 'NDSN', 'NSC', 'NTRS', 'NOC', 'NCLH', 'NRG', 'NUE', 'NVDA', 'NVR', 'NXPI', 'ORLY', 'OXY', 'ODFL', 'OMC', 'ON', 'OKE', 'ORCL', 'OTIS', 'PCAR', 'PKG', 'PLTR', 'PANW', 'PSKY', 'PH', 'PAYX', 'PAYC', 'PYPL', 'PNR', 'PEP', 'PFE', 'PCG', 'PM', 'PSX', 'PNW', 'PNC', 'POOL', 'PPG', 'PPL', 'PFG', 'PG', 'PGR', 'PLD', 'PRU', 'PEG', 'PTC', 'PSA', 'PHM', 'PWR', 'QCOM', 'DGX', 'RL', 'RJF', 'RTX', 'O', 'REG', 'REGN', 'RF', 'RSG', 'RMD', 'RVTY', 'ROK', 'ROL', 'ROP', 'ROST', 'RCL', 'SPGI', 'CRM', 'SBAC', 'SLB', 'STX', 'SRE', 'NOW', 'SHW', 'SPG', 'SWKS', 'SJM', 'SW', 'SNA', 'SOLV', 'SO', 'LUV', 'SWK', 'SBUX', 'STT', 'STLD', 'STE', 'SYK', 'SMCI', 'SYF', 'SNPS', 'SYY', 'TMUS', 'TROW', 'TTWO', 'TPR', 'TRGP', 'TGT', 'TEL', 'TDY', 'TER', 'TSLA', 'TXN', 'TPL', 'TXT', 'TMO', 'TJX', 'TKO', 'TTD', 'TSCO', 'TT', 'TDG', 'TRV', 'TRMB', 'TFC', 'TYL', 'TSN', 'USB', 'UBER', 'UDR', 'ULTA', 'UNP', 'UAL', 'UPS', 'URI', 'UNH', 'UHS', 'VLO', 'VTR', 'VLTO', 'VRSN', 'VRSK', 'VZ', 'VRTX', 'VTRS', 'VICI', 'V', 'VST', 'VMC', 'WRB', 'GWW', 'WAB', 'WMT', 'DIS', 'WBD', 'WM', 'WAT', 'WEC', 'WFC', 'WELL', 'WST', 'WDC', 'WY', 'WSM', 'WMB', 'WTW', 'WDAY', 'WYNN', 'XEL', 'XYL', 'YUM', 'ZBRA', 'ZBH', 'ZTS', 'IBKR', 'ZS','TRI','Hood', 'PDD', 'TEAM', 'APP','SHOP', 'MRVL', 'CCEP', 'ASML', 'ARM', 'GFS', 'AZN', 'MELI', 'MSTR']
+# High-Liquidity Institutional Watchlist (Trimmed Core)
+SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "TSLA", "SPY", "AMD", "QCOM", "AAPL", "ORCL", "TQQQ"]
 
-
+# Map correct beta values for your core trimmed basket
+BETA_MAPPING = {
+    "TQQQ": 3.0,
+    "SQQQ": -3.0,
+    "SOXL": 3.0,
+    "SOXS": -3.0,
+    "UPRO": 3.0,
+    "SPXU": -3.0,
+    "SPY":  1.0,
+    "NVDA": 1.7,
+    "AAPL": 1.1,
+    "AMZN": 1.1,
+    "MSFT": 0.9,
+    "META": 1.2,
+    "GOOG": 1.1,
+    "AMD":  1.6,
+    "TSLA": 1.4,
+    "NFLX": 1.2,
+    "PLTR": 1.5,
+    "ORCL": 1.0,
+    "MSTR": 3.1
+}
 
 BENCHMARK = "SPY"
 
@@ -143,8 +163,8 @@ def run_workstation_scan():
                 if not long_opt: continue
 
                 # --- INSTITUTIONAL LIQUIDITY GUARD ---
-                s_bid = float(short_opt.get("bid", 0))
-                s_ask = float(short_opt.get("ask", 0))
+                s_bid = float(short_opt.get("bid", 0) or 0)
+                s_ask = float(short_opt.get("ask", 0) or 0)
                 
                 # Check 1: Must have a real buyer (No $0.00 bids)
                 if s_bid < MIN_BID_PRICE: continue
@@ -153,19 +173,25 @@ def run_workstation_scan():
                 if s_bid > 0 and (s_ask / s_bid) > MAX_BID_ASK_RATIO: continue
                 
                 # Check 3: Open Interest check
-                if int(short_opt.get("open_interest", 0)) < MIN_OI: continue
+                if int(short_opt.get("open_interest", 0) or 0) < MIN_OI: continue
 
                 # Mid-price calculation with Slippage Haircut
-                l_bid, l_ask = float(long_opt.get("bid", 0)), float(long_opt.get("ask", 0))
+                l_bid = float(long_opt.get("bid", 0) or 0)
+                l_ask = float(long_opt.get("ask", 0) or 0)
                 mid_credit = ((s_bid + s_ask)/2) - ((l_bid + l_ask)/2)
                 net_credit = mid_credit * (1 - SLIPPAGE_ADJUST)
                 max_loss = SPREAD_WIDTH - net_credit
                 
                 if net_credit <= 0.05: continue
 
-                # Risk Analytics
-                delta = float(short_opt.get("greeks", {}).get("delta", 0))
-                metrics = calculate_institutional_metrics(delta, net_credit, max_loss, price, spy_price)
+                # Risk Analytics & Safe Greek Unpacking
+                greeks_dict = short_opt.get("greeks", {})
+                if not greeks_dict or greeks_dict.get("delta") is None:
+                    continue  # Skip if critical risk parameters are missing
+                    
+                delta = float(greeks_dict.get("delta"))
+                ticker_beta = BETA_MAPPING.get(symbol, 1.2)
+                metrics = calculate_institutional_metrics(delta, net_credit, max_loss, price, spy_price, ticker_beta=ticker_beta)
 
                 if metrics["pop"] < MIN_PROB_PROFIT or metrics["ev"] <= 0:
                     continue
@@ -185,6 +211,9 @@ def run_workstation_scan():
                     "edge_ratio": metrics["edge_ratio"],
                     "total_risk": round(metrics["qty"] * max_loss * 100, 2)
                 })
+
+        # --- NETWORK safety valve ---
+        time.sleep(0.5)
 
     all_signals.sort(key=lambda x: x["edge_ratio"], reverse=True)
 
