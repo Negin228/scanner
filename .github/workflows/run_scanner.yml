@@ -2,13 +2,13 @@ name: Auto Market Scanner
 
 on:
   schedule:
-    - cron: '30 11 * * 1-5'   # 4:30 AM PT (PDT=UTC-7) Mon-Fri
+    - cron: '30 9 * * 1-5'
   repository_dispatch:
     types: [chain_restart]
   workflow_dispatch:
     inputs:
       run_block:
-        description: 'Run block (1=4:30am-10:30am, 2=10:30am-close)'
+        description: 'Run block (1=2:30am-7:30am, 2=7:30am-close)'
         required: false
         default: '1'
 
@@ -34,17 +34,6 @@ jobs:
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
 
-      - name: Write PT time helper
-        run: |
-          cat > /tmp/pt_epoch.py << 'PYEOF'
-          import sys, datetime, time, os
-          os.environ['TZ'] = 'America/Los_Angeles'
-          time.tzset()
-          h, m = int(sys.argv[1]), int(sys.argv[2])
-          t = datetime.datetime.now().replace(hour=h, minute=m, second=0, microsecond=0)
-          print(int(t.timestamp()))
-          PYEOF
-
       - name: Block 1 — pre-market scan + morning loop
         if: env.RUN_BLOCK == '1'
         env:
@@ -54,7 +43,7 @@ jobs:
           set -e
 
           run_scan() {
-            echo "──────────────────────────────────────────"
+            echo "────────────────────────────────────────"
             echo "[SCAN] $(TZ='America/Los_Angeles' date '+%Y-%m-%d %H:%M:%S %Z')"
             python scanner.py
             git add signals.json
@@ -63,37 +52,22 @@ jobs:
             echo "[DONE] committed signals.json"
           }
 
-          # ── Single pre-market scan ──
-          echo "[PRE-MARKET] Running initial scan (job start may vary due to GitHub delays)..."
+          echo "[PRE-MARKET] Running initial scan..."
           run_scan
 
-          # ── Wait until 9:30 AM PT ──
-          echo "[WAIT] Waiting for market open (9:30 AM PT)..."
-          while true; do
-            NOW_SEC=$(date +%s)
-            OPEN_SEC=$(python3 /tmp/pt_epoch.py 9 30)
-            if [ "$NOW_SEC" -ge "$OPEN_SEC" ]; then
-              echo "[OPEN] Market is open — starting 5-min loop"
-              break
-            fi
-            WAIT=$(( OPEN_SEC - NOW_SEC ))
-            echo "[WAIT] ${WAIT}s until market open ($(TZ='America/Los_Angeles' date '+%H:%M %Z'))..."
+          echo "[WAIT] Checking market open (6:30 AM PT)..."
+          while ! python pt_check.py 6 30; do
+            echo "[WAIT] Not open yet, sleeping 60s..."
             sleep 60
           done
+          echo "[OPEN] Market is open — starting 5-min loop"
 
-          # ── 5-min loop until 10:30 AM PT (hand-off point) ──
-          while true; do
-            NOW_SEC=$(date +%s)
-            HANDOFF_SEC=$(python3 /tmp/pt_epoch.py 10 30)
-            if [ "$NOW_SEC" -ge "$HANDOFF_SEC" ]; then
-              echo "[HANDOFF] Reached 10:30 AM PT — dispatching Block 2"
-              break
-            fi
+          while ! python pt_check.py 7 30; do
             run_scan
             sleep 300
           done
+          echo "[HANDOFF] Reached 7:30 AM PT — dispatching Block 2"
 
-          # ── Trigger Block 2 via repository_dispatch ──
           curl -s -X POST \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
@@ -102,7 +76,7 @@ jobs:
             -d '{"event_type":"chain_restart","client_payload":{"run_block":"2"}}'
           echo "[CHAIN] Block 2 dispatched successfully"
 
-      - name: Block 2 — midday loop to market close
+      - name: Block 2 — loop to market close
         if: env.RUN_BLOCK == '2'
         env:
           TRADIER_API_KEY: ${{ secrets.TRADIER_API_KEY }}
@@ -110,7 +84,7 @@ jobs:
           set -e
 
           run_scan() {
-            echo "──────────────────────────────────────────"
+            echo "────────────────────────────────────────"
             echo "[SCAN] $(TZ='America/Los_Angeles' date '+%Y-%m-%d %H:%M:%S %Z')"
             python scanner.py
             git add signals.json
@@ -119,16 +93,9 @@ jobs:
             echo "[DONE] committed signals.json"
           }
 
-          # ── 5-min loop until 1:00 PM PT (market close) ──
-          while true; do
-            NOW_SEC=$(date +%s)
-            CLOSE_SEC=$(python3 /tmp/pt_epoch.py 13 0)
-            if [ "$NOW_SEC" -ge "$CLOSE_SEC" ]; then
-              echo "[CLOSE] Market closed at 1:00 PM PT — scanner shutting down"
-              break
-            fi
+          while ! python pt_check.py 10 0; do
             run_scan
             sleep 300
           done
-
+          echo "[CLOSE] Market closed at 10:00 AM PT — scanner shutting down"
           echo "[DONE] Full trading day complete."
