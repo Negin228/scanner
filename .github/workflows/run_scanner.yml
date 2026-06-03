@@ -2,15 +2,21 @@ name: Auto Market Scanner
 
 on:
   schedule:
-    - cron: '30 9 * * 1-5'
+    - cron: '30 11 * * 1-5'   # 4:30 AM PT (PDT=UTC-7), 2 hours before 6:30 open
   repository_dispatch:
     types: [chain_restart]
   workflow_dispatch:
     inputs:
       run_block:
-        description: 'Run block (1=2:30am-7:30am, 2=7:30am-close)'
+        description: 'Run block (1=open-9:30am, 2=9:30am-close)'
         required: false
         default: '1'
+
+# REQUIRED: actions:write lets the GITHUB_TOKEN fire the repository_dispatch
+# that hands off to Block 2. contents:write lets the workflow push signals.json.
+permissions:
+  contents: write
+  actions: write
 
 jobs:
   run-scanner:
@@ -34,7 +40,8 @@ jobs:
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
 
-      - name: Block 1 — pre-market scan + morning loop
+      - name: Block 1 — pre-market scan + morning loop (open to 9:30 AM PT)
+        # Max runtime = 9:30 handoff - 4:30 cron = 5h, safely under GitHub's 6h job limit
         if: env.RUN_BLOCK == '1'
         env:
           TRADIER_API_KEY: ${{ secrets.TRADIER_API_KEY }}
@@ -62,21 +69,30 @@ jobs:
           done
           echo "[OPEN] Market is open — starting 5-min loop"
 
-          while ! python pt_check.py 7 30; do
+          # Loop every 5 min until 9:30 AM PT handoff
+          while ! python pt_check.py 9 30; do
             run_scan
             sleep 300
           done
-          echo "[HANDOFF] Reached 7:30 AM PT — dispatching Block 2"
+          echo "[HANDOFF] Reached 9:30 AM PT — dispatching Block 2"
 
-          curl -s -X POST \
+          # Dispatch Block 2 and CHECK the response (no silent failure)
+          HTTP_CODE=$(curl -s -o /tmp/dispatch_resp.txt -w "%{http_code}" -X POST \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Content-Type: application/json" \
             "https://api.github.com/repos/${{ github.repository }}/dispatches" \
-            -d '{"event_type":"chain_restart","client_payload":{"run_block":"2"}}'
-          echo "[CHAIN] Block 2 dispatched successfully"
+            -d '{"event_type":"chain_restart","client_payload":{"run_block":"2"}}')
 
-      - name: Block 2 — loop to market close
+          if [ "$HTTP_CODE" = "204" ]; then
+            echo "[CHAIN] Block 2 dispatched successfully (HTTP 204)"
+          else
+            echo "[ERROR] Dispatch failed with HTTP $HTTP_CODE"
+            cat /tmp/dispatch_resp.txt
+            exit 1
+          fi
+
+      - name: Block 2 — midday loop to market close (9:30 AM to 1:00 PM PT)
         if: env.RUN_BLOCK == '2'
         env:
           TRADIER_API_KEY: ${{ secrets.TRADIER_API_KEY }}
@@ -93,9 +109,11 @@ jobs:
             echo "[DONE] committed signals.json"
           }
 
-          while ! python pt_check.py 10 0; do
+          echo "[BLOCK2] Resuming scan loop until market close (1:00 PM PT)"
+          # Loop until 1:00 PM PT (market close)
+          while ! python pt_check.py 13 0; do
             run_scan
             sleep 300
           done
-          echo "[CLOSE] Market closed at 10:00 AM PT — scanner shutting down"
+          echo "[CLOSE] Market closed at 1:00 PM PT — scanner shutting down"
           echo "[DONE] Full trading day complete."
