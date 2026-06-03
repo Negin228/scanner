@@ -67,9 +67,8 @@ jobs:
           while true; do
             NOW_SEC=$(TZ='America/Los_Angeles' date +%s)
             # Today's 9:30 AM PT as epoch
-            OPEN_SEC=$(TZ='America/Los_Angeles' date -d "$(date '+%Y-%m-%d') 09:30:00" +%s 2>/dev/null \
-                       || TZ='America/Los_Angeles' date -j -f "%Y-%m-%d %H:%M:%S" \
-                          "$(date '+%Y-%m-%d') 09:30:00" +%s)
+            TODAY_PT=$(TZ='America/Los_Angeles' date '+%Y-%m-%d')
+            OPEN_SEC=$(TZ='America/Los_Angeles' date -d "$TODAY_PT 09:30:00" +%s)
             if [ "$NOW_SEC" -ge "$OPEN_SEC" ]; then
               echo "[OPEN] Market is open — starting 5-min loop"
               break
@@ -82,9 +81,8 @@ jobs:
           # ── 5-min loop until 10:30 AM PT (hand-off point) ──
           while true; do
             NOW_SEC=$(TZ='America/Los_Angeles' date +%s)
-            HANDOFF_SEC=$(TZ='America/Los_Angeles' date -d "$(date '+%Y-%m-%d') 10:30:00" +%s 2>/dev/null \
-                          || TZ='America/Los_Angeles' date -j -f "%Y-%m-%d %H:%M:%S" \
-                             "$(date '+%Y-%m-%d') 10:30:00" +%s)
+            TODAY_PT=$(TZ='America/Los_Angeles' date '+%Y-%m-%d')
+            HANDOFF_SEC=$(TZ='America/Los_Angeles' date -d "$TODAY_PT 10:30:00" +%s)
             if [ "$NOW_SEC" -ge "$HANDOFF_SEC" ]; then
               echo "[HANDOFF] Reached 10:30 AM — dispatching Block 2"
               break
@@ -123,9 +121,8 @@ jobs:
           # ── 5-min loop until 1:00 PM PT (market close) ──
           while true; do
             NOW_SEC=$(TZ='America/Los_Angeles' date +%s)
-            CLOSE_SEC=$(TZ='America/Los_Angeles' date -d "$(date '+%Y-%m-%d') 13:00:00" +%s 2>/dev/null \
-                        || TZ='America/Los_Angeles' date -j -f "%Y-%m-%d %H:%M:%S" \
-                           "$(date '+%Y-%m-%d') 13:00:00" +%s)
+            TODAY_PT=$(TZ='America/Los_Angeles' date '+%Y-%m-%d')
+            CLOSE_SEC=$(TZ='America/Los_Angeles' date -d "$TODAY_PT 13:00:00" +%s)
             if [ "$NOW_SEC" -ge "$CLOSE_SEC" ]; then
               echo "[CLOSE] Market closed at 1:00 PM PT — scanner shutting down"
               break
