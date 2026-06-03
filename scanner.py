@@ -4,7 +4,7 @@ import json
 import time
 import os
 import math
-from datetime import timedelta, timezone
+from datetime import timedelta, timezone, datetime as dt
 
 # ─────────────────────────────────────────────
 # INSTITUTIONAL CONFIGURATION
@@ -154,7 +154,17 @@ def run_workstation_scan():
     spy_hist = get_historical_closes(BENCHMARK)
 
     all_signals = []
-    scan_time = datetime.datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    # Convert to Pacific Time (PT): PDT=UTC-7 (Mar-Nov), PST=UTC-8
+    _utc_now = datetime.datetime.now(timezone.utc)
+    _year = _utc_now.year
+    _dst_start = datetime.datetime(_year, 3, 8, 10, 0, tzinfo=timezone.utc)
+    _dst_end   = datetime.datetime(_year, 11, 1, 9, 0, tzinfo=timezone.utc)
+    while _dst_start.weekday() != 6: _dst_start += timedelta(days=1)
+    while _dst_end.weekday()   != 6: _dst_end   += timedelta(days=1)
+    _pt_offset = timedelta(hours=-7) if _dst_start <= _utc_now < _dst_end else timedelta(hours=-8)
+    _tz_label  = "PDT" if _pt_offset.total_seconds() == -25200 else "PST"
+    _pt_now    = _utc_now + _pt_offset
+    scan_time  = _pt_now.strftime(f"%Y-%m-%d %H:%M:%S {_tz_label}")
 
     for symbol in SYMBOLS:
         print(f"  > Scanning {symbol}...", end="\r")
