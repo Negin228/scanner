@@ -64,11 +64,17 @@ jobs:
           run_scan
 
           # ── Wait until 9:30 AM PT ──
+          # Use Python to compute epoch seconds — bash date -d ignores TZ for -d strings
           while true; do
-            NOW_SEC=$(TZ='America/Los_Angeles' date +%s)
-            # Today's 9:30 AM PT as epoch
-            TODAY_PT=$(TZ='America/Los_Angeles' date '+%Y-%m-%d')
-            OPEN_SEC=$(TZ='America/Los_Angeles' date -d "$TODAY_PT 09:30:00" +%s)
+            NOW_SEC=$(date +%s)
+            OPEN_SEC=$(TZ='America/Los_Angeles' python3 -c "
+import datetime, time, os
+os.environ['TZ'] = 'America/Los_Angeles'
+time.tzset()
+t = datetime.datetime.now()
+target = t.replace(hour=9, minute=30, second=0, microsecond=0)
+print(int(target.timestamp()))
+")
             if [ "$NOW_SEC" -ge "$OPEN_SEC" ]; then
               echo "[OPEN] Market is open — starting 5-min loop"
               break
@@ -81,8 +87,14 @@ jobs:
           # ── 5-min loop until 10:30 AM PT (hand-off point) ──
           while true; do
             NOW_SEC=$(TZ='America/Los_Angeles' date +%s)
-            TODAY_PT=$(TZ='America/Los_Angeles' date '+%Y-%m-%d')
-            HANDOFF_SEC=$(TZ='America/Los_Angeles' date -d "$TODAY_PT 10:30:00" +%s)
+            HANDOFF_SEC=$(TZ='America/Los_Angeles' python3 -c "
+import datetime, time, os
+os.environ['TZ'] = 'America/Los_Angeles'
+time.tzset()
+t = datetime.datetime.now()
+target = t.replace(hour=10, minute=30, second=0, microsecond=0)
+print(int(target.timestamp()))
+")
             if [ "$NOW_SEC" -ge "$HANDOFF_SEC" ]; then
               echo "[HANDOFF] Reached 10:30 AM — dispatching Block 2"
               break
@@ -121,8 +133,14 @@ jobs:
           # ── 5-min loop until 1:00 PM PT (market close) ──
           while true; do
             NOW_SEC=$(TZ='America/Los_Angeles' date +%s)
-            TODAY_PT=$(TZ='America/Los_Angeles' date '+%Y-%m-%d')
-            CLOSE_SEC=$(TZ='America/Los_Angeles' date -d "$TODAY_PT 13:00:00" +%s)
+            CLOSE_SEC=$(TZ='America/Los_Angeles' python3 -c "
+import datetime, time, os
+os.environ['TZ'] = 'America/Los_Angeles'
+time.tzset()
+t = datetime.datetime.now()
+target = t.replace(hour=13, minute=0, second=0, microsecond=0)
+print(int(target.timestamp()))
+")
             if [ "$NOW_SEC" -ge "$CLOSE_SEC" ]; then
               echo "[CLOSE] Market closed at 1:00 PM PT — scanner shutting down"
               break
