@@ -557,8 +557,8 @@
         ? e.credit_history[e.credit_history.length - 1].net_credit
         : '—';
       const scanCount = e.credit_history ? e.credit_history.length : 0;
-      const firstSeen = e.first_seen ? e.first_seen.replace(' UTC','').slice(0,16) : '—';
-      const lastSeen  = e.last_seen  ? e.last_seen.replace(' UTC','').slice(0,16) : '—';
+      const firstSeen = e.first_seen ? e.first_seen.replace(/ (UTC|PDT|PST)$/,'').slice(0,16) : '—';
+      const lastSeen  = e.last_seen  ? e.last_seen.replace(/ (UTC|PDT|PST)$/,'').slice(0,16) : '—';
       const key = e.spread_key || '';
       return `<tr class="arc-inactive" onclick="openModal('${escKey(key)}')" title="Click to view credit history">
         <td><span class="arc-status-pill inactive">Archived</span></td>
