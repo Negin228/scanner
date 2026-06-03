@@ -1,30 +1,137 @@
-name: Manual Scanner Update python scanner.py
-on:
-  repository_dispatch:
-    types: [manual_refresh]
-  
-  workflow_dispatch:
+name: Auto Market Scanner
 
+on:
+  schedule:
+    - cron: '30 13 * * 1-5'   # 6:30 AM PT (PDT=UTC-7) Mon-Fri
+  repository_dispatch:
+    types: [chain_restart]
+  workflow_dispatch:
+    inputs:
+      run_block:
+        description: 'Run block (1=6:30am-10:30am, 2=10:30am-close)'
+        required: false
+        default: '1'
 
 jobs:
   run-scanner:
     runs-on: ubuntu-latest
+    env:
+      # Block passed via dispatch payload, workflow_dispatch input, or default to 1
+      RUN_BLOCK: ${{ github.event.client_payload.run_block || inputs.run_block || '1' }}
+
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+
       - name: Install dependencies
         run: pip install requests
-      - name: Run Scanner
-        env:
-          TRADIER_API_KEY: ${{ secrets.TRADIER_API_KEY }}
-        run: python scanner.py
-      - name: Commit and Push results
+
+      # ── Configure git once up front ──────────────────────────────────────
+      - name: Configure git
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          git add signals.json
-          git commit -m "Data refresh via dashboard" || exit 0
-          git push
+
+      # ── Helper: run scanner and commit results ───────────────────────────
+      # We write this as a shell function sourced before the loop so we don't
+      # repeat ourselves. The actual loop step sources it.
+
+      # ── Block 1: single pre-market scan, then loop 9:30am→10:30am PT ────
+      - name: Block 1 — pre-market scan + morning loop
+        if: env.RUN_BLOCK == '1'
+        env:
+          TRADIER_API_KEY: ${{ secrets.TRADIER_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+
+          run_scan() {
+            echo "──────────────────────────────────────────"
+            echo "[SCAN] $(TZ='America/Los_Angeles' date '+%Y-%m-%d %H:%M:%S %Z')"
+            python scanner.py
+            git add signals.json
+            git commit -m "Auto scan $(TZ='America/Los_Angeles' date '+%H:%M %Z')" || true
+            git push
+            echo "[DONE] committed signals.json"
+          }
+
+          # ── Single pre-market scan ──
+          echo "[PRE-MARKET] Running initial scan..."
+          run_scan
+
+          # ── Wait until 9:30 AM PT ──
+          while true; do
+            NOW_SEC=$(TZ='America/Los_Angeles' date +%s)
+            # Today's 9:30 AM PT as epoch
+            OPEN_SEC=$(TZ='America/Los_Angeles' date -d "$(date '+%Y-%m-%d') 09:30:00" +%s 2>/dev/null \
+                       || TZ='America/Los_Angeles' date -j -f "%Y-%m-%d %H:%M:%S" \
+                          "$(date '+%Y-%m-%d') 09:30:00" +%s)
+            if [ "$NOW_SEC" -ge "$OPEN_SEC" ]; then
+              echo "[OPEN] Market is open — starting 5-min loop"
+              break
+            fi
+            WAIT=$(( OPEN_SEC - NOW_SEC ))
+            echo "[WAIT] $WAIT seconds until market open..."
+            sleep 60
+          done
+
+          # ── 5-min loop until 10:30 AM PT (hand-off point) ──
+          while true; do
+            NOW_SEC=$(TZ='America/Los_Angeles' date +%s)
+            HANDOFF_SEC=$(TZ='America/Los_Angeles' date -d "$(date '+%Y-%m-%d') 10:30:00" +%s 2>/dev/null \
+                          || TZ='America/Los_Angeles' date -j -f "%Y-%m-%d %H:%M:%S" \
+                             "$(date '+%Y-%m-%d') 10:30:00" +%s)
+            if [ "$NOW_SEC" -ge "$HANDOFF_SEC" ]; then
+              echo "[HANDOFF] Reached 10:30 AM — dispatching Block 2"
+              break
+            fi
+            run_scan
+            sleep 300   # 5 minutes
+          done
+
+          # ── Trigger Block 2 via repository_dispatch ──
+          curl -s -X POST \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Content-Type: application/json" \
+            "https://api.github.com/repos/${{ github.repository }}/dispatches" \
+            -d '{"event_type":"chain_restart","client_payload":{"run_block":"2"}}'
+          echo "[CHAIN] Block 2 dispatched successfully"
+
+      # ── Block 2: loop 10:30am → 1:00pm PT (market close) ────────────────
+      - name: Block 2 — midday loop to market close
+        if: env.RUN_BLOCK == '2'
+        env:
+          TRADIER_API_KEY: ${{ secrets.TRADIER_API_KEY }}
+        run: |
+          set -e
+
+          run_scan() {
+            echo "──────────────────────────────────────────"
+            echo "[SCAN] $(TZ='America/Los_Angeles' date '+%Y-%m-%d %H:%M:%S %Z')"
+            python scanner.py
+            git add signals.json
+            git commit -m "Auto scan $(TZ='America/Los_Angeles' date '+%H:%M %Z')" || true
+            git push
+            echo "[DONE] committed signals.json"
+          }
+
+          # ── 5-min loop until 1:00 PM PT (market close) ──
+          while true; do
+            NOW_SEC=$(TZ='America/Los_Angeles' date +%s)
+            CLOSE_SEC=$(TZ='America/Los_Angeles' date -d "$(date '+%Y-%m-%d') 13:00:00" +%s 2>/dev/null \
+                        || TZ='America/Los_Angeles' date -j -f "%Y-%m-%d %H:%M:%S" \
+                           "$(date '+%Y-%m-%d') 13:00:00" +%s)
+            if [ "$NOW_SEC" -ge "$CLOSE_SEC" ]; then
+              echo "[CLOSE] Market closed at 1:00 PM PT — scanner shutting down"
+              break
+            fi
+            run_scan
+            sleep 300   # 5 minutes
+          done
+
+          echo "[DONE] Full trading day complete."
