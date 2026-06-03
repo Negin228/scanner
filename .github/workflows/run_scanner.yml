@@ -2,13 +2,13 @@ name: Auto Market Scanner
 
 on:
   schedule:
-    - cron: '30 13 * * 1-5'   # 6:30 AM PT (PDT=UTC-7) Mon-Fri
+    - cron: '30 11 * * 1-5'   # 4:30 AM PT (PDT=UTC-7) Mon-Fri
   repository_dispatch:
     types: [chain_restart]
   workflow_dispatch:
     inputs:
       run_block:
-        description: 'Run block (1=6:30am-10:30am, 2=10:30am-close)'
+        description: 'Run block (1=4:30am-10:30am, 2=10:30am-close)'
         required: false
         default: '1'
 
@@ -60,7 +60,7 @@ jobs:
           }
 
           # ── Single pre-market scan ──
-          echo "[PRE-MARKET] Running initial scan..."
+          echo "[PRE-MARKET] Running initial scan (job start may vary due to GitHub delays)..."
           run_scan
 
           # ── Wait until 9:30 AM PT ──
