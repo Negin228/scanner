@@ -1,5 +1,5 @@
 {
-    "scan_time": "2026-06-02 23:57:58 UTC",
+    "scan_time": "2026-06-03 01:12:23 UTC",
     "account_basis": 100000,
     "benchmark_spy": 759.57,
     "top_signals": [
@@ -15,10 +15,10 @@
             "pop_pct": 89.4,
             "rec_qty": 5,
             "spy_delta_eq": -20.11,
-            "correlation_spy": 0.936,
+            "correlation_spy": 0.929,
             "edge_ratio": 0.1663,
             "total_risk": 1916.9,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "QCOM",
@@ -32,10 +32,10 @@
             "pop_pct": 92.9,
             "rec_qty": 4,
             "spy_delta_eq": -10.87,
-            "correlation_spy": 0.936,
+            "correlation_spy": 0.929,
             "edge_ratio": 0.1466,
             "total_risk": 1619.76,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "AMD",
@@ -49,10 +49,10 @@
             "pop_pct": 86.5,
             "rec_qty": 5,
             "spy_delta_eq": -74.43,
-            "correlation_spy": 0.983,
+            "correlation_spy": 0.981,
             "edge_ratio": 0.1161,
             "total_risk": 1936.5,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "QCOM",
@@ -66,10 +66,10 @@
             "pop_pct": 93.3,
             "rec_qty": 4,
             "spy_delta_eq": -10.23,
-            "correlation_spy": 0.936,
+            "correlation_spy": 0.929,
             "edge_ratio": 0.0548,
             "total_risk": 1768.72,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "AMD",
@@ -83,10 +83,10 @@
             "pop_pct": 87.5,
             "rec_qty": 4,
             "spy_delta_eq": -55.15,
-            "correlation_spy": 0.983,
+            "correlation_spy": 0.981,
             "edge_ratio": 0.0493,
             "total_risk": 1666.8,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "ORCL",
@@ -100,10 +100,10 @@
             "pop_pct": 86.9,
             "rec_qty": 4,
             "spy_delta_eq": -16.87,
-            "correlation_spy": 0.822,
+            "correlation_spy": 0.832,
             "edge_ratio": 0.0489,
             "total_risk": 1657.0,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "ORCL",
@@ -117,10 +117,10 @@
             "pop_pct": 87.5,
             "rec_qty": 4,
             "spy_delta_eq": -16.04,
-            "correlation_spy": 0.822,
+            "correlation_spy": 0.832,
             "edge_ratio": 0.0432,
             "total_risk": 1678.56,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "AMD",
@@ -134,10 +134,10 @@
             "pop_pct": 99.2,
             "rec_qty": 4,
             "spy_delta_eq": -3.52,
-            "correlation_spy": 0.983,
+            "correlation_spy": 0.981,
             "edge_ratio": 0.0431,
             "total_risk": 1902.0,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "QCOM",
@@ -151,10 +151,10 @@
             "pop_pct": 87.4,
             "rec_qty": 4,
             "spy_delta_eq": -19.12,
-            "correlation_spy": 0.936,
+            "correlation_spy": 0.929,
             "edge_ratio": 0.0431,
             "total_risk": 1676.6,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "AMD",
@@ -168,10 +168,10 @@
             "pop_pct": 89.9,
             "rec_qty": 4,
             "spy_delta_eq": -44.52,
-            "correlation_spy": 0.983,
+            "correlation_spy": 0.981,
             "edge_ratio": 0.0416,
             "total_risk": 1725.6,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "ORCL",
@@ -185,10 +185,10 @@
             "pop_pct": 86.7,
             "rec_qty": 4,
             "spy_delta_eq": -17.13,
-            "correlation_spy": 0.822,
+            "correlation_spy": 0.832,
             "edge_ratio": 0.0391,
             "total_risk": 1668.76,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "AMD",
@@ -202,10 +202,10 @@
             "pop_pct": 91.2,
             "rec_qty": 4,
             "spy_delta_eq": -38.45,
-            "correlation_spy": 0.983,
+            "correlation_spy": 0.981,
             "edge_ratio": 0.0353,
             "total_risk": 1762.84,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "ORCL",
@@ -219,10 +219,10 @@
             "pop_pct": 88.6,
             "rec_qty": 4,
             "spy_delta_eq": -14.7,
-            "correlation_spy": 0.822,
+            "correlation_spy": 0.832,
             "edge_ratio": 0.0338,
             "total_risk": 1713.84,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "ORCL",
@@ -236,10 +236,10 @@
             "pop_pct": 94.7,
             "rec_qty": 4,
             "spy_delta_eq": -6.8,
-            "correlation_spy": 0.822,
+            "correlation_spy": 0.832,
             "edge_ratio": 0.0333,
             "total_risk": 1833.4,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "AMD",
@@ -253,10 +253,10 @@
             "pop_pct": 95.7,
             "rec_qty": 4,
             "spy_delta_eq": -19.07,
-            "correlation_spy": 0.983,
+            "correlation_spy": 0.981,
             "edge_ratio": 0.0292,
             "total_risk": 1858.88,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "MSFT",
@@ -270,10 +270,10 @@
             "pop_pct": 99.7,
             "rec_qty": 4,
             "spy_delta_eq": -0.73,
-            "correlation_spy": 0.354,
+            "correlation_spy": 0.349,
             "edge_ratio": 0.0288,
             "total_risk": 1937.28,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "ORCL",
@@ -287,10 +287,10 @@
             "pop_pct": 98.3,
             "rec_qty": 4,
             "spy_delta_eq": -2.19,
-            "correlation_spy": 0.822,
+            "correlation_spy": 0.832,
             "edge_ratio": 0.0284,
             "total_risk": 1911.8,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "AMD",
@@ -304,10 +304,10 @@
             "pop_pct": 98.7,
             "rec_qty": 4,
             "spy_delta_eq": -5.71,
-            "correlation_spy": 0.983,
+            "correlation_spy": 0.981,
             "edge_ratio": 0.0283,
             "total_risk": 1919.64,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "ORCL",
@@ -321,10 +321,10 @@
             "pop_pct": 93.5,
             "rec_qty": 4,
             "spy_delta_eq": -8.41,
-            "correlation_spy": 0.822,
+            "correlation_spy": 0.832,
             "edge_ratio": 0.0273,
             "total_risk": 1819.68,
-            "is_new": true
+            "is_new": false
         },
         {
             "symbol": "AMD",
@@ -338,10 +338,10 @@
             "pop_pct": 94.2,
             "rec_qty": 4,
             "spy_delta_eq": -25.27,
-            "correlation_spy": 0.983,
+            "correlation_spy": 0.981,
             "edge_ratio": 0.027,
             "total_risk": 1835.36,
-            "is_new": true
+            "is_new": false
         }
     ],
     "spread_archive": {
@@ -351,10 +351,14 @@
             "expiration": "2026-07-17",
             "spread": "150.0/145.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.07
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.07
                 }
             ],
@@ -370,10 +374,10 @@
                 "pop_pct": 99.5,
                 "rec_qty": 4,
                 "spy_delta_eq": -1.02,
-                "correlation_spy": 0.616,
+                "correlation_spy": 0.574,
                 "edge_ratio": 0.0087,
                 "total_risk": 1972.56,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -383,10 +387,14 @@
             "expiration": "2026-07-17",
             "spread": "155.0/150.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.09
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.09
                 }
             ],
@@ -402,10 +410,10 @@
                 "pop_pct": 99.1,
                 "rec_qty": 4,
                 "spy_delta_eq": -1.72,
-                "correlation_spy": 0.616,
+                "correlation_spy": 0.574,
                 "edge_ratio": 0.0092,
                 "total_risk": 1964.72,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -415,10 +423,14 @@
             "expiration": "2026-07-17",
             "spread": "160.0/155.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.1
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.1
                 }
             ],
@@ -434,10 +446,10 @@
                 "pop_pct": 98.6,
                 "rec_qty": 4,
                 "spy_delta_eq": -2.79,
-                "correlation_spy": 0.616,
+                "correlation_spy": 0.574,
                 "edge_ratio": 0.0057,
                 "total_risk": 1960.8,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -447,10 +459,14 @@
             "expiration": "2026-07-17",
             "spread": "165.0/160.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.13
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.13
                 }
             ],
@@ -466,10 +482,10 @@
                 "pop_pct": 97.8,
                 "rec_qty": 4,
                 "spy_delta_eq": -4.43,
-                "correlation_spy": 0.616,
+                "correlation_spy": 0.574,
                 "edge_ratio": 0.0044,
                 "total_risk": 1947.08,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -479,10 +495,14 @@
             "expiration": "2026-07-17",
             "spread": "170.0/165.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.18
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.18
                 }
             ],
@@ -498,10 +518,10 @@
                 "pop_pct": 96.6,
                 "rec_qty": 4,
                 "spy_delta_eq": -6.72,
-                "correlation_spy": 0.616,
+                "correlation_spy": 0.574,
                 "edge_ratio": 0.0016,
                 "total_risk": 1929.44,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -511,10 +531,14 @@
             "expiration": "2026-07-17",
             "spread": "185.0/180.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.07
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.07
                 }
             ],
@@ -530,10 +554,10 @@
                 "pop_pct": 98.6,
                 "rec_qty": 4,
                 "spy_delta_eq": -2.04,
-                "correlation_spy": 0.221,
+                "correlation_spy": 0.092,
                 "edge_ratio": 0.001,
                 "total_risk": 1970.6,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -543,10 +567,14 @@
             "expiration": "2026-06-12",
             "spread": "365.0/360.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.05
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.05
                 }
             ],
@@ -562,10 +590,10 @@
                 "pop_pct": 99.5,
                 "rec_qty": 4,
                 "spy_delta_eq": -0.98,
-                "correlation_spy": 0.354,
+                "correlation_spy": 0.349,
                 "edge_ratio": 0.0061,
                 "total_risk": 1978.44,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -575,10 +603,14 @@
             "expiration": "2026-06-18",
             "spread": "350.0/345.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.06
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.06
                 }
             ],
@@ -594,10 +626,10 @@
                 "pop_pct": 99.3,
                 "rec_qty": 4,
                 "spy_delta_eq": -1.49,
-                "correlation_spy": 0.354,
+                "correlation_spy": 0.349,
                 "edge_ratio": 0.0057,
                 "total_risk": 1974.52,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -607,10 +639,14 @@
             "expiration": "2026-06-26",
             "spread": "350.0/345.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.08
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.08
                 }
             ],
@@ -626,10 +662,10 @@
                 "pop_pct": 98.7,
                 "rec_qty": 4,
                 "spy_delta_eq": -2.82,
-                "correlation_spy": 0.354,
+                "correlation_spy": 0.349,
                 "edge_ratio": 0.0022,
                 "total_risk": 1968.64,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -639,10 +675,14 @@
             "expiration": "2026-07-17",
             "spread": "300.0/295.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.16
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.16
                 }
             ],
@@ -658,10 +698,10 @@
                 "pop_pct": 99.7,
                 "rec_qty": 4,
                 "spy_delta_eq": -0.73,
-                "correlation_spy": 0.354,
+                "correlation_spy": 0.349,
                 "edge_ratio": 0.0288,
                 "total_risk": 1937.28,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -671,10 +711,14 @@
             "expiration": "2026-07-17",
             "spread": "325.0/320.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.14
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.14
                 }
             ],
@@ -690,10 +734,10 @@
                 "pop_pct": 98.7,
                 "rec_qty": 4,
                 "spy_delta_eq": -2.7,
-                "correlation_spy": 0.354,
+                "correlation_spy": 0.349,
                 "edge_ratio": 0.015,
                 "total_risk": 1945.12,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -703,10 +747,14 @@
             "expiration": "2026-07-17",
             "spread": "335.0/330.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.18
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.18
                 }
             ],
@@ -722,10 +770,10 @@
                 "pop_pct": 98.1,
                 "rec_qty": 4,
                 "spy_delta_eq": -4.06,
-                "correlation_spy": 0.354,
+                "correlation_spy": 0.349,
                 "edge_ratio": 0.0175,
                 "total_risk": 1927.48,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -735,10 +783,14 @@
             "expiration": "2026-06-26",
             "spread": "520.0/515.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.28
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.28
                 }
             ],
@@ -754,10 +806,10 @@
                 "pop_pct": 94.8,
                 "rec_qty": 4,
                 "spy_delta_eq": -19.68,
-                "correlation_spy": -0.569,
+                "correlation_spy": -0.523,
                 "edge_ratio": 0.005,
                 "total_risk": 1886.32,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -767,10 +819,14 @@
             "expiration": "2026-07-02",
             "spread": "525.0/520.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.4
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.4
                 }
             ],
@@ -786,10 +842,10 @@
                 "pop_pct": 92.3,
                 "rec_qty": 4,
                 "spy_delta_eq": -29.08,
-                "correlation_spy": -0.569,
+                "correlation_spy": -0.523,
                 "edge_ratio": 0.0037,
                 "total_risk": 1839.28,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -799,10 +855,14 @@
             "expiration": "2026-07-17",
             "spread": "450.0/445.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.1
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.1
                 }
             ],
@@ -818,10 +878,10 @@
                 "pop_pct": 98.2,
                 "rec_qty": 4,
                 "spy_delta_eq": -6.95,
-                "correlation_spy": -0.569,
+                "correlation_spy": -0.523,
                 "edge_ratio": 0.0012,
                 "total_risk": 1960.8,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -831,10 +891,14 @@
             "expiration": "2026-07-17",
             "spread": "490.0/485.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.3
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.3
                 }
             ],
@@ -850,10 +914,10 @@
                 "pop_pct": 94.6,
                 "rec_qty": 4,
                 "spy_delta_eq": -20.32,
-                "correlation_spy": -0.569,
+                "correlation_spy": -0.523,
                 "edge_ratio": 0.0064,
                 "total_risk": 1880.44,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -863,10 +927,14 @@
             "expiration": "2026-07-17",
             "spread": "500.0/495.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.36
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.36
                 }
             ],
@@ -882,10 +950,10 @@
                 "pop_pct": 93.1,
                 "rec_qty": 4,
                 "spy_delta_eq": -26.02,
-                "correlation_spy": -0.569,
+                "correlation_spy": -0.523,
                 "edge_ratio": 0.0028,
                 "total_risk": 1856.92,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -895,10 +963,14 @@
             "expiration": "2026-07-17",
             "spread": "530.0/525.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.73
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.73
                 }
             ],
@@ -914,10 +986,10 @@
                 "pop_pct": 86.0,
                 "rec_qty": 4,
                 "spy_delta_eq": -52.87,
-                "correlation_spy": -0.569,
+                "correlation_spy": -0.523,
                 "edge_ratio": 0.0082,
                 "total_risk": 1706.0,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -927,10 +999,14 @@
             "expiration": "2026-06-18",
             "spread": "295.0/290.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.1
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.1
                 }
             ],
@@ -946,10 +1022,10 @@
                 "pop_pct": 98.2,
                 "rec_qty": 4,
                 "spy_delta_eq": -3.63,
-                "correlation_spy": 0.525,
+                "correlation_spy": 0.445,
                 "edge_ratio": 0.0021,
                 "total_risk": 1960.8,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -959,10 +1035,14 @@
             "expiration": "2026-07-17",
             "spread": "260.0/255.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.11
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.11
                 }
             ],
@@ -978,10 +1058,10 @@
                 "pop_pct": 99.7,
                 "rec_qty": 4,
                 "spy_delta_eq": -0.58,
-                "correlation_spy": 0.525,
+                "correlation_spy": 0.445,
                 "edge_ratio": 0.0192,
                 "total_risk": 1956.88,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -991,10 +1071,14 @@
             "expiration": "2026-07-17",
             "spread": "265.0/260.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.15
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.15
                 }
             ],
@@ -1010,10 +1094,10 @@
                 "pop_pct": 99.6,
                 "rec_qty": 4,
                 "spy_delta_eq": -0.85,
-                "correlation_spy": 0.525,
+                "correlation_spy": 0.445,
                 "edge_ratio": 0.0261,
                 "total_risk": 1941.2,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1023,10 +1107,14 @@
             "expiration": "2026-07-17",
             "spread": "270.0/265.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.05
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.05
                 }
             ],
@@ -1042,10 +1130,10 @@
                 "pop_pct": 99.4,
                 "rec_qty": 4,
                 "spy_delta_eq": -1.29,
-                "correlation_spy": 0.525,
+                "correlation_spy": 0.445,
                 "edge_ratio": 0.0046,
                 "total_risk": 1978.44,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1055,10 +1143,14 @@
             "expiration": "2026-07-17",
             "spread": "280.0/275.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.12
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.12
                 }
             ],
@@ -1074,10 +1166,10 @@
                 "pop_pct": 98.6,
                 "rec_qty": 4,
                 "spy_delta_eq": -2.82,
-                "correlation_spy": 0.525,
+                "correlation_spy": 0.445,
                 "edge_ratio": 0.0112,
                 "total_risk": 1951.0,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1087,10 +1179,14 @@
             "expiration": "2026-07-17",
             "spread": "300.0/295.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.26
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.26
                 }
             ],
@@ -1106,10 +1202,10 @@
                 "pop_pct": 95.0,
                 "rec_qty": 4,
                 "spy_delta_eq": -10.38,
-                "correlation_spy": 0.525,
+                "correlation_spy": 0.445,
                 "edge_ratio": 0.002,
                 "total_risk": 1896.12,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1119,10 +1215,14 @@
             "expiration": "2026-07-17",
             "spread": "355.0/350.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.59
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.59
                 }
             ],
@@ -1138,10 +1238,10 @@
                 "pop_pct": 88.5,
                 "rec_qty": 4,
                 "spy_delta_eq": -35.77,
-                "correlation_spy": 0.874,
+                "correlation_spy": 0.86,
                 "edge_ratio": 0.0035,
                 "total_risk": 1764.8,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1151,10 +1251,14 @@
             "expiration": "2026-07-17",
             "spread": "360.0/355.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.66
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.66
                 }
             ],
@@ -1170,10 +1274,10 @@
                 "pop_pct": 87.2,
                 "rec_qty": 4,
                 "spy_delta_eq": -39.83,
-                "correlation_spy": 0.874,
+                "correlation_spy": 0.86,
                 "edge_ratio": 0.0055,
                 "total_risk": 1735.4,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1183,10 +1287,14 @@
             "expiration": "2026-07-17",
             "spread": "365.0/360.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.76
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.76
                 }
             ],
@@ -1202,10 +1310,10 @@
                 "pop_pct": 85.7,
                 "rec_qty": 4,
                 "spy_delta_eq": -44.67,
-                "correlation_spy": 0.874,
+                "correlation_spy": 0.86,
                 "edge_ratio": 0.0105,
                 "total_risk": 1696.2,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1215,10 +1323,14 @@
             "expiration": "2026-06-12",
             "spread": "716.0/711.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.06
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.06
                 }
             ],
@@ -1237,7 +1349,7 @@
                 "correlation_spy": 1.0,
                 "edge_ratio": 0.0044,
                 "total_risk": 1976.48,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1247,10 +1359,14 @@
             "expiration": "2026-06-12",
             "spread": "717.0/712.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.06
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.06
                 }
             ],
@@ -1269,7 +1385,7 @@
                 "correlation_spy": 1.0,
                 "edge_ratio": 0.0033,
                 "total_risk": 1976.48,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1279,10 +1395,14 @@
             "expiration": "2026-06-12",
             "spread": "718.0/713.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.06
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.06
                 }
             ],
@@ -1301,7 +1421,7 @@
                 "correlation_spy": 1.0,
                 "edge_ratio": 0.0019,
                 "total_risk": 1976.48,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1311,10 +1431,14 @@
             "expiration": "2026-06-12",
             "spread": "719.0/714.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.07
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.07
                 }
             ],
@@ -1333,7 +1457,7 @@
                 "correlation_spy": 1.0,
                 "edge_ratio": 0.0025,
                 "total_risk": 1972.56,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1343,10 +1467,14 @@
             "expiration": "2026-06-12",
             "spread": "720.0/715.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.08
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.08
                 }
             ],
@@ -1365,7 +1493,7 @@
                 "correlation_spy": 1.0,
                 "edge_ratio": 0.0025,
                 "total_risk": 1968.64,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1375,10 +1503,14 @@
             "expiration": "2026-06-18",
             "spread": "694.0/689.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.06
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.06
                 }
             ],
@@ -1397,7 +1529,7 @@
                 "correlation_spy": 1.0,
                 "edge_ratio": 0.0042,
                 "total_risk": 1976.48,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1407,10 +1539,14 @@
             "expiration": "2026-06-18",
             "spread": "695.0/690.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.06
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.06
                 }
             ],
@@ -1429,7 +1565,7 @@
                 "correlation_spy": 1.0,
                 "edge_ratio": 0.0036,
                 "total_risk": 1976.48,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1439,10 +1575,14 @@
             "expiration": "2026-06-18",
             "spread": "697.0/692.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.06
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.06
                 }
             ],
@@ -1461,7 +1601,7 @@
                 "correlation_spy": 1.0,
                 "edge_ratio": 0.0021,
                 "total_risk": 1976.48,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1471,10 +1611,14 @@
             "expiration": "2026-06-18",
             "spread": "698.0/693.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.06
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.06
                 }
             ],
@@ -1493,7 +1637,7 @@
                 "correlation_spy": 1.0,
                 "edge_ratio": 0.0013,
                 "total_risk": 1976.48,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1503,10 +1647,14 @@
             "expiration": "2026-06-18",
             "spread": "699.0/694.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.07
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.07
                 }
             ],
@@ -1525,7 +1673,7 @@
                 "correlation_spy": 1.0,
                 "edge_ratio": 0.0024,
                 "total_risk": 1972.56,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1535,10 +1683,14 @@
             "expiration": "2026-06-18",
             "spread": "700.0/695.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.07
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.07
                 }
             ],
@@ -1557,7 +1709,7 @@
                 "correlation_spy": 1.0,
                 "edge_ratio": 0.0013,
                 "total_risk": 1972.56,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1567,10 +1719,14 @@
             "expiration": "2026-06-18",
             "spread": "701.0/696.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.08
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.08
                 }
             ],
@@ -1589,7 +1745,7 @@
                 "correlation_spy": 1.0,
                 "edge_ratio": 0.0022,
                 "total_risk": 1968.64,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1599,10 +1755,14 @@
             "expiration": "2026-07-02",
             "spread": "660.0/655.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.05
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.05
                 }
             ],
@@ -1621,7 +1781,7 @@
                 "correlation_spy": 1.0,
                 "edge_ratio": 0.0044,
                 "total_risk": 1978.44,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1631,10 +1791,14 @@
             "expiration": "2026-07-02",
             "spread": "665.0/660.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.06
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.06
                 }
             ],
@@ -1653,7 +1817,7 @@
                 "correlation_spy": 1.0,
                 "edge_ratio": 0.0035,
                 "total_risk": 1976.48,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1663,10 +1827,14 @@
             "expiration": "2026-07-02",
             "spread": "670.0/665.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.07
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.07
                 }
             ],
@@ -1685,7 +1853,7 @@
                 "correlation_spy": 1.0,
                 "edge_ratio": 0.0039,
                 "total_risk": 1970.6,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1695,10 +1863,14 @@
             "expiration": "2026-07-02",
             "spread": "675.0/670.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.08
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.08
                 }
             ],
@@ -1717,7 +1889,7 @@
                 "correlation_spy": 1.0,
                 "edge_ratio": 0.0014,
                 "total_risk": 1968.64,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1727,10 +1899,14 @@
             "expiration": "2026-06-12",
             "spread": "370.0/365.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.07
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.07
                 }
             ],
@@ -1746,10 +1922,10 @@
                 "pop_pct": 99.8,
                 "rec_qty": 4,
                 "spy_delta_eq": -1.01,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0116,
                 "total_risk": 1972.56,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1759,10 +1935,14 @@
             "expiration": "2026-06-12",
             "spread": "375.0/370.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.07
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.07
                 }
             ],
@@ -1778,10 +1958,10 @@
                 "pop_pct": 99.7,
                 "rec_qty": 4,
                 "spy_delta_eq": -1.41,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0107,
                 "total_risk": 1972.56,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1791,10 +1971,14 @@
             "expiration": "2026-06-12",
             "spread": "380.0/375.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.05
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.05
                 }
             ],
@@ -1810,10 +1994,10 @@
                 "pop_pct": 99.6,
                 "rec_qty": 4,
                 "spy_delta_eq": -1.93,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0064,
                 "total_risk": 1978.44,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1823,10 +2007,14 @@
             "expiration": "2026-06-12",
             "spread": "390.0/385.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.24
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.24
                 }
             ],
@@ -1842,10 +2030,10 @@
                 "pop_pct": 99.2,
                 "rec_qty": 4,
                 "spy_delta_eq": -3.52,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0431,
                 "total_risk": 1902.0,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1855,10 +2043,14 @@
             "expiration": "2026-06-12",
             "spread": "400.0/395.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.13
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.13
                 }
             ],
@@ -1874,10 +2066,10 @@
                 "pop_pct": 98.6,
                 "rec_qty": 4,
                 "spy_delta_eq": -6.02,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0131,
                 "total_risk": 1947.08,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1887,10 +2079,14 @@
             "expiration": "2026-06-12",
             "spread": "410.0/405.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.16
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.16
                 }
             ],
@@ -1906,10 +2102,10 @@
                 "pop_pct": 97.8,
                 "rec_qty": 4,
                 "spy_delta_eq": -9.8,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0104,
                 "total_risk": 1935.32,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1919,10 +2115,14 @@
             "expiration": "2026-06-12",
             "spread": "415.0/410.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.24
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.24
                 }
             ],
@@ -1938,10 +2138,10 @@
                 "pop_pct": 97.2,
                 "rec_qty": 4,
                 "spy_delta_eq": -12.26,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0211,
                 "total_risk": 1903.96,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1951,10 +2151,14 @@
             "expiration": "2026-06-12",
             "spread": "420.0/415.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.19
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.19
                 }
             ],
@@ -1970,10 +2174,10 @@
                 "pop_pct": 96.5,
                 "rec_qty": 4,
                 "spy_delta_eq": -15.25,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0026,
                 "total_risk": 1925.52,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -1983,10 +2187,14 @@
             "expiration": "2026-06-12",
             "spread": "422.5/417.5P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.25
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.25
                 }
             ],
@@ -2002,10 +2210,10 @@
                 "pop_pct": 96.2,
                 "rec_qty": 4,
                 "spy_delta_eq": -16.87,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0132,
                 "total_risk": 1898.08,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2015,10 +2223,14 @@
             "expiration": "2026-06-12",
             "spread": "430.0/425.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.28
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.28
                 }
             ],
@@ -2034,10 +2246,10 @@
                 "pop_pct": 94.8,
                 "rec_qty": 4,
                 "spy_delta_eq": -22.76,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0053,
                 "total_risk": 1886.32,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2047,10 +2259,14 @@
             "expiration": "2026-06-12",
             "spread": "435.0/430.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.34
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.34
                 }
             ],
@@ -2066,10 +2282,10 @@
                 "pop_pct": 93.8,
                 "rec_qty": 4,
                 "spy_delta_eq": -27.33,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0058,
                 "total_risk": 1864.76,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2079,10 +2295,14 @@
             "expiration": "2026-06-12",
             "spread": "440.0/435.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.42
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.42
                 }
             ],
@@ -2098,10 +2318,10 @@
                 "pop_pct": 92.6,
                 "rec_qty": 4,
                 "spy_delta_eq": -32.61,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.011,
                 "total_risk": 1831.44,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2111,10 +2331,14 @@
             "expiration": "2026-06-12",
             "spread": "445.0/440.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.59
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.59
                 }
             ],
@@ -2130,10 +2354,10 @@
                 "pop_pct": 91.2,
                 "rec_qty": 4,
                 "spy_delta_eq": -38.45,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0353,
                 "total_risk": 1762.84,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2143,10 +2367,14 @@
             "expiration": "2026-06-12",
             "spread": "462.5/457.5P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.78
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.78
                 }
             ],
@@ -2162,10 +2390,10 @@
                 "pop_pct": 85.3,
                 "rec_qty": 4,
                 "spy_delta_eq": -64.73,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0113,
                 "total_risk": 1686.4,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2175,10 +2403,14 @@
             "expiration": "2026-06-18",
             "spread": "365.0/360.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.06
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.06
                 }
             ],
@@ -2194,10 +2426,10 @@
                 "pop_pct": 99.2,
                 "rec_qty": 4,
                 "spy_delta_eq": -3.56,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0037,
                 "total_risk": 1976.48,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2207,10 +2439,14 @@
             "expiration": "2026-06-18",
             "spread": "370.0/365.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.09
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.09
                 }
             ],
@@ -2226,10 +2462,10 @@
                 "pop_pct": 99.0,
                 "rec_qty": 4,
                 "spy_delta_eq": -4.53,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0085,
                 "total_risk": 1962.76,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2239,10 +2475,14 @@
             "expiration": "2026-06-18",
             "spread": "375.0/370.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.2
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.2
                 }
             ],
@@ -2258,10 +2498,10 @@
                 "pop_pct": 98.7,
                 "rec_qty": 4,
                 "spy_delta_eq": -5.71,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0283,
                 "total_risk": 1919.64,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2271,10 +2511,14 @@
             "expiration": "2026-06-18",
             "spread": "385.0/380.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.11
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.11
                 }
             ],
@@ -2290,10 +2534,10 @@
                 "pop_pct": 98.0,
                 "rec_qty": 4,
                 "spy_delta_eq": -8.74,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0027,
                 "total_risk": 1954.92,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2303,10 +2547,14 @@
             "expiration": "2026-06-18",
             "spread": "390.0/385.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.16
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.16
                 }
             ],
@@ -2322,10 +2570,10 @@
                 "pop_pct": 97.6,
                 "rec_qty": 4,
                 "spy_delta_eq": -10.59,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0085,
                 "total_risk": 1935.32,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2335,10 +2583,14 @@
             "expiration": "2026-06-18",
             "spread": "395.0/390.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.24
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.24
                 }
             ],
@@ -2354,10 +2606,10 @@
                 "pop_pct": 97.1,
                 "rec_qty": 4,
                 "spy_delta_eq": -12.83,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0208,
                 "total_risk": 1902.0,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2367,10 +2619,14 @@
             "expiration": "2026-06-18",
             "spread": "400.0/395.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.2
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.2
                 }
             ],
@@ -2386,10 +2642,10 @@
                 "pop_pct": 96.5,
                 "rec_qty": 4,
                 "spy_delta_eq": -15.38,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0044,
                 "total_risk": 1921.6,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2399,10 +2655,14 @@
             "expiration": "2026-06-18",
             "spread": "410.0/405.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.29
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.29
                 }
             ],
@@ -2418,10 +2678,10 @@
                 "pop_pct": 95.1,
                 "rec_qty": 4,
                 "spy_delta_eq": -21.66,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0101,
                 "total_risk": 1882.4,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2431,10 +2691,14 @@
             "expiration": "2026-06-18",
             "spread": "415.0/410.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.41
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.41
                 }
             ],
@@ -2450,10 +2714,10 @@
                 "pop_pct": 94.2,
                 "rec_qty": 4,
                 "spy_delta_eq": -25.27,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.027,
                 "total_risk": 1835.36,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2463,10 +2727,14 @@
             "expiration": "2026-06-18",
             "spread": "417.5/412.5P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.4
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.4
                 }
             ],
@@ -2482,10 +2750,10 @@
                 "pop_pct": 93.8,
                 "rec_qty": 4,
                 "spy_delta_eq": -27.29,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0188,
                 "total_risk": 1841.24,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2495,10 +2763,14 @@
             "expiration": "2026-06-18",
             "spread": "425.0/420.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.39
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.39
                 }
             ],
@@ -2514,10 +2786,10 @@
                 "pop_pct": 92.3,
                 "rec_qty": 4,
                 "spy_delta_eq": -34.01,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0011,
                 "total_risk": 1843.2,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2527,10 +2799,14 @@
             "expiration": "2026-06-18",
             "spread": "435.0/430.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.69
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.69
                 }
             ],
@@ -2546,10 +2822,10 @@
                 "pop_pct": 89.9,
                 "rec_qty": 4,
                 "spy_delta_eq": -44.52,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0416,
                 "total_risk": 1725.6,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2559,10 +2835,14 @@
             "expiration": "2026-06-18",
             "spread": "445.0/440.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.76
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.76
                 }
             ],
@@ -2578,10 +2858,10 @@
                 "pop_pct": 87.0,
                 "rec_qty": 4,
                 "spy_delta_eq": -57.0,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0262,
                 "total_risk": 1696.2,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2591,10 +2871,14 @@
             "expiration": "2026-06-26",
             "spread": "240.0/235.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.06
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.06
                 }
             ],
@@ -2610,10 +2894,10 @@
                 "pop_pct": 99.9,
                 "rec_qty": 4,
                 "spy_delta_eq": -0.44,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0109,
                 "total_risk": 1976.48,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2623,10 +2907,14 @@
             "expiration": "2026-06-26",
             "spread": "300.0/295.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.08
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.08
                 }
             ],
@@ -2642,10 +2930,10 @@
                 "pop_pct": 99.1,
                 "rec_qty": 4,
                 "spy_delta_eq": -4.0,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0077,
                 "total_risk": 1966.68,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2655,10 +2943,14 @@
             "expiration": "2026-06-26",
             "spread": "365.0/360.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.35
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.35
                 }
             ],
@@ -2674,10 +2966,10 @@
                 "pop_pct": 95.7,
                 "rec_qty": 4,
                 "spy_delta_eq": -19.07,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0292,
                 "total_risk": 1858.88,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2687,10 +2979,14 @@
             "expiration": "2026-06-26",
             "spread": "390.0/385.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.34
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.34
                 }
             ],
@@ -2706,10 +3002,10 @@
                 "pop_pct": 93.3,
                 "rec_qty": 4,
                 "spy_delta_eq": -29.22,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0023,
                 "total_risk": 1862.8,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2719,10 +3015,14 @@
             "expiration": "2026-07-02",
             "spread": "380.0/375.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.38
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.38
                 }
             ],
@@ -2738,10 +3038,10 @@
                 "pop_pct": 93.5,
                 "rec_qty": 4,
                 "spy_delta_eq": -28.52,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0114,
                 "total_risk": 1849.08,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2751,10 +3051,14 @@
             "expiration": "2026-07-02",
             "spread": "420.0/415.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.83
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.83
                 }
             ],
@@ -2770,10 +3074,10 @@
                 "pop_pct": 87.5,
                 "rec_qty": 4,
                 "spy_delta_eq": -55.15,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.0493,
                 "total_risk": 1666.8,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2783,10 +3087,14 @@
             "expiration": "2026-07-10",
             "spread": "415.0/410.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 1.13
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 1.13
                 }
             ],
@@ -2802,10 +3110,10 @@
                 "pop_pct": 86.5,
                 "rec_qty": 5,
                 "spy_delta_eq": -74.43,
-                "correlation_spy": 0.983,
+                "correlation_spy": 0.981,
                 "edge_ratio": 0.1161,
                 "total_risk": 1936.5,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2815,10 +3123,14 @@
             "expiration": "2026-06-12",
             "spread": "185.0/180.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.22
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.22
                 }
             ],
@@ -2834,10 +3146,10 @@
                 "pop_pct": 97.3,
                 "rec_qty": 4,
                 "spy_delta_eq": -4.05,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.0183,
                 "total_risk": 1911.8,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2847,10 +3159,14 @@
             "expiration": "2026-06-12",
             "spread": "190.0/185.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.29
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.29
                 }
             ],
@@ -2866,10 +3182,10 @@
                 "pop_pct": 95.8,
                 "rec_qty": 4,
                 "spy_delta_eq": -6.39,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.0168,
                 "total_risk": 1884.36,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2879,10 +3195,14 @@
             "expiration": "2026-06-12",
             "spread": "195.0/190.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.4
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.4
                 }
             ],
@@ -2898,10 +3218,10 @@
                 "pop_pct": 93.8,
                 "rec_qty": 4,
                 "spy_delta_eq": -9.45,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.0199,
                 "total_risk": 1839.28,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2911,10 +3231,14 @@
             "expiration": "2026-06-18",
             "spread": "175.0/170.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.22
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.22
                 }
             ],
@@ -2930,10 +3254,10 @@
                 "pop_pct": 96.3,
                 "rec_qty": 4,
                 "spy_delta_eq": -5.6,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.0076,
                 "total_risk": 1911.8,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2943,10 +3267,14 @@
             "expiration": "2026-06-18",
             "spread": "185.0/180.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.4
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.4
                 }
             ],
@@ -2962,10 +3290,10 @@
                 "pop_pct": 93.7,
                 "rec_qty": 4,
                 "spy_delta_eq": -9.57,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.0179,
                 "total_risk": 1841.24,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -2975,10 +3303,14 @@
             "expiration": "2026-06-18",
             "spread": "197.5/192.5P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.69
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.69
                 }
             ],
@@ -2994,10 +3326,10 @@
                 "pop_pct": 88.5,
                 "rec_qty": 4,
                 "spy_delta_eq": -17.49,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.0258,
                 "total_risk": 1725.6,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3007,10 +3339,14 @@
             "expiration": "2026-06-18",
             "spread": "200.0/195.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.74
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.74
                 }
             ],
@@ -3026,10 +3362,10 @@
                 "pop_pct": 87.2,
                 "rec_qty": 4,
                 "spy_delta_eq": -19.5,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.0233,
                 "total_risk": 1704.04,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3039,10 +3375,14 @@
             "expiration": "2026-06-26",
             "spread": "175.0/170.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.95
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.95
                 }
             ],
@@ -3058,10 +3398,10 @@
                 "pop_pct": 92.9,
                 "rec_qty": 4,
                 "spy_delta_eq": -10.87,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.1466,
                 "total_risk": 1619.76,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3071,10 +3411,14 @@
             "expiration": "2026-06-26",
             "spread": "185.0/180.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 1.17
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 1.17
                 }
             ],
@@ -3090,10 +3434,10 @@
                 "pop_pct": 89.4,
                 "rec_qty": 5,
                 "spy_delta_eq": -20.11,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.1663,
                 "total_risk": 1916.9,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3103,10 +3447,14 @@
             "expiration": "2026-07-17",
             "spread": "140.0/135.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.24
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.24
                 }
             ],
@@ -3122,10 +3470,10 @@
                 "pop_pct": 96.8,
                 "rec_qty": 4,
                 "spy_delta_eq": -4.84,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.016,
                 "total_risk": 1905.92,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3135,10 +3483,14 @@
             "expiration": "2026-07-17",
             "spread": "145.0/140.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.25
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.25
                 }
             ],
@@ -3154,10 +3506,10 @@
                 "pop_pct": 96.1,
                 "rec_qty": 4,
                 "spy_delta_eq": -5.91,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.0128,
                 "total_risk": 1898.08,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3167,10 +3519,14 @@
             "expiration": "2026-07-17",
             "spread": "155.0/150.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.37
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.37
                 }
             ],
@@ -3186,10 +3542,10 @@
                 "pop_pct": 94.3,
                 "rec_qty": 4,
                 "spy_delta_eq": -8.66,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.019,
                 "total_risk": 1851.04,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3199,10 +3555,14 @@
             "expiration": "2026-07-17",
             "spread": "160.0/155.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.58
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.58
                 }
             ],
@@ -3218,10 +3578,10 @@
                 "pop_pct": 93.3,
                 "rec_qty": 4,
                 "spy_delta_eq": -10.23,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.0548,
                 "total_risk": 1768.72,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3231,10 +3591,14 @@
             "expiration": "2026-07-17",
             "spread": "170.0/165.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.57
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.57
                 }
             ],
@@ -3250,10 +3614,10 @@
                 "pop_pct": 90.7,
                 "rec_qty": 4,
                 "spy_delta_eq": -14.2,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.0241,
                 "total_risk": 1770.68,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3263,10 +3627,14 @@
             "expiration": "2026-07-17",
             "spread": "175.0/170.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.65
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.65
                 }
             ],
@@ -3282,10 +3650,10 @@
                 "pop_pct": 89.1,
                 "rec_qty": 4,
                 "spy_delta_eq": -16.51,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.0251,
                 "total_risk": 1739.32,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3295,10 +3663,14 @@
             "expiration": "2026-07-17",
             "spread": "180.0/175.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.81
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.81
                 }
             ],
@@ -3314,10 +3686,10 @@
                 "pop_pct": 87.4,
                 "rec_qty": 4,
                 "spy_delta_eq": -19.12,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.0431,
                 "total_risk": 1676.6,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3327,10 +3699,14 @@
             "expiration": "2026-07-17",
             "spread": "185.0/180.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.83
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.83
                 }
             ],
@@ -3346,10 +3722,10 @@
                 "pop_pct": 85.5,
                 "rec_qty": 4,
                 "spy_delta_eq": -22.02,
-                "correlation_spy": 0.936,
+                "correlation_spy": 0.929,
                 "edge_ratio": 0.0263,
                 "total_risk": 1666.8,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3359,10 +3735,14 @@
             "expiration": "2026-07-02",
             "spread": "260.0/255.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.08
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.08
                 }
             ],
@@ -3378,10 +3758,10 @@
                 "pop_pct": 99.6,
                 "rec_qty": 4,
                 "spy_delta_eq": -0.77,
-                "correlation_spy": 0.963,
+                "correlation_spy": 0.964,
                 "edge_ratio": 0.0117,
                 "total_risk": 1968.64,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3391,10 +3771,14 @@
             "expiration": "2026-07-02",
             "spread": "265.0/260.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.09
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.09
                 }
             ],
@@ -3410,10 +3794,10 @@
                 "pop_pct": 99.2,
                 "rec_qty": 4,
                 "spy_delta_eq": -1.55,
-                "correlation_spy": 0.963,
+                "correlation_spy": 0.964,
                 "edge_ratio": 0.0103,
                 "total_risk": 1962.76,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3423,10 +3807,14 @@
             "expiration": "2026-07-02",
             "spread": "275.0/270.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.18
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.18
                 }
             ],
@@ -3442,10 +3830,10 @@
                 "pop_pct": 97.2,
                 "rec_qty": 4,
                 "spy_delta_eq": -5.17,
-                "correlation_spy": 0.963,
+                "correlation_spy": 0.964,
                 "edge_ratio": 0.0083,
                 "total_risk": 1927.48,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3455,10 +3843,14 @@
             "expiration": "2026-07-10",
             "spread": "265.0/260.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.11
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.11
                 }
             ],
@@ -3474,10 +3866,10 @@
                 "pop_pct": 98.4,
                 "rec_qty": 4,
                 "spy_delta_eq": -2.99,
-                "correlation_spy": 0.963,
+                "correlation_spy": 0.964,
                 "edge_ratio": 0.0063,
                 "total_risk": 1954.92,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3487,10 +3879,14 @@
             "expiration": "2026-07-17",
             "spread": "245.0/240.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.07
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.07
                 }
             ],
@@ -3506,10 +3902,10 @@
                 "pop_pct": 99.8,
                 "rec_qty": 4,
                 "spy_delta_eq": -0.38,
-                "correlation_spy": 0.963,
+                "correlation_spy": 0.964,
                 "edge_ratio": 0.0118,
                 "total_risk": 1972.56,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3519,10 +3915,14 @@
             "expiration": "2026-07-17",
             "spread": "260.0/255.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.14
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.14
                 }
             ],
@@ -3538,10 +3938,10 @@
                 "pop_pct": 98.7,
                 "rec_qty": 4,
                 "spy_delta_eq": -2.41,
-                "correlation_spy": 0.963,
+                "correlation_spy": 0.964,
                 "edge_ratio": 0.0157,
                 "total_risk": 1943.16,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3551,10 +3951,14 @@
             "expiration": "2026-06-12",
             "spread": "165.0/160.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.08
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.08
                 }
             ],
@@ -3570,10 +3974,10 @@
                 "pop_pct": 98.5,
                 "rec_qty": 4,
                 "spy_delta_eq": -1.94,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0016,
                 "total_risk": 1966.68,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3583,10 +3987,14 @@
             "expiration": "2026-06-12",
             "spread": "175.0/170.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.2
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.2
                 }
             ],
@@ -3602,10 +4010,10 @@
                 "pop_pct": 96.9,
                 "rec_qty": 4,
                 "spy_delta_eq": -4.03,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0082,
                 "total_risk": 1921.6,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3615,10 +4023,14 @@
             "expiration": "2026-06-12",
             "spread": "190.0/185.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.35
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.35
                 }
             ],
@@ -3634,10 +4046,10 @@
                 "pop_pct": 93.1,
                 "rec_qty": 4,
                 "spy_delta_eq": -8.89,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0017,
                 "total_risk": 1858.88,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3647,10 +4059,14 @@
             "expiration": "2026-06-12",
             "spread": "200.0/195.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.67
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.67
                 }
             ],
@@ -3666,10 +4082,10 @@
                 "pop_pct": 88.8,
                 "rec_qty": 4,
                 "spy_delta_eq": -14.36,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0263,
                 "total_risk": 1731.48,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3679,10 +4095,14 @@
             "expiration": "2026-06-12",
             "spread": "202.5/197.5P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.8
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.8
                 }
             ],
@@ -3698,10 +4118,10 @@
                 "pop_pct": 87.5,
                 "rec_qty": 4,
                 "spy_delta_eq": -16.04,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0432,
                 "total_risk": 1678.56,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3711,10 +4131,14 @@
             "expiration": "2026-06-12",
             "spread": "205.0/200.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.73
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.73
                 }
             ],
@@ -3730,10 +4154,10 @@
                 "pop_pct": 86.1,
                 "rec_qty": 4,
                 "spy_delta_eq": -17.88,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0096,
                 "total_risk": 1706.0,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3743,10 +4167,14 @@
             "expiration": "2026-06-18",
             "spread": "145.0/140.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.07
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.07
                 }
             ],
@@ -3762,10 +4190,10 @@
                 "pop_pct": 98.9,
                 "rec_qty": 4,
                 "spy_delta_eq": -1.42,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0038,
                 "total_risk": 1970.6,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3775,10 +4203,14 @@
             "expiration": "2026-06-18",
             "spread": "150.0/145.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.08
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.08
                 }
             ],
@@ -3794,10 +4226,10 @@
                 "pop_pct": 98.6,
                 "rec_qty": 4,
                 "spy_delta_eq": -1.79,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0028,
                 "total_risk": 1966.68,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3807,10 +4239,14 @@
             "expiration": "2026-06-18",
             "spread": "177.5/172.5P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.42
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.42
                 }
             ],
@@ -3826,10 +4262,10 @@
                 "pop_pct": 94.7,
                 "rec_qty": 4,
                 "spy_delta_eq": -6.8,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0333,
                 "total_risk": 1833.4,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3839,10 +4275,14 @@
             "expiration": "2026-06-18",
             "spread": "185.0/180.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.47
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.47
                 }
             ],
@@ -3858,10 +4298,10 @@
                 "pop_pct": 92.8,
                 "rec_qty": 4,
                 "spy_delta_eq": -9.29,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0232,
                 "total_risk": 1813.8,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3871,10 +4311,14 @@
             "expiration": "2026-06-18",
             "spread": "195.0/190.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.64
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.64
                 }
             ],
@@ -3890,10 +4334,10 @@
                 "pop_pct": 89.3,
                 "rec_qty": 4,
                 "spy_delta_eq": -13.74,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0249,
                 "total_risk": 1743.24,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3903,10 +4347,14 @@
             "expiration": "2026-06-18",
             "spread": "197.5/192.5P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.68
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.68
                 }
             ],
@@ -3922,10 +4370,10 @@
                 "pop_pct": 88.3,
                 "rec_qty": 4,
                 "spy_delta_eq": -15.04,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0225,
                 "total_risk": 1727.56,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3935,10 +4383,14 @@
             "expiration": "2026-06-18",
             "spread": "202.5/197.5P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.74
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.74
                 }
             ],
@@ -3954,10 +4406,10 @@
                 "pop_pct": 85.9,
                 "rec_qty": 4,
                 "spy_delta_eq": -18.2,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.009,
                 "total_risk": 1702.08,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3967,10 +4419,14 @@
             "expiration": "2026-06-26",
             "spread": "155.0/150.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.2
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.2
                 }
             ],
@@ -3986,10 +4442,10 @@
                 "pop_pct": 97.7,
                 "rec_qty": 4,
                 "spy_delta_eq": -3.03,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0163,
                 "total_risk": 1921.6,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -3999,10 +4455,14 @@
             "expiration": "2026-06-26",
             "spread": "160.0/155.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.2
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.2
                 }
             ],
@@ -4018,10 +4478,10 @@
                 "pop_pct": 97.0,
                 "rec_qty": 4,
                 "spy_delta_eq": -3.84,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0108,
                 "total_risk": 1919.64,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4031,10 +4491,14 @@
             "expiration": "2026-06-26",
             "spread": "170.0/165.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.25
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.25
                 }
             ],
@@ -4050,10 +4514,10 @@
                 "pop_pct": 95.2,
                 "rec_qty": 4,
                 "spy_delta_eq": -6.18,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0031,
                 "total_risk": 1898.08,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4063,10 +4527,14 @@
             "expiration": "2026-06-26",
             "spread": "177.5/172.5P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.45
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.45
                 }
             ],
@@ -4082,10 +4550,10 @@
                 "pop_pct": 93.5,
                 "rec_qty": 4,
                 "spy_delta_eq": -8.41,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0273,
                 "total_risk": 1819.68,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4095,10 +4563,14 @@
             "expiration": "2026-06-26",
             "spread": "197.5/192.5P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.83
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.83
                 }
             ],
@@ -4114,10 +4586,10 @@
                 "pop_pct": 86.7,
                 "rec_qty": 4,
                 "spy_delta_eq": -17.13,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0391,
                 "total_risk": 1668.76,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4127,10 +4599,14 @@
             "expiration": "2026-07-02",
             "spread": "145.0/140.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.22
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.22
                 }
             ],
@@ -4146,10 +4622,10 @@
                 "pop_pct": 98.3,
                 "rec_qty": 4,
                 "spy_delta_eq": -2.19,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0284,
                 "total_risk": 1911.8,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4159,10 +4635,14 @@
             "expiration": "2026-07-02",
             "spread": "180.0/175.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.47
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.47
                 }
             ],
@@ -4178,10 +4658,10 @@
                 "pop_pct": 92.2,
                 "rec_qty": 4,
                 "spy_delta_eq": -10.06,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0176,
                 "total_risk": 1811.84,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4191,10 +4671,14 @@
             "expiration": "2026-07-17",
             "spread": "150.0/145.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.22
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.22
                 }
             ],
@@ -4210,10 +4694,10 @@
                 "pop_pct": 95.9,
                 "rec_qty": 4,
                 "spy_delta_eq": -5.32,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0019,
                 "total_risk": 1913.76,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4223,10 +4707,14 @@
             "expiration": "2026-07-17",
             "spread": "165.0/160.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.37
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.37
                 }
             ],
@@ -4242,10 +4730,10 @@
                 "pop_pct": 93.4,
                 "rec_qty": 4,
                 "spy_delta_eq": -8.47,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0083,
                 "total_risk": 1853.0,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4255,10 +4743,14 @@
             "expiration": "2026-07-17",
             "spread": "170.0/165.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.4
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.4
                 }
             ],
@@ -4274,10 +4766,10 @@
                 "pop_pct": 92.5,
                 "rec_qty": 4,
                 "spy_delta_eq": -9.71,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0054,
                 "total_risk": 1839.28,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4287,10 +4779,14 @@
             "expiration": "2026-07-17",
             "spread": "180.0/175.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.57
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.57
                 }
             ],
@@ -4306,10 +4802,10 @@
                 "pop_pct": 90.0,
                 "rec_qty": 4,
                 "spy_delta_eq": -12.87,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0167,
                 "total_risk": 1770.68,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4319,10 +4815,14 @@
             "expiration": "2026-07-17",
             "spread": "185.0/180.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.72
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.72
                 }
             ],
@@ -4338,10 +4838,10 @@
                 "pop_pct": 88.6,
                 "rec_qty": 4,
                 "spy_delta_eq": -14.7,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0338,
                 "total_risk": 1713.84,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4351,10 +4851,14 @@
             "expiration": "2026-07-17",
             "spread": "190.0/185.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.86
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.86
                 }
             ],
@@ -4370,10 +4874,10 @@
                 "pop_pct": 86.9,
                 "rec_qty": 4,
                 "spy_delta_eq": -16.87,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0489,
                 "total_risk": 1657.0,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4383,10 +4887,14 @@
             "expiration": "2026-07-17",
             "spread": "195.0/190.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.83
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.83
                 }
             ],
@@ -4402,10 +4910,10 @@
                 "pop_pct": 85.0,
                 "rec_qty": 4,
                 "spy_delta_eq": -19.35,
-                "correlation_spy": 0.822,
+                "correlation_spy": 0.832,
                 "edge_ratio": 0.0197,
                 "total_risk": 1666.8,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4415,10 +4923,14 @@
             "expiration": "2026-06-18",
             "spread": "57.5/52.5P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.07
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.07
                 }
             ],
@@ -4437,7 +4949,7 @@
                 "correlation_spy": 0.996,
                 "edge_ratio": 0.0147,
                 "total_risk": 1970.6,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4447,10 +4959,14 @@
             "expiration": "2026-06-18",
             "spread": "58.0/53.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.06
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.06
                 }
             ],
@@ -4469,7 +4985,7 @@
                 "correlation_spy": 0.996,
                 "edge_ratio": 0.0113,
                 "total_risk": 1976.48,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4479,10 +4995,14 @@
             "expiration": "2026-06-18",
             "spread": "58.5/53.5P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.1
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.1
                 }
             ],
@@ -4501,7 +5021,7 @@
                 "correlation_spy": 0.996,
                 "edge_ratio": 0.0199,
                 "total_risk": 1958.84,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4511,10 +5031,14 @@
             "expiration": "2026-06-18",
             "spread": "62.5/57.5P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.07
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.07
                 }
             ],
@@ -4533,7 +5057,7 @@
                 "correlation_spy": 0.996,
                 "edge_ratio": 0.0025,
                 "total_risk": 1970.6,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4543,10 +5067,14 @@
             "expiration": "2026-06-18",
             "spread": "65.0/60.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.13
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.13
                 }
             ],
@@ -4565,7 +5093,7 @@
                 "correlation_spy": 0.996,
                 "edge_ratio": 0.0025,
                 "total_risk": 1947.08,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4575,10 +5103,14 @@
             "expiration": "2026-06-26",
             "spread": "50.0/45.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.05
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.05
                 }
             ],
@@ -4597,7 +5129,7 @@
                 "correlation_spy": 0.996,
                 "edge_ratio": 0.0109,
                 "total_risk": 1978.44,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4607,10 +5139,14 @@
             "expiration": "2026-06-26",
             "spread": "55.0/50.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.09
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.09
                 }
             ],
@@ -4629,7 +5165,7 @@
                 "correlation_spy": 0.996,
                 "edge_ratio": 0.0176,
                 "total_risk": 1962.76,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4639,10 +5175,14 @@
             "expiration": "2026-06-26",
             "spread": "60.0/55.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.15
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.15
                 }
             ],
@@ -4661,7 +5201,7 @@
                 "correlation_spy": 0.996,
                 "edge_ratio": 0.0114,
                 "total_risk": 1939.24,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         },
@@ -4671,10 +5211,14 @@
             "expiration": "2026-07-17",
             "spread": "50.0/45.0P",
             "first_seen": "2026-06-02 23:57:58 UTC",
-            "last_seen": "2026-06-02 23:57:58 UTC",
+            "last_seen": "2026-06-03 01:12:23 UTC",
             "credit_history": [
                 {
                     "time": "2026-06-02 23:57:58 UTC",
+                    "net_credit": 0.23
+                },
+                {
+                    "time": "2026-06-03 01:12:23 UTC",
                     "net_credit": 0.23
                 }
             ],
@@ -4693,7 +5237,7 @@
                 "correlation_spy": 0.996,
                 "edge_ratio": 0.0092,
                 "total_risk": 1909.84,
-                "is_new": true
+                "is_new": false
             },
             "in_current_scan": true
         }
