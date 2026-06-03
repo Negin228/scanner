@@ -13,7 +13,7 @@ from datetime import timedelta, timezone, datetime as dt
 BASE_URL = "https://api.tradier.com/v1"
 TRADIER_API_KEY = os.getenv("TRADIER_API_KEY", "").strip()
 
-SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "TSLA", "SPY", "AMD", "QCOM", "AAPL", "ORCL", "TQQQ"]
+SYMBOLS = ["NVDA", "AMZN", "MSFT", "META", "GOOG", "NFLX", "TSLA", "SPY", "AMD", "AAPL", "ORCL", "TQQQ"]
 
 BETA_MAPPING = {
     "TQQQ": 3.0, "SQQQ": -3.0, "SOXL": 3.0, "SOXS": -3.0,
