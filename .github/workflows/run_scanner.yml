@@ -16,7 +16,6 @@ jobs:
   run-scanner:
     runs-on: ubuntu-latest
     env:
-      # Block passed via dispatch payload, workflow_dispatch input, or default to 1
       RUN_BLOCK: ${{ github.event.client_payload.run_block || inputs.run_block || '1' }}
 
     steps:
@@ -30,17 +29,22 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      # ── Configure git once up front ──────────────────────────────────────
       - name: Configure git
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
 
-      # ── Helper: run scanner and commit results ───────────────────────────
-      # We write this as a shell function sourced before the loop so we don't
-      # repeat ourselves. The actual loop step sources it.
+      - name: Write PT time helper
+        run: |
+          cat > /tmp/pt_epoch.py << 'PYEOF'
+          import sys, datetime, time, os
+          os.environ['TZ'] = 'America/Los_Angeles'
+          time.tzset()
+          h, m = int(sys.argv[1]), int(sys.argv[2])
+          t = datetime.datetime.now().replace(hour=h, minute=m, second=0, microsecond=0)
+          print(int(t.timestamp()))
+          PYEOF
 
-      # ── Block 1: single pre-market scan, then loop 9:30am→10:30am PT ────
       - name: Block 1 — pre-market scan + morning loop
         if: env.RUN_BLOCK == '1'
         env:
@@ -64,43 +68,29 @@ jobs:
           run_scan
 
           # ── Wait until 9:30 AM PT ──
-          # Use Python to compute epoch seconds — bash date -d ignores TZ for -d strings
+          echo "[WAIT] Waiting for market open (9:30 AM PT)..."
           while true; do
             NOW_SEC=$(date +%s)
-            OPEN_SEC=$(TZ='America/Los_Angeles' python3 -c "
-import datetime, time, os
-os.environ['TZ'] = 'America/Los_Angeles'
-time.tzset()
-t = datetime.datetime.now()
-target = t.replace(hour=9, minute=30, second=0, microsecond=0)
-print(int(target.timestamp()))
-")
+            OPEN_SEC=$(python3 /tmp/pt_epoch.py 9 30)
             if [ "$NOW_SEC" -ge "$OPEN_SEC" ]; then
               echo "[OPEN] Market is open — starting 5-min loop"
               break
             fi
             WAIT=$(( OPEN_SEC - NOW_SEC ))
-            echo "[WAIT] $WAIT seconds until market open..."
+            echo "[WAIT] ${WAIT}s until market open ($(TZ='America/Los_Angeles' date '+%H:%M %Z'))..."
             sleep 60
           done
 
           # ── 5-min loop until 10:30 AM PT (hand-off point) ──
           while true; do
-            NOW_SEC=$(TZ='America/Los_Angeles' date +%s)
-            HANDOFF_SEC=$(TZ='America/Los_Angeles' python3 -c "
-import datetime, time, os
-os.environ['TZ'] = 'America/Los_Angeles'
-time.tzset()
-t = datetime.datetime.now()
-target = t.replace(hour=10, minute=30, second=0, microsecond=0)
-print(int(target.timestamp()))
-")
+            NOW_SEC=$(date +%s)
+            HANDOFF_SEC=$(python3 /tmp/pt_epoch.py 10 30)
             if [ "$NOW_SEC" -ge "$HANDOFF_SEC" ]; then
-              echo "[HANDOFF] Reached 10:30 AM — dispatching Block 2"
+              echo "[HANDOFF] Reached 10:30 AM PT — dispatching Block 2"
               break
             fi
             run_scan
-            sleep 300   # 5 minutes
+            sleep 300
           done
 
           # ── Trigger Block 2 via repository_dispatch ──
@@ -112,7 +102,6 @@ print(int(target.timestamp()))
             -d '{"event_type":"chain_restart","client_payload":{"run_block":"2"}}'
           echo "[CHAIN] Block 2 dispatched successfully"
 
-      # ── Block 2: loop 10:30am → 1:00pm PT (market close) ────────────────
       - name: Block 2 — midday loop to market close
         if: env.RUN_BLOCK == '2'
         env:
@@ -132,21 +121,14 @@ print(int(target.timestamp()))
 
           # ── 5-min loop until 1:00 PM PT (market close) ──
           while true; do
-            NOW_SEC=$(TZ='America/Los_Angeles' date +%s)
-            CLOSE_SEC=$(TZ='America/Los_Angeles' python3 -c "
-import datetime, time, os
-os.environ['TZ'] = 'America/Los_Angeles'
-time.tzset()
-t = datetime.datetime.now()
-target = t.replace(hour=13, minute=0, second=0, microsecond=0)
-print(int(target.timestamp()))
-")
+            NOW_SEC=$(date +%s)
+            CLOSE_SEC=$(python3 /tmp/pt_epoch.py 13 0)
             if [ "$NOW_SEC" -ge "$CLOSE_SEC" ]; then
               echo "[CLOSE] Market closed at 1:00 PM PT — scanner shutting down"
               break
             fi
             run_scan
-            sleep 300   # 5 minutes
+            sleep 300
           done
 
           echo "[DONE] Full trading day complete."
