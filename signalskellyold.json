@@ -1,81 +1,81 @@
 {
-  "last_updated": "2026-06-08 06:32:18 UTC-07:00",
+  "last_updated": "2026-06-08 06:38:04 UTC-07:00",
   "next_scan_secs": 300,
   "tickers": {
     "NVDA": {
-      "price": 209.27,
+      "price": 208.98,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "AMZN": {
-      "price": 248.02,
+      "price": 247.49,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "MSFT": {
-      "price": 414.43,
+      "price": 412.99,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "META": {
-      "price": 581.02,
+      "price": 583.81,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "GOOG": {
-      "price": 361.5,
+      "price": 361.88,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "NFLX": {
-      "price": 81.68,
+      "price": 81.7,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "PLTR": {
-      "price": 136.13,
+      "price": 136.46,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "TSLA": {
-      "price": 397.06,
+      "price": 397.39,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "SPY": {
-      "price": 743.74,
+      "price": 742.26,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "TQQQ": {
-      "price": 76.55,
+      "price": 76.46,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "SQQQ": {
-      "price": 41.11,
+      "price": 41.12,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "AMD": {
-      "price": 483.7,
+      "price": 489.0,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "ORCL": {
-      "price": 213.75,
+      "price": 213.36,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
@@ -108,28 +108,28 @@
       "expiration": "2026-06-12",
       "dte": 4,
       "market_regime": "neutral",
-      "short_strike": 160.0,
-      "long_strike": 155.0,
-      "current_price": 213.45,
-      "expected_move": 28.08,
-      "net_credit": 0.21,
-      "max_loss": 4.79,
-      "return_on_risk": 0.0438,
-      "delta": -0.043,
-      "gamma": 0.0024,
-      "theta": -0.2596,
-      "probability_touch": 8.6,
-      "iv": 125.7,
-      "iv_rank": 422.7,
-      "open_interest": 1568,
+      "short_strike": 155.0,
+      "long_strike": 150.0,
+      "current_price": 213.16,
+      "expected_move": 29.04,
+      "net_credit": 0.15,
+      "max_loss": 4.85,
+      "return_on_risk": 0.0309,
+      "delta": -0.0299,
+      "gamma": 0.0017,
+      "theta": -0.1973,
+      "probability_touch": 6.0,
+      "iv": 130.2,
+      "iv_rank": 440.6,
+      "open_interest": 475,
       "volume": 104,
-      "short_ba": 0.09,
-      "rsi": 60.9,
+      "short_ba": 0.04,
+      "rsi": 60.8,
       "qty": 4,
-      "total_credit": 84.0,
-      "total_risk": 1916.0,
-      "theta_efficiency": 0.000542,
-      "score": 149.12
+      "total_credit": 60.0,
+      "total_risk": 1940.0,
+      "theta_efficiency": 0.000407,
+      "score": 151.58
     },
     {
       "symbol": "ORCL",
@@ -138,11 +138,11 @@
       "market_regime": "neutral",
       "short_strike": 170.0,
       "long_strike": 165.0,
-      "current_price": 213.45,
-      "expected_move": 26.75,
+      "current_price": 213.16,
+      "expected_move": 26.71,
       "net_credit": 0.31,
-      "max_loss": 4.69,
-      "return_on_risk": 0.0672,
+      "max_loss": 4.7,
+      "return_on_risk": 0.065,
       "delta": -0.0774,
       "gamma": 0.0039,
       "theta": -0.3905,
@@ -150,16 +150,16 @@
       "iv": 119.7,
       "iv_rank": 398.8,
       "open_interest": 2316,
-      "volume": 151,
-      "short_ba": 0.08,
-      "rsi": 60.9,
+      "volume": 481,
+      "short_ba": 0.09,
+      "rsi": 60.8,
       "qty": 4,
-      "total_credit": 126.0,
-      "total_risk": 1874.0,
-      "theta_efficiency": 0.000834,
-      "score": 140.96
+      "total_credit": 122.0,
+      "total_risk": 1878.0,
+      "theta_efficiency": 0.000832,
+      "score": 142.85
     }
   ],
-  "advanced_vix": 18.67,
+  "advanced_vix": 19.01,
   "advanced_regime": "neutral"
 }
