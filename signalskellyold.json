@@ -1,81 +1,81 @@
 {
-  "last_updated": "2026-06-08 06:15:46 UTC-07:00",
+  "last_updated": "2026-06-08 06:32:18 UTC-07:00",
   "next_scan_secs": 300,
   "tickers": {
     "NVDA": {
-      "price": 205.1,
+      "price": 209.27,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "AMZN": {
-      "price": 246.03,
+      "price": 248.02,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "MSFT": {
-      "price": 416.67,
+      "price": 414.43,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "META": {
-      "price": 593.0,
+      "price": 581.02,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "GOOG": {
-      "price": 365.76,
+      "price": 361.5,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "NFLX": {
-      "price": 82.18,
+      "price": 81.68,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "PLTR": {
-      "price": 135.53,
+      "price": 136.13,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "TSLA": {
-      "price": 391.0,
+      "price": 397.06,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "SPY": {
-      "price": 737.55,
+      "price": 743.74,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "TQQQ": {
-      "price": 73.05,
+      "price": 76.55,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "SQQQ": {
-      "price": 43.19,
+      "price": 41.11,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "AMD": {
-      "price": 466.38,
+      "price": 483.7,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "ORCL": {
-      "price": 213.68,
+      "price": 213.75,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
@@ -102,7 +102,64 @@
     "top10_max_delta": 0.1,
     "top10_max_ba": 0.1
   },
-  "advanced_signals": [],
-  "advanced_vix": 18.75,
+  "advanced_signals": [
+    {
+      "symbol": "ORCL",
+      "expiration": "2026-06-12",
+      "dte": 4,
+      "market_regime": "neutral",
+      "short_strike": 160.0,
+      "long_strike": 155.0,
+      "current_price": 213.45,
+      "expected_move": 28.08,
+      "net_credit": 0.21,
+      "max_loss": 4.79,
+      "return_on_risk": 0.0438,
+      "delta": -0.043,
+      "gamma": 0.0024,
+      "theta": -0.2596,
+      "probability_touch": 8.6,
+      "iv": 125.7,
+      "iv_rank": 422.7,
+      "open_interest": 1568,
+      "volume": 104,
+      "short_ba": 0.09,
+      "rsi": 60.9,
+      "qty": 4,
+      "total_credit": 84.0,
+      "total_risk": 1916.0,
+      "theta_efficiency": 0.000542,
+      "score": 149.12
+    },
+    {
+      "symbol": "ORCL",
+      "expiration": "2026-06-12",
+      "dte": 4,
+      "market_regime": "neutral",
+      "short_strike": 170.0,
+      "long_strike": 165.0,
+      "current_price": 213.45,
+      "expected_move": 26.75,
+      "net_credit": 0.31,
+      "max_loss": 4.69,
+      "return_on_risk": 0.0672,
+      "delta": -0.0774,
+      "gamma": 0.0039,
+      "theta": -0.3905,
+      "probability_touch": 15.5,
+      "iv": 119.7,
+      "iv_rank": 398.8,
+      "open_interest": 2316,
+      "volume": 151,
+      "short_ba": 0.08,
+      "rsi": 60.9,
+      "qty": 4,
+      "total_credit": 126.0,
+      "total_risk": 1874.0,
+      "theta_efficiency": 0.000834,
+      "score": 140.96
+    }
+  ],
+  "advanced_vix": 18.67,
   "advanced_regime": "neutral"
 }
