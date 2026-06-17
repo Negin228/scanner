@@ -1,81 +1,81 @@
 {
-  "last_updated": "2026-06-17 06:44:44 UTC-07:00",
+  "last_updated": "2026-06-17 06:49:37 UTC-07:00",
   "next_scan_secs": 300,
   "tickers": {
     "NVDA": {
-      "price": 208.25,
+      "price": 208.42,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "AMZN": {
-      "price": 242.54,
+      "price": 242.82,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "MSFT": {
-      "price": 388.66,
+      "price": 389.28,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "META": {
-      "price": 585.76,
+      "price": 586.95,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "GOOG": {
-      "price": 365.46,
+      "price": 365.3,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "NFLX": {
-      "price": 78.0,
+      "price": 78.26,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "PLTR": {
-      "price": 134.2,
+      "price": 135.04,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "TSLA": {
-      "price": 402.07,
+      "price": 401.77,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "SPY": {
-      "price": 751.5,
+      "price": 751.33,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "TQQQ": {
-      "price": 81.61,
+      "price": 81.17,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "SQQQ": {
-      "price": 37.56,
+      "price": 37.77,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "AMD": {
-      "price": 519.35,
+      "price": 514.0,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "ORCL": {
-      "price": 189.09,
+      "price": 189.5,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
@@ -103,6 +103,6 @@
     "top10_max_ba": 0.1
   },
   "advanced_signals": [],
-  "advanced_vix": 16.28,
+  "advanced_vix": 16.34,
   "advanced_regime": "bull"
 }
