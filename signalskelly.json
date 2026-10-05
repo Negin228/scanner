@@ -1,81 +1,81 @@
 {
-  "last_updated": "2026-10-02 11:38:04 UTC-07:00",
+  "last_updated": "2026-10-05 07:53:39 UTC-07:00",
   "next_scan_secs": 300,
   "tickers": {
     "NVDA": {
-      "price": 234.45,
+      "price": 237.23,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "AMZN": {
-      "price": 250.5,
+      "price": 251.55,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "MSFT": {
-      "price": 515.42,
+      "price": 526.18,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "META": {
-      "price": 728.32,
+      "price": 742.98,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "GOOG": {
-      "price": 339.99,
+      "price": 340.86,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "NFLX": {
-      "price": 67.01,
+      "price": 67.15,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "PLTR": {
-      "price": 189.73,
-      "signal_count": 1,
+      "price": 188.0,
+      "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "TSLA": {
-      "price": 371.08,
+      "price": 376.25,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "SPY": {
-      "price": 769.0,
+      "price": 772.37,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "TQQQ": {
-      "price": 80.68,
-      "signal_count": 0,
+      "price": 82.31,
+      "signal_count": 1,
       "top10_count": 0,
       "status": "ok"
     },
     "SQQQ": {
-      "price": 33.27,
+      "price": 32.61,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "AMD": {
-      "price": 631.12,
+      "price": 630.48,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
     },
     "ORCL": {
-      "price": 141.75,
+      "price": 144.24,
       "signal_count": 0,
       "top10_count": 0,
       "status": "ok"
@@ -83,36 +83,36 @@
   },
   "signals": [
     {
-      "symbol": "PLTR",
+      "symbol": "TQQQ",
       "expiration": "2026-11-06",
-      "dte": 35,
-      "short_strike": 150.0,
-      "long_strike": 145.0,
-      "current_price": 189.73,
-      "otm_pct": 20.9,
-      "short_bid": 1.6,
-      "short_ask": 1.73,
-      "long_bid": 1.18,
-      "long_ask": 1.3,
-      "short_ba": 0.13,
-      "net_credit": 0.41,
-      "max_loss": 4.59,
-      "credit_pct": 8.1,
-      "return_on_risk": 8.8,
-      "breakeven": 149.59,
-      "iv_pct": 61.7,
-      "delta": -0.0863,
-      "gamma": 0.0045,
-      "theta": -0.0906,
-      "short_oi": 436,
-      "short_vol": 117,
-      "long_oi": 480,
-      "long_vol": 55,
+      "dte": 32,
+      "short_strike": 65.0,
+      "long_strike": 60.0,
+      "current_price": 82.31,
+      "otm_pct": 21.0,
+      "short_bid": 1.05,
+      "short_ask": 1.09,
+      "long_bid": 0.65,
+      "long_ask": 0.68,
+      "short_ba": 0.04,
+      "net_credit": 0.39,
+      "max_loss": 4.62,
+      "credit_pct": 7.7,
+      "return_on_risk": 8.3,
+      "breakeven": 64.61,
+      "iv_pct": 73.1,
+      "delta": -0.1302,
+      "gamma": 0.0114,
+      "theta": -0.0593,
+      "short_oi": 865,
+      "short_vol": 85,
+      "long_oi": 4040,
+      "long_vol": 142,
       "qty": 10,
-      "total_credit": 405.0,
-      "total_risk": 4595.0,
-      "score": 27.34,
-      "top10_score": 15.04,
+      "total_credit": 385.0,
+      "total_risk": 4615.0,
+      "score": 27.85,
+      "top10_score": 31.95,
       "top10_eligible": false
     }
   ],
@@ -137,36 +137,7 @@
     "top10_max_delta": 0.1,
     "top10_max_ba": 0.1
   },
-  "advanced_signals": [
-    {
-      "symbol": "TSLA",
-      "expiration": "2026-10-30",
-      "dte": 28,
-      "market_regime": "bull",
-      "short_strike": 320.0,
-      "long_strike": 315.0,
-      "current_price": 370.97,
-      "expected_move": 47.5,
-      "net_credit": 0.46,
-      "max_loss": 4.54,
-      "return_on_risk": 10.1,
-      "delta": -0.0976,
-      "gamma": 0.0037,
-      "theta": -0.1758,
-      "probability_touch": 19.5,
-      "iv": 46.2,
-      "iv_rank": 95.6,
-      "open_interest": 1706,
-      "volume": 433,
-      "short_ba": 0.04,
-      "rsi": 57.8,
-      "qty": 4,
-      "total_credit": 184.0,
-      "total_risk": 1816.0,
-      "theta_efficiency": 0.000387,
-      "score": 53.96
-    }
-  ],
-  "advanced_vix": 15.57,
+  "advanced_signals": [],
+  "advanced_vix": 15.52,
   "advanced_regime": "bull"
 }
